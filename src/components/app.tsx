@@ -2,12 +2,16 @@ import * as React from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 // import { Button, Col, Container, Row } from 'react-bootstrap';
 // import { Token } from 'token-flow';
-import logo from '../logo.svg';
+// import logo from '../logo.svg';
 // import { Pipeline } from '../pipeline';
 import '../App.css';
 // import { Buttons } from './Buttons';
 // import { TokenTable } from './TokenTable';
 // import { TranscribedSpeech } from './TranscribedSpeech';
+
+// import { createWorld2 } from 'prix-fixe';
+// import { createShortOrderWorld } from 'short-order';
+import { go } from './web';
 
 interface State {
     isRecording: boolean,
@@ -29,6 +33,9 @@ class App extends React.Component<{}, State> {
             // tokens: [],
             transcribedSpeech: undefined
         };
+
+        go();
+        // const world = createWorld2('datapath');
 
         this.recognition = new App.SpeechRecognition();
         this.recognition.lang = 'en-US';
