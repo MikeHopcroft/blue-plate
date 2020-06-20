@@ -31,6 +31,7 @@
     "murmurhash": "^1.0.0",
     "number-to-words": "^1.2.4",
     "pluralize": "^8.0.0",
+    "prix-fixe": "0.0.53",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
@@ -39,6 +40,7 @@
     "short-order": "0.0.73",
     "snowball-stemmers": "^0.6.0",
     "talisman": "^1.1.2",
+    "token-flow": "0.0.36",
     "typescript": "^3.7.5"
   },
   "scripts": {

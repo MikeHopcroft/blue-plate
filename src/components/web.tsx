@@ -37,7 +37,7 @@
 // ok    "number-to-words": "^1.2.4",
 // ok    "pluralize": "^7.0.0",
 //     "prix-fixe": "0.0.53",
-//     "readline-sync": "^1.4.9", <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+//     "readline-sync": "^1.4.9", not used by short-order <<<<<<<<<<<<<<<<<<<<<
 // ok    "seedrandom": "^3.0.1",
 // ok    "talisman": "^0.21.0",
 //     "token-flow": "0.0.36"
