@@ -4,14 +4,17 @@ import { Button, Col, Container, Row } from 'react-bootstrap';
 // import { Token } from 'token-flow';
 // import logo from '../logo.svg';
 // import { Pipeline } from '../pipeline';
-import '../App.css';
+// import '../App.css';
 // import { Buttons } from './Buttons';
 // import { TokenTable } from './TokenTable';
 // import { TranscribedSpeech } from './TranscribedSpeech';
 
 import { createWorld3, loadCatalogSpec, ObjectLoader, ICatalog, Catalog } from 'prix-fixe';
 // import { createShortOrderWorld } from 'short-order';
-import { go } from './web';
+// import { go } from './web';
+
+// import data from './data.yaml';
+const data = require('./data.yaml');
 
 const menuRoot = {
   catalog: [
@@ -46,7 +49,6 @@ const menuChild = {
   ],
 };
 
-
 interface State {
   catalog: ICatalog,
   isRecording: boolean,
@@ -54,10 +56,10 @@ interface State {
   // tokens: Token[] | undefined
 }
 
-class App extends React.Component<{}, State> {
-  public static SpeechRecognition =
-    (window as any).speechRecognition ||
-    (window as any).webkitSpeechRecognition;
+class AppOld extends React.Component<{}, State> {
+  // public static SpeechRecognition =
+  //   (window as any).speechRecognition ||
+  //   (window as any).webkitSpeechRecognition;
   private recognition: any;
   // private pipeline: Pipeline;
 
@@ -70,14 +72,14 @@ class App extends React.Component<{}, State> {
       transcribedSpeech: undefined
     };
 
-    go();
+    // go();
     // const world = createWorld2('datapath');
 
 
-    this.recognition = new App.SpeechRecognition();
-    this.recognition.lang = 'en-US';
-    this.recognition.interimResults = true;
-    this.recognition.maxAlternatives = 1;
+    // this.recognition = new App.SpeechRecognition();
+    // this.recognition.lang = 'en-US';
+    // this.recognition.interimResults = true;
+    // this.recognition.maxAlternatives = 1;
 
     // this.pipeline = new Pipeline(
     //     JSON.stringify(require('../data/menu.json')),
@@ -89,6 +91,17 @@ class App extends React.Component<{}, State> {
   }
 
   async componentDidMount() {
+    console.log(`DATA2: ${JSON.stringify(data)}`);
+
+    const SpeechRecognition =
+      (window as any).speechRecognition ||
+      (window as any).webkitSpeechRecognition;
+
+    this.recognition = new SpeechRecognition();
+    this.recognition.lang = 'en-US';
+    this.recognition.interimResults = true;
+    this.recognition.maxAlternatives = 1;
+
     const loader = new ObjectLoader([
       ['/samples/menu/menu.yaml', menuRoot],
       ['/samples/menu/foo/child.yaml', menuChild],
@@ -107,8 +120,11 @@ class App extends React.Component<{}, State> {
   public startRecognition = () => {
     console.log('startRecognition');
     this.setState({ isRecording: true });
+
+    console.log('this.recognition.start();');
     this.recognition.start();
 
+    console.log(`set this.recognition.onresult`);
     this.recognition.onresult = (event: any) => {
       const speechResult = event.results[0][0].transcript as string;
       this.setState({
@@ -180,4 +196,4 @@ function printCatalog(catalog:ICatalog) {
   ));
 }
 
-export default App;
+export default AppOld;

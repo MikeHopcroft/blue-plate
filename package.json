@@ -1,70 +1,27 @@
 {
-  "name": "blue-plate",
+  "name": "blue-plate-next",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "@types/debug": "^4.1.5",
-    "@types/jest": "^24.9.1",
-    "@types/js-yaml": "^3.12.4",
-    "@types/jsontoxml": "^1.0.1",
-    "@types/minimist": "^1.2.0",
-    "@types/murmurhash": "0.0.1",
-    "@types/node": "^12.12.47",
-    "@types/number-to-words": "^1.2.0",
-    "@types/pluralize": "0.0.29",
-    "@types/react": "^16.9.38",
-    "@types/react-dom": "^16.9.8",
-    "@types/seedrandom": "^2.4.28",
-    "@types/snowball-stemmers": "^0.6.0",
-    "ansi-styles": "^4.2.1",
-    "better-ajv-errors": "^0.6.7",
-    "chalk": "^4.1.0",
-    "command-line-usage": "^6.1.0",
-    "fast-csv": "^4.3.0",
-    "fp-ts": "^2.6.6",
-    "io-ts": "^2.2.6",
-    "jsontoxml": "^1.0.1",
-    "munkres-js": "^1.2.2",
-    "murmurhash": "^1.0.0",
-    "number-to-words": "^1.2.4",
-    "pluralize": "^8.0.0",
-    "prix-fixe": "0.0.53",
-    "react": "^16.13.1",
-    "react-bootstrap": "^1.0.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1",
-    "seedrandom": "^3.0.5",
-    "short-order": "0.0.73",
-    "snowball-stemmers": "^0.6.0",
-    "talisman": "^1.1.2",
-    "token-flow": "0.0.36",
-    "typescript": "^3.7.5"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build": "next build",
+    "dev": "next dev",
+    "export": "next build && next export",
+    "start": "next start"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "next": "9.4.4",
+    "prix-fixe": "0.0.53",
+    "react": "16.13.1",
+    "react-bootstrap": "^1.0.1",
+    "react-dom": "16.13.1",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5"
   },
   "devDependencies": {
-    "@types/command-line-usage": "^5.0.1"
+    "@types/node": "^14.0.13",
+    "@types/react": "^16.9.38",
+    "@types/react-redux": "^7.1.9",
+    "js-yaml-loader": "^1.2.2",
+    "typescript": "^3.9.5"
   }
 }
