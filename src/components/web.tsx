@@ -50,6 +50,11 @@
 //   path
 //   process
 
+import jsonObj from './test.json';
+import yamlObj from './test.yaml';
+/* eslint import/no-webpack-loader-syntax: off */
+// import yamlObj from 'js-yaml-loader!./test.yaml'
+
 // prix-fixe
 import AJV from 'ajv';
 import * as style from 'ansi-styles';
@@ -179,6 +184,11 @@ export async function works() {
     // talisman
     //
     console.log(`metaphone: ${metaphone('airplane')}`);
+
+    //
+    // .json file
+    //
+    console.log(jsonObj);
 }
 
 export function fails() {

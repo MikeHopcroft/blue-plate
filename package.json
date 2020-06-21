@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^5.6.4",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
@@ -26,6 +27,7 @@
     "fast-csv": "^4.3.0",
     "fp-ts": "^2.6.6",
     "io-ts": "^2.2.6",
+    "js-yaml-loader": "^1.2.2",
     "jsontoxml": "^1.0.1",
     "munkres-js": "^1.2.2",
     "murmurhash": "^1.0.0",
@@ -44,9 +46,9 @@
     "typescript": "^3.7.5"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -65,6 +67,9 @@
     ]
   },
   "devDependencies": {
-    "@types/command-line-usage": "^5.0.1"
+    "@types/command-line-usage": "^5.0.1",
+    "react-app-rewire-yaml": "^1.1.0",
+    "react-app-rewired": "^2.1.6",
+    "yaml-loader": "^0.6.0"
   }
 }
