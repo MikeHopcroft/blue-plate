@@ -3,6 +3,8 @@
 * Global state
   * https://reacttricks.com/sharing-global-data-in-next-with-custom-app-and-usecontext-hook/
 * Wireframe with bootstrap.
+  * Figure out CSS options in next.js
+  * React-router
 * Integrate token-flow
 * Integrate short-order
 * Use gts
