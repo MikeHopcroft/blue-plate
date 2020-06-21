@@ -19,23 +19,13 @@ class FrameControl extends React.Component<Props> {
   render() {
     return (
       <div>
-
-        {/* <Navbar bg="dark" variant="dark" expand="sm">
-          <Navbar.Brand href="#home">short-order</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
-              <Nav.Link href="/">Intro</Nav.Link>
-              <Nav.Link href="#menu">Menu</Nav.Link>
-              <Nav.Link href="#graph">Graph</Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
- */}
-        <h3>Frame</h3>
+        <h3>Framexxx</h3>
         <button onClick={this.onClick}>Test</button>
         <div>
           Recording: {this.props.application.isRecording ? 'true' : 'false'}
+        </div>
+        <div>
+          {(this.props as any).menu}
         </div>
       </div>
     );

@@ -14,6 +14,7 @@ export interface ApplicationState {
 }
 
 export function initialState(): ApplicationState {
+  console.log('initialState');
   return {
     mode: ApplicationMode.INSTRUCTIONS,
     isRecording: false,

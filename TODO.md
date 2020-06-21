@@ -1,5 +1,11 @@
 # TODO List
 
+* initialState()
+  * import catalog yaml
+  * ObjectLoader
+  * Build catalog
+  * Build initial cart
+  * Render cart
 * Global state
   * https://reacttricks.com/sharing-global-data-in-next-with-custom-app-and-usecontext-hook/
 * Wireframe with bootstrap.
