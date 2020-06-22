@@ -1,6 +1,15 @@
 # TODO List
 
 * initialState()
+  * Wire up Web Speech API
+  * Investigate frame layout
+    * Header and Footer are fixed height
+    * Middle expands to take all room - gets scroll bars for overflow.
+  * Investigate markdown loaders for info-control
+    * https://dev.to/tinacms/creating-a-markdown-blog-with-next-js-52hk
+    * https://www.npmjs.com/package/react-markdown
+  * Move saga from index.ts
+  * Finish up router for info, menu, graph
   * Move sagas to _app.tsx
   * Move nav bar to header component
   * Loading screen

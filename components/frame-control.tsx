@@ -1,10 +1,12 @@
 import React from "react";
-// import Nav from 'react-bootstrap/Nav';
-// import Navbar from 'react-bootstrap/Navbar';
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 
 import { ApplicationState, AnyAction, record } from "../actions";
+
+import CartControl from './cart-control';
+import Header from './header-control';
+import LoadingControl from './loading-control';
 
 interface Props {
   application: ApplicationState;
@@ -17,18 +19,24 @@ class FrameControl extends React.Component<Props> {
   }
 
   render() {
-    return (
-      <div>
-        <h3>Framexxx</h3>
-        <button onClick={this.onClick}>Test</button>
+    if (this.props.application.world) {
+      return (
         <div>
-          Recording: {this.props.application.isRecording ? 'true' : 'false'}
+          <Header/>
+          <h3>Framexxx</h3>
+          <button onClick={this.onClick}>Test</button>
+          <div>
+            Recording: {this.props.application.isRecording ? 'true' : 'false'}
+          </div>
+          <div>
+            {this.props.application.world ? 'world' : 'uninitialized'}
+          </div>
+          <CartControl/>
         </div>
-        <div>
-          {this.props.application.world ? 'world' : 'uninitialized'}
-        </div>
-      </div>
-    );
+      );
+    } else {
+      return <LoadingControl/>;
+    }
   }
 }
 
