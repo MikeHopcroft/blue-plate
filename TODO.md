@@ -1,9 +1,18 @@
 # TODO List
 
 * initialState()
-  * import catalog yaml
+  * Move sagas to _app.tsx
+  * Move nav bar to header component
+  * Loading screen
   * ObjectLoader
+    * Problem: loadCatalogState is async (to allow http calls)
+    * https://stackoverflow.com/questions/50315639/passing-initial-state-from-api-call-to-createstore-when-react-native-application
+    * https://medium.com/@Hibow/getinitialprops-in-next-js-8b1b7ec8f39
+    * https://thecodebarbarian.com/redux-saga-vs-async-await.html
   * Build catalog
+    * From objects
+    * From imported yaml
+  * Render menu
   * Build initial cart
   * Render cart
 * Global state

@@ -6,7 +6,8 @@ import {
   ProcessAction,
   RecordAction,
   ResetAction,
-  SetModeAction
+  SetModeAction,
+  SetWorldAction,
 } from './actions';
 
 import { ApplicationState, initialState } from './application-state';
@@ -27,6 +28,8 @@ export const ApplicationStateReducer: Reducer<ApplicationState, AnyAction> =
         return applyReset(state, action);
       case ActionType.SET_MODE:
         return applySetMode(state, action);
+      case ActionType.SET_WORLD:
+        return applySetWorld(state, action);
       default:
         return state;
     }
@@ -74,5 +77,15 @@ function applySetMode(
   return {
     ...appState,
     mode
+  };
+}
+
+function applySetWorld(
+  appState: ApplicationState,
+  { world }: SetWorldAction
+): ApplicationState {
+  return {
+    ...appState,
+    world,
   };
 }

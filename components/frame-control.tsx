@@ -25,7 +25,7 @@ class FrameControl extends React.Component<Props> {
           Recording: {this.props.application.isRecording ? 'true' : 'false'}
         </div>
         <div>
-          {(this.props as any).menu}
+          {this.props.application.world ? 'world' : 'uninitialized'}
         </div>
       </div>
     );
