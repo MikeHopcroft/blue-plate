@@ -1,6 +1,7 @@
 # TODO List
 
 * initialState()
+  * Add scroll bars to split panels
   * Add banner at top
   * History download link
   * History timestamps

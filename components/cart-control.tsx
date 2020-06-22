@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 
 import { ApplicationState, AnyAction, record } from "../actions";
 
+import styles from './controls.module.css';
+
 interface Props {
   application: ApplicationState;
 };
@@ -10,7 +12,7 @@ interface Props {
 class CartControl extends React.Component<Props> {
   render() {
     return (
-      <div>
+      <div className={styles.cart}>
         <h1>
           Cart { this.props.application.world ? 'world' : 'uninitialized' }
         </h1>

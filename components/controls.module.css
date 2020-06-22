@@ -10,12 +10,19 @@
   /* background-color: yellow; */
 }
 
+.frameLowerPanel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .middlex {
   flex-grow: 2;
 }
 
-.cartx {
+.cart {
   flex-grow: 1;
+  background-color: lightskyblue;
 }
 
 .recorder {

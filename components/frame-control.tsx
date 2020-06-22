@@ -35,10 +35,10 @@ class FrameControl extends React.Component<Props> {
         <div className={styles.frame}>
           <div>
             <SplitPane split="horizontal" minSize={100} defaultSize={400}>
-              <div style={{width:'100%'}}>
+              <div style={{width:'100%', height:'100%'}}>
                 {renderTabs()}
               </div>
-              <div>
+              <div className={styles.frameLowerPanel}>
                 <RecorderControl />
                 <CartControl />
               </div>
