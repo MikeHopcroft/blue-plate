@@ -9,7 +9,6 @@ import { Dispatch } from 'redux'
 import { ApplicationState, AnyAction, record } from "../actions";
 
 import CartControl from './cart-control';
-// import HeaderControl from './header-control';
 import InfoControl from './info-control';
 import MenuControl from './menu-control';
 import GraphControl from './graph-control';
@@ -36,7 +35,6 @@ class FrameControl extends React.Component<Props> {
           <div>
             <SplitPane split="horizontal" minSize={100} defaultSize={400}>
               <div style={{display: 'flex', flexDirection: 'column', width:'100%', height:'100%'}}>
-                {/* <HeaderControl/> */}
                 {renderTabs()}
               </div>
               <div className={styles.frameLowerPanel}>

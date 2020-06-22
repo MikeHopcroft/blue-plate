@@ -69,6 +69,4 @@ nav.bar ~ .tab-content {
   width: 100%;
   flex-grow: 1;
   overflow: auto;
-  /* height: 100%; */
-  /* background-color: lightpink; */
 }
