@@ -1,6 +1,8 @@
 # TODO List
 
 * initialState()
+  * Master/Detail for menu
+  * Organize menu by products/options/groups
   * Add scroll bars to split panels
   * Add banner at top
   * History download link

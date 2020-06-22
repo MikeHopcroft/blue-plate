@@ -23,7 +23,7 @@ class MenuControl extends React.Component<Props> {
 
 function printCatalog(catalog: ICatalog) {
   return [...catalog.specificEntities()].map(item => (
-    <div>
+    <div key={item.sku.toString()}>
       {`${item.name} (${item.sku})`}
     </div>
   ));

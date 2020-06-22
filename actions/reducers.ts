@@ -11,6 +11,7 @@ import {
 } from './actions';
 
 import { ApplicationState, initialState } from './application-state';
+import { Cart, ItemInstance } from 'prix-fixe';
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -84,8 +85,26 @@ function applySetWorld(
   appState: ApplicationState,
   { world }: SetWorldAction
 ): ApplicationState {
+  let cart: Cart = { items: [] };
+  cart = world.cartOps.addToCart(cart, {
+    uid: 1,
+    key: '302:1:1',
+    quantity: 1,
+    children: [
+      {
+        uid: 2,
+        key: '604:1',
+        quantity: 1,
+        children: [],
+      }
+    ],
+  });
+
+  console.log(`Cart = ${JSON.stringify(cart, null, 4)}`);
+
   return {
     ...appState,
     world,
+    cart
   };
 }

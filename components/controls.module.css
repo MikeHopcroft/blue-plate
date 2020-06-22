@@ -25,6 +25,10 @@
   background-color: lightskyblue;
 }
 
+.cartItem {
+  margin-left: 10px;
+}
+
 .recorder {
   background-color: lightgray;
   padding: 4px;
