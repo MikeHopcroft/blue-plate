@@ -9,7 +9,7 @@ import styles from './controls.module.css';
 
 interface Props {
   application: ApplicationState;
-  toggleRecording: (isRecording: boolean) => void;
+  recording: (isRecording: boolean) => void;
   transcriptionReady: (transcription: string, final: boolean) => void;
 };
 
@@ -30,33 +30,33 @@ class RecorderControl extends React.Component<Props> {
   }
 
   public startRecognition = () => {
-    console.log('startRecognition');
-    this.setState({ isRecording: true });
+    if (!this.props.application.isRecording) {
+      console.log('startRecognition');
+      this.props.recording(true);
 
-    console.log('this.recognition.start();');
-    this.recognition.start();
+      this.recognition.onresult = (event: any) => {
+        const speechResult = event.results[0][0].transcript as string;
+        console.log(event);
+        console.log(`Transcription: "${speechResult}"`);
+        this.props.transcriptionReady(speechResult, event.results[0].isFinal);
+      }
 
-    console.log(`set this.recognition.onresult`);
-    this.recognition.onresult = (event: any) => {
-      const speechResult = event.results[0][0].transcript as string;
-      console.log(event);
-      console.log(`Transcription: "${speechResult}"`);
-      this.props.transcriptionReady(speechResult, event.results[0].isFinal);
-    }
+      this.recognition.onspeechend = () => {
+        this.props.recording(false);
+        this.recognition.stop();
+      }
 
-    this.recognition.onspeechend = () => {
-      this.setState({ isRecording: false });
-      this.recognition.stop();
-    }
+      this.recognition.onerror = (event: any) => {
+        this.props.recording(false);
+      }
 
-    this.recognition.onerror = (event: any) => {
-      this.setState({ isRecording: false });
+      this.recognition.start();
     }
   }
 
   public endRecognition = () => {
     console.log('endRecognition');
-    this.setState({ isRecording: false });
+    this.props.recording(false);
     this.recognition.stop();
   }
 
@@ -77,9 +77,6 @@ class RecorderControl extends React.Component<Props> {
         >
           <i className="fa fa-microphone-slash"/> Stop Recording
         </Button>
-        {/* <div>
-          Recording: {this.props.application.isRecording ? 'true' : 'false'}
-        </div> */}
         <div>
           <b>Transcription: </b>
           <i>
@@ -97,9 +94,10 @@ function mapStateToProps(application: ApplicationState) {
 
 function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
   return {
-    toggleRecording: (isRecording: boolean) => {
+    recording: (isRecording: boolean) => {
       dispatch(record(isRecording));
     },
+
     transcriptionReady: (text: string, final: boolean) => {
       dispatch(process(text, final));
     }

@@ -2,7 +2,8 @@
 
 * initialState()
 * Web Speech
-  * Recording state machine bug - this.setState vs this.props
+  * x Wire up Web Speech API
+  * x Recording state machine bug - this.setState vs this.props
   * ok, okay
   * Arabic numerals
   * Processing spinner
@@ -11,7 +12,6 @@
 * Use gts
 * Add banner at top
 * Add scroll bars to split panels
-* Wire up Web Speech API
 * Menu
   * Master/Detail for menu
   * Organize menu by products/options/groups
