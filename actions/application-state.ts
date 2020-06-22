@@ -20,7 +20,7 @@ export function initialState(): ApplicationState {
   return {
     mode: ApplicationMode.INSTRUCTIONS,
     isRecording: false,
-    transcription: '',
+    transcription: "I'd like a grande iced latte decaf that's all",
     cart: {
       items: []
     }

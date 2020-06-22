@@ -1,9 +1,11 @@
 import React from "react";
+import Button from 'react-bootstrap/Button';
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 
 import { ApplicationState, AnyAction, record } from "../actions";
 
+import styles from './controls.module.css';
 
 interface Props {
   application: ApplicationState;
@@ -17,11 +19,29 @@ class RecorderControl extends React.Component<Props> {
 
   render() {
     return (
-      <div style={{backgroundColor: "pink"}}>
-        <h3>Recorder</h3>
-        <button onClick={this.onClick}>Test</button>
-        <div>
+      <div className={styles.recorder}>
+        <Button
+          className="btn btn-success btn-sm"
+          disabled={this.props.application.isRecording}
+          onClick={this.onClick}
+        >
+          <i className="fa fa-microphone"/> Start Recording
+        </Button>
+        <Button
+          className="btn btn-danger btn-sm"
+          disabled={!this.props.application.isRecording}
+          onClick={this.onClick}
+        >
+          <i className="fa fa-microphone-slash"/> Stop Recording
+        </Button>
+        {/* <div>
           Recording: {this.props.application.isRecording ? 'true' : 'false'}
+        </div> */}
+        <div>
+          <b>Transcription: </b>
+          <i>
+            {this.props.application.transcription}
+          </i>
         </div>
       </div>
     );

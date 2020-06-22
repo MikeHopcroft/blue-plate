@@ -3,6 +3,8 @@
 * initialState()
   * Add banner at top
   * History download link
+  * History timestamps
+  * History local storage
   * Wire up Web Speech API
   * Investigate frame layout
     * https://css-tricks.com/snippets/css/a-guide-to-flexbox/
