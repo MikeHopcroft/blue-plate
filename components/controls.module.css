@@ -29,6 +29,19 @@
   margin-left: 10px;
 }
 
+.historyGroup {
+  padding-top: 10px;
+  font-weight: bold;
+  /* font-size: 16pt; */
+}
+
+.historyItem {
+  padding-left: 2ex;
+  /* background-color: lightgray; */
+  font-weight: normal;
+  /* font-size: 12pt; */
+}
+
 .recorder {
   background-color: lightgray;
   padding: 4px;

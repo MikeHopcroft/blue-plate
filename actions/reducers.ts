@@ -10,7 +10,7 @@ import {
   SetWorldAction,
 } from './actions';
 
-import { ApplicationState, initialState } from './application-state';
+import { ApplicationState, initialState, HistoryItem } from './application-state';
 import { Cart, ItemInstance } from 'prix-fixe';
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -38,11 +38,20 @@ export const ApplicationStateReducer: Reducer<ApplicationState, AnyAction> =
 
 function applyProcess(
   appState: ApplicationState,
-  { text }: ProcessAction
+  { text, final }: ProcessAction
 ): ApplicationState {
+  console.log(`process("${text}",${final})`);
+
+  const item: HistoryItem = {
+    timestamp: new Date(),
+    text
+  }
+  const history = final ? [...appState.history, item] : appState.history;
+
   return {
     ...appState,
-    transcription: text
+    transcription: text,
+    history
   };
 }
 

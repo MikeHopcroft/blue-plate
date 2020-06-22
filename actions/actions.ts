@@ -22,10 +22,11 @@ export function loadWorld(): LoadWorldAction {
 export interface ProcessAction {
   type: ActionType.PROCESS;
   text: string;
+  final: boolean;
 };
 
-export function process(text: string): ProcessAction {
-  return { type: ActionType.PROCESS, text };
+export function process(text: string, final: boolean): ProcessAction {
+  return { type: ActionType.PROCESS, text, final };
 }
 
 export interface RecordAction {

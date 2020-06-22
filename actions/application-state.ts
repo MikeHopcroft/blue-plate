@@ -6,12 +6,18 @@ export enum ApplicationMode {
   GRAPH = 'GRAPH',
 };
 
+export interface HistoryItem {
+  timestamp: Date;
+  text: string;
+};
+
 export interface ApplicationState {
   world?: World;
   mode: ApplicationMode;
   isRecording: boolean;
   transcription: string;
   cart: Cart;
+  history: HistoryItem[];
 }
 
 export function initialState(): ApplicationState {
@@ -23,6 +29,7 @@ export function initialState(): ApplicationState {
     transcription: "I'd like a grande iced latte decaf that's all",
     cart: {
       items: []
-    }
+    },
+    history: []
   }
 }
