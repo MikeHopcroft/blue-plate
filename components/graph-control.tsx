@@ -11,7 +11,7 @@ class GraphControl extends React.Component<Props> {
   render() {
     return (
       <h1>
-        Graph { this.props.application.world ? 'world' : 'uninitialized' }
+        Graph
       </h1>
     );
   }

@@ -13,7 +13,7 @@ class MenuControl extends React.Component<Props> {
     return (
       <div>
         <h1>
-          Menu { this.props.application.world ? 'world' : 'uninitialized' }
+          Menu
         </h1>
         {printCatalog(this.props.application.world!.catalog)}
       </div>

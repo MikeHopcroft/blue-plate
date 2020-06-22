@@ -9,10 +9,10 @@ import { Dispatch } from 'redux'
 import { ApplicationState, AnyAction, record } from "../actions";
 
 import CartControl from './cart-control';
+// import HeaderControl from './header-control';
 import InfoControl from './info-control';
 import MenuControl from './menu-control';
 import GraphControl from './graph-control';
-import HeaderControl from './header-control';
 import HistoryControl from './history-control';
 import LoadingControl from './loading-control';
 import RecorderControl from './recorder-control';
@@ -35,7 +35,8 @@ class FrameControl extends React.Component<Props> {
         <div className={styles.frame}>
           <div>
             <SplitPane split="horizontal" minSize={100} defaultSize={400}>
-              <div style={{width:'100%', height:'100%'}}>
+              <div style={{display: 'flex', flexDirection: 'column', width:'100%', height:'100%'}}>
+                {/* <HeaderControl/> */}
                 {renderTabs()}
               </div>
               <div className={styles.frameLowerPanel}>
@@ -54,17 +55,17 @@ class FrameControl extends React.Component<Props> {
 
 function renderTabs() {
   return (
-    <Tabs style={{width: '100%'}} defaultActiveKey="info" id="uncontrolled-tab-example">
-      <Tab eventKey="info" title="Info">
+    <Tabs className="bar" style={{width: '100%'}} defaultActiveKey="info" id="frameTabs">
+      <Tab className={styles.frameTab} eventKey="info" title="Info">
         <InfoControl />
       </Tab>
-      <Tab eventKey="menu" title="Menu">
+      <Tab className={styles.frameTab} eventKey="menu" title="Menu">
         <MenuControl />
       </Tab>
-      <Tab eventKey="graph" title="Graph">
+      <Tab className={styles.frameTab} eventKey="graph" title="Graph">
         <GraphControl />
       </Tab>
-      <Tab eventKey="history" title="History">
+      <Tab className={styles.frameTab} eventKey="history" title="History">
         <HistoryControl />
       </Tab>
     </Tabs>

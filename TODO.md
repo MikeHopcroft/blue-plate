@@ -1,28 +1,46 @@
 # TODO List
 
-* initialState()
-* Web Speech
-  * x Wire up Web Speech API
-  * x Recording state machine bug - this.setState vs this.props
-  * ok, okay
-  * Arabic numerals
-  * Processing spinner
+* FrameControl Tabs are 100% when the share space with TabBar. Need to use some sort of flow layout.
+* Add banner at top
+  * Need to think about this - it looks cluttered
 * Integrate token-flow
 * Integrate short-order
 * Use gts
-* Add banner at top
-* Add scroll bars to split panels
-* Menu
+* Upload bug report or open issue on github
+* Find proper home for .tab-content rule in _app.css.
+* Web Speech
+  * Diagnose problem on Edge
+  * Text input well
+  * Speech-to-text filter checkbox
+  * ok, okay
+  * Arabic numerals
+  * Processing spinner
+  * x Wire up Web Speech API
+  * x Recording state machine bug - this.setState vs this.props
+* Menu Tab
+  * Sort products
   * Master/Detail for menu
+  * Breadcrumb
+    * product/attribute
+    * product/option
+    * product/option/attribute
+    * etc
   * Organize menu by products/options/groups
   * react-router for detail selection?
-* History
+* Test Authoring Tab
+* Graph Tab
+  * Locate graphing code
+* History Tab
+  * Autoscroll on new entry
+  * x Height update problem
+  * Clear history button
   * Download link
     * https://blog.logrocket.com/programmatic-file-downloads-in-the-browser-9a5186298d5c/
     * https://stackoverflow.com/questions/35206589/how-to-download-fetch-response-in-react-as-file
   * Local storage
   * x Distinction between interim and final states
   * x Timestamps
+* Loading screen
 * Investigate frame layout
   * https://css-tricks.com/snippets/css/a-guide-to-flexbox/
   * Header and Footer are fixed height
@@ -32,11 +50,12 @@
 * Investigate markdown loaders for info-control
   * https://dev.to/tinacms/creating-a-markdown-blog-with-next-js-52hk
   * https://www.npmjs.com/package/react-markdown
-* x Move saga from index.ts
 * Finish up router for info, menu, graph
-* Move sagas to _app.tsx
+* x Move saga from index.ts
+* x initialState()
+* x Add scroll bars to split panels
+* x Move sagas to _app.tsx
 * Move nav bar to header component
-* Loading screen
 * x ObjectLoader
   * x Problem: loadCatalogState is async (to allow http calls)
   * x https://stackoverflow.com/questions/50315639/passing-initial-state-from-api-call-to-createstore-when-react-native-application
