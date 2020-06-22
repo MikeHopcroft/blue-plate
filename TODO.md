@@ -3,8 +3,11 @@
 * initialState()
   * Wire up Web Speech API
   * Investigate frame layout
+    * https://css-tricks.com/snippets/css/a-guide-to-flexbox/
     * Header and Footer are fixed height
     * Middle expands to take all room - gets scroll bars for overflow.
+    * https://www.npmjs.com/package/react-split-pane (more popular)
+    * https://www.npmjs.com/package/react-split
   * Investigate markdown loaders for info-control
     * https://dev.to/tinacms/creating-a-markdown-blog-with-next-js-52hk
     * https://www.npmjs.com/package/react-markdown

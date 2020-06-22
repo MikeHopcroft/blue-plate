@@ -14,7 +14,7 @@ export default class HeaderControl extends React.Component {
             <Link href="/" passHref>
               <Nav.Link>Home</Nav.Link>
             </Link>
-            <Link href="#menu" passHref>
+            <Link href="/menu" passHref>
               <Nav.Link>Menu</Nav.Link>
             </Link>
             <Link href="#graph" passHref>
