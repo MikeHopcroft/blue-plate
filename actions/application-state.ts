@@ -1,4 +1,5 @@
 import { Cart, World } from 'prix-fixe';
+import { ShortOrderWorld } from 'short-order';
 
 export enum ApplicationMode {
   INSTRUCTIONS = 'INSTRUCTIONS',
@@ -13,6 +14,7 @@ export interface HistoryItem {
 
 export interface ApplicationState {
   world?: World;
+  shortOrderWorld?: ShortOrderWorld;
   mode: ApplicationMode;
   isRecording: boolean;
   transcription: string;

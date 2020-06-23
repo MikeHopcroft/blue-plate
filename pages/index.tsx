@@ -9,6 +9,7 @@ import {
   initialState,
   loadWorld,
   loadWorldSaga,
+  processSaga,
 } from '../actions';
 
 import { ApplicationStateReducer } from '../actions/reducers'
@@ -28,6 +29,7 @@ store.dispatch(loadWorld());
 function* initSagas() {
   console.log('initSagas()');
   yield takeLatest(ActionType.LOAD_WORLD, loadWorldSaga);
+  yield takeLatest(ActionType.PROCESS, processSaga);
 }
 
 export default function Home() {

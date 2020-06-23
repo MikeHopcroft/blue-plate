@@ -1,3 +1,4 @@
+import { State } from 'prix-fixe';
 import { Reducer } from 'redux';
 
 import {
@@ -6,6 +7,7 @@ import {
   ProcessAction,
   RecordAction,
   ResetAction,
+  SetCartAction,
   SetModeAction,
   SetWorldAction,
 } from './actions';
@@ -27,6 +29,8 @@ export const ApplicationStateReducer: Reducer<ApplicationState, AnyAction> =
         return applyRecord(state, action);
       case ActionType.RESET:
         return applyReset(state, action);
+      case ActionType.SET_CART:
+        return applySetCart(state, action);
       case ActionType.SET_MODE:
         return applySetMode(state, action);
       case ActionType.SET_WORLD:
@@ -42,6 +46,7 @@ function applyProcess(
 ): ApplicationState {
   console.log(`process("${text}",${final})`);
 
+  // TODO: consider doing this in the saga.
   const item: HistoryItem = {
     timestamp: new Date(),
     text
@@ -60,6 +65,7 @@ function applyRecord(
   { isRecording }: RecordAction
 ): ApplicationState {
   // TODO: add current state to undo stack
+  // Perhaps do this in the saga.
 
   return {
     ...appState,
@@ -80,6 +86,16 @@ function applyReset(
   };
 }
 
+function applySetCart(
+  appState: ApplicationState,
+  { cart }: SetCartAction
+): ApplicationState {
+  return {
+    ...appState,
+    cart
+  };
+}
+
 function applySetMode(
   appState: ApplicationState,
   { mode }: SetModeAction
@@ -92,7 +108,7 @@ function applySetMode(
 
 function applySetWorld(
   appState: ApplicationState,
-  { world }: SetWorldAction
+  { world, shortOrderWorld }: SetWorldAction
 ): ApplicationState {
   let cart: Cart = { items: [] };
   cart = world.cartOps.addToCart(cart, {
@@ -114,6 +130,7 @@ function applySetWorld(
   return {
     ...appState,
     world,
+    shortOrderWorld,
     cart
   };
 }

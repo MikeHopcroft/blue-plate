@@ -1,10 +1,24 @@
 # TODO List
 
-* FrameControl Tabs are 100% when the share space with TabBar. Need to use some sort of flow layout.
+* x Integrate token-flow
+* x Integrate short-order
+* After first end-to-end run
+  * Figure out what goes into the sagas
+  * Consider replacing Cart with State
+  * Figure out whether we need to store World (vs just ShortOrderWorld)
+  * Log commands to history (e.g. reset, undo, redo)
+    * Are all commands voice?
+  * Button to download session info for bug reporting.
+  * Some bug reporting service back end.
+  * Log exceptions in session history
+  * Add carts to session history
+  * Fix Oliver's bugs
+* Control panel
+  * Stemmer options
+  * Rerun with new options - compare with previous
+* Clear cart button
 * Add banner at top
   * Need to think about this - it looks cluttered
-* Integrate token-flow
-* Integrate short-order
 * Use gts
 * Upload bug report or open issue on github
 * Find proper home for .tab-content rule in _app.css.
@@ -17,6 +31,10 @@
   * Processing spinner
   * x Wire up Web Speech API
   * x Recording state machine bug - this.setState vs this.props
+* Info Tab
+  * Investigate markdown loaders for info-control
+  * https://dev.to/tinacms/creating-a-markdown-blog-with-next-js-52hk
+  * https://www.npmjs.com/package/react-markdown
 * Menu Tab
   * Sort products
   * Master/Detail for menu
@@ -41,15 +59,15 @@
   * x Distinction between interim and final states
   * x Timestamps
 * Loading screen
+  * Spinner
+  * Diagnostic message
 * Investigate frame layout
   * https://css-tricks.com/snippets/css/a-guide-to-flexbox/
   * Header and Footer are fixed height
   * Middle expands to take all room - gets scroll bars for overflow.
   * x https://www.npmjs.com/package/react-split-pane (more popular)
   * x https://www.npmjs.com/package/react-split
-* Investigate markdown loaders for info-control
-  * https://dev.to/tinacms/creating-a-markdown-blog-with-next-js-52hk
-  * https://www.npmjs.com/package/react-markdown
+* x FrameControl Tabs are 100% when the share space with TabBar. Need to use some sort of flow layout.
 * Finish up router for info, menu, graph
 * x Move saga from index.ts
 * x initialState()

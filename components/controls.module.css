@@ -16,6 +16,14 @@
   overflow: auto;
 }
 
+.cartWelcome {
+  flex-grow: 1;
+  background-color: lightskyblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .cart {
   flex-grow: 1;
   background-color: lightskyblue;

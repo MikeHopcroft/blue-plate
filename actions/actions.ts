@@ -1,4 +1,5 @@
-import { World } from 'prix-fixe';
+import { World, Cart } from 'prix-fixe';
+import { ShortOrderWorld } from 'short-order';
 
 import { ApplicationMode } from "./application-state";
 
@@ -7,8 +8,9 @@ export enum ActionType {
   PROCESS = 'PROCESS',
   RECORD = 'RECORD',
   RESET = 'RESET',
-  SET_WORLD = 'SET_WORLD',
+  SET_CART = 'SET_CART',
   SET_MODE = 'SET_MODE',
+  SET_WORLD = 'SET_WORLD',
 };
 
 export interface LoadWorldAction {
@@ -46,6 +48,15 @@ export function reset(): ResetAction {
   return { type: ActionType.RESET };
 }
 
+export interface SetCartAction {
+  type: ActionType.SET_CART;
+  cart: Cart;
+};
+
+export function setCart(cart: Cart): SetCartAction {
+  return { type: ActionType.SET_CART, cart };
+}
+
 export interface SetModeAction {
   type: ActionType.SET_MODE;
   mode: ApplicationMode;
@@ -58,10 +69,11 @@ export function setMode(mode: ApplicationMode): SetModeAction {
 export interface SetWorldAction {
   type: ActionType.SET_WORLD;
   world: World;
+  shortOrderWorld: ShortOrderWorld;
 };
 
-export function setWorld(world: World): SetWorldAction {
-  return { type: ActionType.SET_WORLD, world };
+export function setWorld(world: World, shortOrderWorld: ShortOrderWorld): SetWorldAction {
+  return { type: ActionType.SET_WORLD, world, shortOrderWorld };
 }
 
 export type AnyAction =
@@ -69,5 +81,6 @@ export type AnyAction =
   ProcessAction |
   RecordAction |
   ResetAction |
+  SetCartAction |
   SetModeAction |
   SetWorldAction;

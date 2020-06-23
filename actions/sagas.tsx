@@ -3,15 +3,25 @@ import {
   createWorld3,
   loadCatalogSpec,
   ObjectLoader,
+  State,
 } from 'prix-fixe';
 
-import { put } from 'redux-saga/effects';
+import { put, select } from 'redux-saga/effects';
+import { createShortOrderWorld2 } from 'short-order';
 
-import { LoadWorldAction, setWorld } from '../actions';
+import {
+  LoadWorldAction,
+  ProcessAction,
+  setCart,
+  setWorld
+} from '../actions';
+
+import { ApplicationState } from './application-state';
 
 const bakery= require('../data/bakery.yaml');
 const coffee= require('../data/coffee.yaml');
 const menu = require('../data/menu.yaml');
+const lexiconSpec = require('../data/lexicon.yaml');
 
 const menuRoot = {
   catalog: [
@@ -62,5 +72,33 @@ export function* loadWorldSaga(action: LoadWorldAction) {
   console.log('saga() after yield');
 
   const world = createWorld3(spec);
-  yield(put(setWorld(world)));
+  console.log('before');
+  console.log(createShortOrderWorld2);
+  console.log('before2');
+  const shortOrderWorld = createShortOrderWorld2(
+    world,
+    lexiconSpec,
+    undefined,
+    true
+  );
+  console.log('before3');
+
+  yield(put(setWorld(world, shortOrderWorld)));
+}
+
+// TODO: clean this up.
+function getAppState(appState: ApplicationState): ApplicationState {
+  return appState;
+}
+
+export function* processSaga({ text, final }: ProcessAction) {
+  // TODO: remove final check for interim carts.
+  if (final) {
+    const appState = yield(select(getAppState));
+    console.log('have appState');
+    console.log(appState);
+    const state0: State = { cart: appState.cart };
+    const state1: State = yield appState.shortOrderWorld.processor(text, state0);
+    yield(put(setCart(state1.cart)));
+  }
 }
