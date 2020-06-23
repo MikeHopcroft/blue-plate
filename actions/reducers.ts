@@ -4,6 +4,7 @@ import { Reducer } from 'redux';
 import {
   ActionType,
   AnyAction,
+  ClearHistoryAction,
   ProcessAction,
   RecordAction,
   ResetAction,
@@ -13,7 +14,7 @@ import {
 } from './actions';
 
 import { ApplicationState, initialState, HistoryItem } from './application-state';
-import { Cart, ItemInstance } from 'prix-fixe';
+import { Cart } from 'prix-fixe';
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -23,6 +24,8 @@ import { Cart, ItemInstance } from 'prix-fixe';
 export const ApplicationStateReducer: Reducer<ApplicationState, AnyAction> =
   (state: ApplicationState = initialState(), action): ApplicationState => {
     switch (action.type) {
+      case ActionType.CLEAR_HISTORY:
+        return applyClearHistory(state, action);
       case ActionType.PROCESS:
         return applyProcess(state, action);
       case ActionType.RECORD:
@@ -39,6 +42,16 @@ export const ApplicationStateReducer: Reducer<ApplicationState, AnyAction> =
         return state;
     }
   };
+
+function applyClearHistory(
+  appState: ApplicationState,
+  action: ClearHistoryAction
+): ApplicationState {
+  return {
+    ...appState,
+    history: []
+  }
+}
 
 function applyProcess(
   appState: ApplicationState,
@@ -110,27 +123,10 @@ function applySetWorld(
   appState: ApplicationState,
   { world, shortOrderWorld }: SetWorldAction
 ): ApplicationState {
-  let cart: Cart = { items: [] };
-  cart = world.cartOps.addToCart(cart, {
-    uid: 1,
-    key: '302:1:1',
-    quantity: 1,
-    children: [
-      {
-        uid: 2,
-        key: '604:1',
-        quantity: 1,
-        children: [],
-      }
-    ],
-  });
-
-  console.log(`Cart = ${JSON.stringify(cart, null, 4)}`);
-
   return {
     ...appState,
     world,
     shortOrderWorld,
-    cart
+    cart: { items: [] },
   };
 }

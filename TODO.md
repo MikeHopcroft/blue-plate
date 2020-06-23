@@ -2,32 +2,42 @@
 
 * x Integrate token-flow
 * x Integrate short-order
+* Import menu
+* Chrome browser detection and message
+  * Allow text box entry instead of STT
+* github pages hosting with ssl.
+  * https://help.github.com/en/github/working-with-github-pages/about-github-pages
+  * https://help.github.com/en/github/working-with-github-pages/securing-your-github-pages-site-with-https
 * After first end-to-end run
   * Figure out what goes into the sagas
   * Consider replacing Cart with State
   * Figure out whether we need to store World (vs just ShortOrderWorld)
   * Log commands to history (e.g. reset, undo, redo)
     * Are all commands voice?
-  * Button to download session info for bug reporting.
-  * Some bug reporting service back end.
+  * x Button to download session info for bug reporting.
+  * Button to mark carts as expected/unexpected.
   * Log exceptions in session history
+  * Some bug reporting service back end.
   * Add carts to session history
   * Fix Oliver's bugs
 * Control panel
   * Stemmer options
   * Rerun with new options - compare with previous
-* Clear cart button
+* x Clear cart button
+* Scroll bar on cart
 * Add banner at top
   * Need to think about this - it looks cluttered
 * Use gts
 * Upload bug report or open issue on github
 * Find proper home for .tab-content rule in _app.css.
 * Web Speech
+  * x Icons: https://www.npmjs.com/package/bootstrap-icons
+  * Speech-to-text filter checkbox
+  * Arabic numerals
+  * ok, okay
+  * Browser detect and help message
   * Diagnose problem on Edge
   * Text input well
-  * Speech-to-text filter checkbox
-  * ok, okay
-  * Arabic numerals
   * Processing spinner
   * x Wire up Web Speech API
   * x Recording state machine bug - this.setState vs this.props
@@ -49,12 +59,22 @@
 * Graph Tab
   * Locate graphing code
 * History Tab
-  * Autoscroll on new entry
+  * Icon to indicate typed vs recorded
+  * Icon to indicate correct vs incorrect
+  * x Autoscroll on new entry
   * x Height update problem
-  * Clear history button
-  * Download link
+  * x Clear history button
+  * x Download link
     * https://blog.logrocket.com/programmatic-file-downloads-in-the-browser-9a5186298d5c/
     * https://stackoverflow.com/questions/35206589/how-to-download-fetch-response-in-react-as-file
+    * https://stackoverflow.com/questions/46818785/how-to-download-a-file-programmatically-using-js-internet-explorer
+      * https://jsfiddle.net/1ecj1rtz/
+    * https://github.com/gregnb/mui-datatables/issues/72
+      * https://github.com/gregnb/mui-datatables/issues/72
+      * https://medium.com/@danny.pule/export-json-to-csv-file-using-javascript-a0b7bc5b00d2
+    * https://www.npmjs.com/package/react-csv
+    * https://www.npmjs.com/package/react-base64-downloader
+    * https://www.npmjs.com/package/js-file-download
   * Local storage
   * x Distinction between interim and final states
   * x Timestamps
@@ -96,9 +116,6 @@
     * https://stackoverflow.com/questions/46040797/google-webspeech-api-is-throwing-not-allowed-error-for-microphone-permission
     * https://stackoverflow.com/questions/16835421/how-to-allow-chrome-to-access-my-camera-on-localhost
     * https://www.chromium.org/Home/chromium-security/prefer-secure-origins-for-powerful-new-features
-* github pages hosting with ssl.
-  * https://help.github.com/en/github/working-with-github-pages/about-github-pages
-  * https://help.github.com/en/github/working-with-github-pages/securing-your-github-pages-site-with-https
 * x Convert to next.js.
 * x Prototype webpack loader for yaml.
 * x Set up redux state.

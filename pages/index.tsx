@@ -27,7 +27,7 @@ sagaMiddleware.run(initSagas)
 store.dispatch(loadWorld());
 
 function* initSagas() {
-  console.log('initSagas()');
+  // console.log('initSagas()');
   yield takeLatest(ActionType.LOAD_WORLD, loadWorldSaga);
   yield takeLatest(ActionType.PROCESS, processSaga);
 }

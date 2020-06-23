@@ -4,6 +4,7 @@ import { ShortOrderWorld } from 'short-order';
 import { ApplicationMode } from "./application-state";
 
 export enum ActionType {
+  CLEAR_HISTORY = 'CLEAR_HISTORY',
   LOAD_WORLD = 'LOAD_WORLD',
   PROCESS = 'PROCESS',
   RECORD = 'RECORD',
@@ -12,6 +13,14 @@ export enum ActionType {
   SET_MODE = 'SET_MODE',
   SET_WORLD = 'SET_WORLD',
 };
+
+export interface ClearHistoryAction {
+  type: ActionType.CLEAR_HISTORY;
+};
+
+export function clearHistory(): ClearHistoryAction {
+  return { type: ActionType.CLEAR_HISTORY };
+}
 
 export interface LoadWorldAction {
   type: ActionType.LOAD_WORLD;
@@ -77,6 +86,7 @@ export function setWorld(world: World, shortOrderWorld: ShortOrderWorld): SetWor
 }
 
 export type AnyAction =
+  ClearHistoryAction |
   LoadWorldAction |
   ProcessAction |
   RecordAction |

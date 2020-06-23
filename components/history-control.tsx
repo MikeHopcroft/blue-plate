@@ -1,41 +1,66 @@
 import React from 'react';
 import { connect } from 'react-redux'
 
-import { ApplicationState, AnyAction, record, HistoryItem } from "../actions";
+import { ApplicationState, HistoryItem } from "../actions";
 
 import styles from './controls.module.css';
 
 interface Props {
-  application: ApplicationState;
+  history: HistoryItem[];
 };
 
 class HistoryControl extends React.Component<Props> {
+  panelEndRef = React.createRef<HTMLDivElement>();
+  itemCount = 0;
+  scrollOnUpdate = false;
+
   render() {
     return (
       <div>
-        {renderHistory(this.props.application.history)}
+        {this.renderHistory(this.props.history)}
+        <div ref={this.panelEndRef}/>
       </div>
     );
   }
+
+  componentDidMount() {
+    this.scrollToBottom();
+    this.scrollOnUpdate = false;
+  }
+
+  componentDidUpdate() {
+    if (this.scrollOnUpdate) {
+      this.scrollToBottom();
+      this.scrollOnUpdate = false;
+    }
+  }
+
+  renderHistory(history: HistoryItem[]) {
+    if (this.itemCount !== history.length) {
+      this.itemCount = history.length;
+      this.scrollOnUpdate = true;
+    }
+    const groups = groupHistoryItems(history);
+    return [...groups].map(renderHistoryGroup);
+  }
+
+  scrollToBottom = () => {
+    this.panelEndRef.current.scrollIntoView({ behavior: "auto" });
+  }
 }
 
-function renderHistory(history: HistoryItem[]) {
-  const groups = groupHistoryItems(history);
-  return [...groups].map(renderHistoryGroup);
-}
-
-function renderHistoryGroup(group: HistoryItem[]) {
+function renderHistoryGroup(group: HistoryItem[], index: number) {
   return (
-    <div className={styles.historyGroup}>
+    <div className={styles.historyGroup} key={index.toString()}>
       {group[0].timestamp.toLocaleDateString()}
       {group.map(renderHistoryItem)}
     </div>
   )
 }
 
-function renderHistoryItem(item: HistoryItem) {
+function renderHistoryItem(item: HistoryItem, index: number) {
   return (
-    <div className={styles.historyItem}>
+    <div className={styles.historyItem} key={'x' + index}>
       <b>{`${item.timestamp.toLocaleTimeString()}: `}</b>
       <i>{item.text}</i>
     </div>
@@ -66,28 +91,6 @@ function* groupHistoryItems(
     if (grouped.length > 0) {
       yield grouped;
     }
-  }
-}
-
-function renderHistoryItems(items: HistoryItem[]) {
-  const lastDate = new Date(0).toLocaleDateString();
-
-  return items.map(item => {
-    const currentDate = item.timestamp.toLocaleDateString();
-    if (lastDate !== currentDate) {
-      return (
-        <div>
-          <b>{`${item.timestamp.toLocaleString()}: `}</b>
-          <i>{item.text}</i>
-        </div>
-      );
-    }
-  });
-}
-
-function renderDay(previousDate: string, currentDate: string) {
-  if (previousDate !== currentDate) {
-
   }
 }
 

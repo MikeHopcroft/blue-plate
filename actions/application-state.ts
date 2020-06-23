@@ -1,6 +1,8 @@
 import { Cart, World } from 'prix-fixe';
 import { ShortOrderWorld } from 'short-order';
 
+import { getSampleHistory } from './sample-history';
+
 export enum ApplicationMode {
   INSTRUCTIONS = 'INSTRUCTIONS',
   MENU = 'MENU',
@@ -23,15 +25,15 @@ export interface ApplicationState {
 }
 
 export function initialState(): ApplicationState {
-  console.log('initialState');
+  // console.log('initialState');
 
   return {
     mode: ApplicationMode.INSTRUCTIONS,
     isRecording: false,
-    transcription: "I'd like a grande iced latte decaf that's all",
+    transcription: '',
     cart: {
       items: []
     },
-    history: []
+    history: getSampleHistory(),
   }
 }

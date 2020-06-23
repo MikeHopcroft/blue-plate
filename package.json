@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "bootstrap": "^4.5.0",
+    "js-file-download": "^0.4.12",
     "next": "9.4.4",
     "prix-fixe": "0.0.53",
     "react": "16.13.1",
     "react-bootstrap": "^1.0.1",
     "react-dom": "16.13.1",
+    "react-icons": "^3.10.0",
     "react-redux": "^7.2.0",
     "react-split-pane": "^0.1.91",
     "redux": "^4.0.5",

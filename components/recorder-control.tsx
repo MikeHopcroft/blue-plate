@@ -1,5 +1,6 @@
 import React from "react";
 import Button from 'react-bootstrap/Button';
+import { FaMicrophone, FaMicrophoneSlash } from 'react-icons/fa';
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 
@@ -17,8 +18,6 @@ class RecorderControl extends React.Component<Props> {
   private recognition: any;
 
   async componentDidMount() {
-    console.log(`RecorderControl.componentDidMount()`);
-
     const SpeechRecognition =
       (window as any).speechRecognition ||
       (window as any).webkitSpeechRecognition;
@@ -68,6 +67,7 @@ class RecorderControl extends React.Component<Props> {
           disabled={this.props.application.isRecording}
           onClick={this.startRecognition}
         >
+          <FaMicrophone/>
           <i className="fa fa-microphone"/> Start Recording
         </Button>
         <Button
@@ -75,6 +75,7 @@ class RecorderControl extends React.Component<Props> {
           disabled={!this.props.application.isRecording}
           onClick={this.endRecognition}
         >
+          <FaMicrophoneSlash/>
           <i className="fa fa-microphone-slash"/> Stop Recording
         </Button>
         <div>
