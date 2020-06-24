@@ -1,14 +1,19 @@
 # TODO List
 
+* Consider making chrome warning more visible
+  * Perhaps a permanant part of the layout?
 * History scroll to bottom scrolls Info to the bottom as well.
   * Seems like tabs all share the same scroll position value.
 * Glitch while loading - info pane renders before cart.
   * This may be the markdown re-rendering.
+  * Seems to be a development server issue.
+  * Doesn't happen with exported site.
+* Import menu
+* Integrate Azure speech to text
 * x Integrate token-flow
 * x Integrate short-order
-* Import menu
-* Chrome browser detection and message
-  * Allow text box entry instead of STT
+* x Chrome browser detection and message
+  * x Allow text box entry instead of STT
 * github pages hosting with ssl.
   * https://help.github.com/en/github/working-with-github-pages/about-github-pages
   * https://help.github.com/en/github/working-with-github-pages/securing-your-github-pages-site-with-https
@@ -22,18 +27,20 @@
   * Button to mark carts as expected/unexpected.
   * Log exceptions in session history
   * Some bug reporting service back end.
-  * Add carts to session history
+  * x Add carts to session history
   * Fix Oliver's bugs
 * Control panel
   * Stemmer options
+  * Speech to text configuration
   * Rerun with new options - compare with previous
+  * Log options/settings to history
 * x Clear cart button
 * Scroll bar on cart
 * Add banner at top
   * Need to think about this - it looks cluttered
 * Use gts
 * Upload bug report or open issue on github
-* Find proper home for .tab-content rule in _app.css.
+* x Find proper home for .tab-content rule in _app.css.
 * Web Speech
   * Investigate priming speech with lexicon
     * add a muffin => atomwaffen
@@ -56,9 +63,9 @@
   * x Wire up Web Speech API
   * x Recording state machine bug - this.setState vs this.props
 * Info Tab
-  * Warning: Did not expect server HTML to contain a <div> in <div>.
-    * Likely related to chrome detect in SSR.
-    * https://stackoverflow.com/questions/45350360/react-16-warning-warning-js36-warning-did-not-expect-server-html-to-contain-a
+  * x Warning: Did not expect server HTML to contain a <div> in <div>.
+    * x Likely related to chrome detect in SSR.
+    * x https://stackoverflow.com/questions/45350360/react-16-warning-warning-js36-warning-did-not-expect-server-html-to-contain-a
   * x Investigate markdown loaders for info-control
     * x WARNING control: https://github.com/rexxars/react-markdown/issues/218
     * x https://dev.to/tinacms/creating-a-markdown-blog-with-next-js-52hk
@@ -79,9 +86,11 @@
 * Test Authoring Tab
 * Graph Tab
   * Locate graphing code
+* Lexicon Tab
 * History Tab
-  * Icon to indicate typed vs recorded
+  * x Icon to indicate typed vs recorded
   * Icon to indicate correct vs incorrect
+  * Local storage
   * x Autoscroll on new entry
   * x Height update problem
   * x Clear history button
@@ -96,16 +105,15 @@
     * https://www.npmjs.com/package/react-csv
     * https://www.npmjs.com/package/react-base64-downloader
     * https://www.npmjs.com/package/js-file-download
-  * Local storage
   * x Distinction between interim and final states
   * x Timestamps
 * Loading screen
   * Spinner
   * Diagnostic message
-* Investigate frame layout
-  * https://css-tricks.com/snippets/css/a-guide-to-flexbox/
-  * Header and Footer are fixed height
-  * Middle expands to take all room - gets scroll bars for overflow.
+* x Investigate frame layout
+  * x https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+  * x Header and Footer are fixed height
+  * x Middle expands to take all room - gets scroll bars for overflow.
   * x https://www.npmjs.com/package/react-split-pane (more popular)
   * x https://www.npmjs.com/package/react-split
 * x FrameControl Tabs are 100% when the share space with TabBar. Need to use some sort of flow layout.

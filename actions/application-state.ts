@@ -9,7 +9,14 @@ export enum ApplicationMode {
   GRAPH = 'GRAPH',
 };
 
+export enum TextSource {
+  KEYBOARD = 'KEYBOARD',
+  MICROPHONE = 'MICROPHONE',
+}
+
 export interface HistoryItem {
+  cart: Cart;
+  source: TextSource;
   timestamp: Date;
   text: string;
 };

@@ -4,15 +4,24 @@ import { FaMicrophone, FaMicrophoneSlash } from 'react-icons/fa';
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 
-import { ApplicationState, AnyAction, process, record } from "../actions";
+import {
+  ApplicationState,
+  AnyAction,
+  process,
+  record,
+  TextSource
+} from "../actions";
 
 import styles from './controls.module.css';
-import { Col, Form, Row } from "react-bootstrap";
 
 interface Props {
   application: ApplicationState;
   recording: (isRecording: boolean) => void;
-  transcriptionReady: (transcription: string, final: boolean) => void;
+  transcriptionReady: (
+    source: TextSource,
+    transcription: string, 
+    final: boolean
+  ) => void;
 };
 
 class RecorderControl extends React.Component<Props> {
@@ -44,7 +53,11 @@ class RecorderControl extends React.Component<Props> {
         const speechResult = event.results[0][0].transcript as string;
         console.log(event);
         console.log(`Transcription: "${speechResult}"`);
-        this.props.transcriptionReady(speechResult, event.results[0].isFinal);
+        this.props.transcriptionReady(
+          TextSource.MICROPHONE,
+          speechResult,
+          event.results[0].isFinal
+        );
       }
 
       this.recognition.onspeechend = () => {
@@ -69,7 +82,11 @@ class RecorderControl extends React.Component<Props> {
   public onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       console.log('submitText');
-      this.props.transcriptionReady(this.input.current.value, true);
+      this.props.transcriptionReady(
+        TextSource.KEYBOARD,
+        this.input.current.value,
+        true
+      );
       this.input.current.value = '';
       e.preventDefault()
     }
@@ -129,8 +146,8 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
       dispatch(record(isRecording));
     },
 
-    transcriptionReady: (text: string, final: boolean) => {
-      dispatch(process(text, final));
+    transcriptionReady: (source: TextSource, text: string, final: boolean) => {
+      dispatch(process(source, text, final));
     }
   };
 }

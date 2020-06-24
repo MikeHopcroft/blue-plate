@@ -10,6 +10,7 @@ import { put, select } from 'redux-saga/effects';
 import { createShortOrderWorld2 } from 'short-order';
 
 import {
+  appendHistory,
   LoadWorldAction,
   ProcessAction,
   setCart,
@@ -47,12 +48,13 @@ function getAppState(appState: ApplicationState): ApplicationState {
   return appState;
 }
 
-export function* processSaga({ text, final }: ProcessAction) {
+export function* processSaga({ source, text, final }: ProcessAction) {
   // TODO: remove final check for interim carts.
   if (final) {
     const appState = yield(select(getAppState));
     const state0: State = { cart: appState.cart };
     const state1: State = yield appState.shortOrderWorld.processor(text, state0);
     yield(put(setCart(state1.cart)));
+    yield(put(appendHistory(state1.cart, source, text)));
   }
 }

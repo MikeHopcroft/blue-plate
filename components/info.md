@@ -1,10 +1,10 @@
 ~~~warning
 **PLEASE NOTE**
-To use voice input, you must view this demo in the
+To use voice input, you must run this demo in the
 [Chrome](https://www.google.com/chrome/) web browser.
 You can continue the demo here in text mode by typing into the
 box to the right of the recording buttons, but you will not be
-able to use any speech recognition features.
+able to use any of the speech recognition features.
 ~~~
 
 This is a demonstration of a

@@ -48,9 +48,19 @@
   font-weight: bold;
 }
 
+.historySource {
+  padding-right: 1ex;
+  color: blue;
+}
+
 .historyItem {
   padding-left: 2ex;
+  padding-bottom: 1em;
   font-weight: normal;
+}
+
+.historyCart {
+  padding-left: 3ex;
 }
 
 .infoPane {

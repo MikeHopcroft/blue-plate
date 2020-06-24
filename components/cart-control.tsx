@@ -1,8 +1,8 @@
-import { Cart, ItemInstance, World } from 'prix-fixe';
+import { ItemInstance, World } from 'prix-fixe';
 import React from 'react';
 import { connect } from 'react-redux'
 
-import { ApplicationState, AnyAction, record } from "../actions";
+import { ApplicationState } from "../actions";
 
 import styles from './controls.module.css';
 

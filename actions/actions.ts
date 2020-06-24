@@ -1,9 +1,10 @@
 import { World, Cart } from 'prix-fixe';
 import { ShortOrderWorld } from 'short-order';
 
-import { ApplicationMode } from "./application-state";
+import { ApplicationMode, TextSource } from "./application-state";
 
 export enum ActionType {
+  APPEND_HISTORY = 'APPEND_HISTORY',
   CLEAR_HISTORY = 'CLEAR_HISTORY',
   LOAD_WORLD = 'LOAD_WORLD',
   PROCESS = 'PROCESS',
@@ -14,6 +15,26 @@ export enum ActionType {
   SET_SPEECH_SUPPORT = 'SET_SPEECH_SUPPORT',
   SET_WORLD = 'SET_WORLD',
 };
+
+export interface AppendHistoryAction {
+  type: ActionType.APPEND_HISTORY;
+  cart: Cart;
+  source: TextSource,
+  text: string;
+};
+
+export function appendHistory(
+  cart: Cart,
+  source: TextSource,
+  text: string
+): AppendHistoryAction {
+  return { 
+    type: ActionType.APPEND_HISTORY,
+    cart,
+    source,
+    text
+  };
+}
 
 export interface ClearHistoryAction {
   type: ActionType.CLEAR_HISTORY;
@@ -33,12 +54,18 @@ export function loadWorld(): LoadWorldAction {
 
 export interface ProcessAction {
   type: ActionType.PROCESS;
+  source: TextSource,
   text: string;
   final: boolean;
 };
 
-export function process(text: string, final: boolean): ProcessAction {
-  return { type: ActionType.PROCESS, text, final };
+export function process(source: TextSource, text: string, final: boolean): ProcessAction {
+  return {
+    source,
+    type: ActionType.PROCESS,
+    text,
+    final
+  };
 }
 
 export interface RecordAction {
@@ -96,6 +123,7 @@ export function setSpeechSupport(speechSupport: boolean): SetSpeechSupportAction
 }
 
 export type AnyAction =
+  AppendHistoryAction |
   ClearHistoryAction |
   LoadWorldAction |
   ProcessAction |

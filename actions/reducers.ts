@@ -1,9 +1,9 @@
-import { State } from 'prix-fixe';
 import { Reducer } from 'redux';
 
 import {
   ActionType,
   AnyAction,
+  AppendHistoryAction,
   ClearHistoryAction,
   ProcessAction,
   RecordAction,
@@ -14,8 +14,12 @@ import {
   SetSpeechSupportAction,
 } from './actions';
 
-import { ApplicationState, initialState, HistoryItem } from './application-state';
-import { Cart } from 'prix-fixe';
+import {
+  ApplicationState,
+  initialState,
+  HistoryItem,
+  TextSource
+} from './application-state';
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -25,6 +29,8 @@ import { Cart } from 'prix-fixe';
 export const ApplicationStateReducer: Reducer<ApplicationState, AnyAction> =
   (state: ApplicationState = initialState(), action): ApplicationState => {
     switch (action.type) {
+      case ActionType.APPEND_HISTORY:
+        return applyAppendHistory(state, action);
       case ActionType.CLEAR_HISTORY:
         return applyClearHistory(state, action);
       case ActionType.PROCESS:
@@ -46,6 +52,25 @@ export const ApplicationStateReducer: Reducer<ApplicationState, AnyAction> =
     }
   };
 
+function applyAppendHistory(
+  appState: ApplicationState,
+  { cart, source, text }: AppendHistoryAction
+): ApplicationState {
+  const item: HistoryItem = {
+    cart,
+    source,
+    timestamp: new Date(),
+    text
+  }
+
+  const history = [...appState.history, item];
+
+  return {
+    ...appState,
+    history
+  }
+}
+
 function applyClearHistory(
   appState: ApplicationState,
   action: ClearHistoryAction
@@ -60,19 +85,11 @@ function applyProcess(
   appState: ApplicationState,
   { text, final }: ProcessAction
 ): ApplicationState {
-  console.log(`process("${text}",${final})`);
-
-  // TODO: consider doing this in the saga.
-  const item: HistoryItem = {
-    timestamp: new Date(),
-    text
-  }
-  const history = final ? [...appState.history, item] : appState.history;
-
+  // Just update the transcription.
+  // The real work is done in a saga.
   return {
     ...appState,
     transcription: text,
-    history
   };
 }
 
@@ -80,9 +97,6 @@ function applyRecord(
   appState: ApplicationState,
   { isRecording }: RecordAction
 ): ApplicationState {
-  // TODO: add current state to undo stack
-  // Perhaps do this in the saga.
-
   return {
     ...appState,
     isRecording

@@ -1,12 +1,15 @@
+import { Cart, ItemInstance, World } from 'prix-fixe';
 import React from 'react';
+import { FaKeyboard, FaMicrophone, FaQuestionCircle } from 'react-icons/fa';
 import { connect } from 'react-redux'
 
-import { ApplicationState, HistoryItem } from "../actions";
+import { ApplicationState, HistoryItem, TextSource } from "../actions";
 
 import styles from './controls.module.css';
 
 interface Props {
   history: HistoryItem[];
+  world: World;
 };
 
 class HistoryControl extends React.Component<Props> {
@@ -41,30 +44,71 @@ class HistoryControl extends React.Component<Props> {
       this.scrollOnUpdate = true;
     }
     const groups = groupHistoryItems(history);
-    return [...groups].map(renderHistoryGroup);
+    return [...groups].map(this.renderHistoryGroup);
   }
 
-  scrollToBottom = () => {
+  renderHistoryGroup = (group: HistoryItem[], index: number) => {
+    return (
+      <div className={styles.historyGroup} key={index.toString()}>
+        {group[0].timestamp.toLocaleDateString()}
+        {group.map(this.renderHistoryItem)}
+      </div>
+    )
+  }
+  
+  renderHistoryItem = (item: HistoryItem, index: number) => {
+    return (
+      <div className={styles.historyItem} key={'x' + index}>
+        { renderSource(item.source ) }
+        <b>{`${item.timestamp.toLocaleTimeString()}: `}</b>
+        <i>{item.text}</i>
+        {this.renderCart(item.cart)}
+      </div>
+    );
+  }
+
+  renderCart(cart: Cart) {
+    return (
+      <div className={styles.historyCart}>
+        {this.renderItemList(cart.items)}
+      </div>
+    )
+  }
+
+  renderItemList(items: ItemInstance[]) {
+    const renderItem = (item: ItemInstance) => {
+      const specific = this.props.world.catalog.getSpecific(item.key);
+      return (
+        <div className={styles.cartItem} key={item.uid}>
+          {`${item.quantity} ${specific.name} (${specific.sku})`}
+          {this.renderItemList(item.children)}
+        </div>
+      )
+    }
+  
+    return items.map(renderItem);
+  }
+
+  scrollToBottom() {
     this.panelEndRef.current.scrollIntoView({ behavior: "auto" });
   }
 }
 
-function renderHistoryGroup(group: HistoryItem[], index: number) {
-  return (
-    <div className={styles.historyGroup} key={index.toString()}>
-      {group[0].timestamp.toLocaleDateString()}
-      {group.map(renderHistoryItem)}
-    </div>
-  )
+function renderSource(source: TextSource) {
+  return (<span className={styles.historySource}>
+    { renderSourceIcon(source)}
+  </span>)
 }
 
-function renderHistoryItem(item: HistoryItem, index: number) {
-  return (
-    <div className={styles.historyItem} key={'x' + index}>
-      <b>{`${item.timestamp.toLocaleTimeString()}: `}</b>
-      <i>{item.text}</i>
-    </div>
-  );
+function renderSourceIcon(source: TextSource) {
+  switch (source) {
+    case TextSource.KEYBOARD:
+      return <FaKeyboard/>;
+    case TextSource.MICROPHONE:
+      return <FaMicrophone/>;
+    default:
+      return <FaQuestionCircle/>
+  }
 }
 
 const THRESHOLD = 1000*60;  // 60 seconds
@@ -95,7 +139,7 @@ function* groupHistoryItems(
 }
 
 function mapStateToProps(application: ApplicationState) {
-  return { application };
+  return { world: application.world };
 }
 
 export default connect(mapStateToProps)(HistoryControl);

@@ -11,6 +11,7 @@ import { ApplicationState, AnyAction, setSpeechSupport } from "../actions";
 import CartControl from './cart-control';
 import HamburgerControl from './hamburger-control';
 import InfoControl from './info-control';
+import LexiconControl from './lexicon-control';
 import MenuControl from './menu-control';
 import GraphControl from './graph-control';
 import HistoryControl from './history-control';
@@ -70,6 +71,9 @@ class FrameControl extends React.Component<Props> {
             <Nav.Link eventKey="menu">Menu</Nav.Link>
           </Nav.Item>
           <Nav.Item>
+            <Nav.Link eventKey="lexicon">Lexicon</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
             <Nav.Link eventKey="graph">Graph</Nav.Link>
           </Nav.Item>
           <Nav.Item>
@@ -85,6 +89,9 @@ class FrameControl extends React.Component<Props> {
           </Tab.Pane>
           <Tab.Pane eventKey="menu">
             <MenuControl />
+          </Tab.Pane>
+          <Tab.Pane eventKey="lexicon">
+            <LexiconControl />
           </Tab.Pane>
           <Tab.Pane eventKey="graph">
             <GraphControl />
