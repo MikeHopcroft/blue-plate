@@ -64,7 +64,10 @@ class RecorderControl extends React.Component<Props> {
       <div className={styles.recorder}>
         <Button
           className="btn btn-success btn-sm"
-          disabled={this.props.application.isRecording}
+          disabled={
+            !this.props.application.speechSupport ||
+            this.props.application.isRecording
+          }
           onClick={this.startRecognition}
         >
           <FaMicrophone/>
@@ -72,7 +75,10 @@ class RecorderControl extends React.Component<Props> {
         </Button>
         <Button
           className="btn btn-danger btn-sm"
-          disabled={!this.props.application.isRecording}
+          disabled={
+            !this.props.application.speechSupport ||
+            !this.props.application.isRecording
+          }
           onClick={this.endRecognition}
         >
           <FaMicrophoneSlash/>

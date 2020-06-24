@@ -33,6 +33,10 @@
 * Upload bug report or open issue on github
 * Find proper home for .tab-content rule in _app.css.
 * Web Speech
+  * Investigate priming speech with lexicon
+    * add a muffin => atomwaffen
+    * flat white => flat bite
+    * add a muffin => out a muffin
   * x Icons: https://www.npmjs.com/package/bootstrap-icons
   * Speech-to-text filter checkbox
   * Arabic numerals
@@ -41,7 +45,7 @@
     * x Initial detection
     * x Warning in markdown
     * use browser.satisfies() for Chrome detection.
-    * Include in ApplicationState for button enable/disable
+    * x Include in ApplicationState for button enable/disable
     * Link to chrome should open in new tab or window. This may require allowing HTML rendering or using a special renderer.
       * https://stackoverflow.com/questions/4425198/can-i-create-links-with-target-blank-in-markdown
   * Diagnose problem on Edge

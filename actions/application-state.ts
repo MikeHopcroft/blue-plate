@@ -16,6 +16,7 @@ export interface HistoryItem {
 
 export interface ApplicationState {
   world?: World;
+  speechSupport: boolean;
   shortOrderWorld?: ShortOrderWorld;
   mode: ApplicationMode;
   isRecording: boolean;
@@ -25,9 +26,8 @@ export interface ApplicationState {
 }
 
 export function initialState(): ApplicationState {
-  // console.log('initialState');
-
   return {
+    speechSupport: true,
     mode: ApplicationMode.INSTRUCTIONS,
     isRecording: false,
     transcription: '',

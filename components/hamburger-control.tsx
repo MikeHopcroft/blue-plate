@@ -37,6 +37,7 @@ class HamburgerControl extends React.Component<Props> {
           <Dropdown.Item onSelect={this.props.doClearHistory}>Clear History</Dropdown.Item>
           <Dropdown.Divider/>
           <Dropdown.Item>Import Menu</Dropdown.Item>
+          <Dropdown.Item>Settings</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     )

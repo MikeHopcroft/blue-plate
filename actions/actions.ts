@@ -11,6 +11,7 @@ export enum ActionType {
   RESET = 'RESET',
   SET_CART = 'SET_CART',
   SET_MODE = 'SET_MODE',
+  SET_SPEECH_SUPPORT = 'SET_SPEECH_SUPPORT',
   SET_WORLD = 'SET_WORLD',
 };
 
@@ -85,6 +86,15 @@ export function setWorld(world: World, shortOrderWorld: ShortOrderWorld): SetWor
   return { type: ActionType.SET_WORLD, world, shortOrderWorld };
 }
 
+export interface SetSpeechSupportAction {
+  type: ActionType.SET_SPEECH_SUPPORT;
+  speechSupport: boolean;
+};
+
+export function setSpeechSupport(speechSupport: boolean): SetSpeechSupportAction {
+  return { type: ActionType.SET_SPEECH_SUPPORT, speechSupport };
+}
+
 export type AnyAction =
   ClearHistoryAction |
   LoadWorldAction |
@@ -93,4 +103,5 @@ export type AnyAction =
   ResetAction |
   SetCartAction |
   SetModeAction |
-  SetWorldAction;
+  SetWorldAction |
+  SetSpeechSupportAction;

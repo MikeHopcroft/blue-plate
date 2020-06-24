@@ -1,27 +1,20 @@
-import Bowser from "bowser";
 import React from "react";
 import ReactMarkdown from 'react-markdown';
+import { connect } from 'react-redux'
+
+import { ApplicationState } from "../actions";
 
 import styles from './controls.module.css';
 
 interface Props {
   text: string;
+  speechSupport: boolean;
 };
 
-export default class ChromeWarning extends React.Component<Props> {
+class ChromeWarning extends React.Component<Props> {
   render() {
-    let isChrome = false;
-    if (typeof window !== 'undefined') {
-      const w = window as any;
-      const b = Bowser.parse(window.navigator.userAgent);
-
-      // TODO: use browser.satisfies() for Chrome detection.
-      // TODO: store broser in ApplicationState so that it can
-      // be used to enable/disable speech buttons.
-      isChrome = b.browser.name === 'Chrome';
-    }
-
-    if (isChrome) {
+    console.log(`ChromeWarning: ${this.props.speechSupport}`);
+    if (this.props.speechSupport) {
       return null;
     } else {
       return (
@@ -32,3 +25,9 @@ export default class ChromeWarning extends React.Component<Props> {
     }
   }
 }
+
+function mapStateToProps({speechSupport}: ApplicationState) {
+  return { speechSupport };
+}
+
+export default connect(mapStateToProps)(ChromeWarning);

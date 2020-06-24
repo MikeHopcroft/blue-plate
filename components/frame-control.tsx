@@ -1,3 +1,4 @@
+import Bowser from "bowser";
 import React from "react";
 import Nav from 'react-bootstrap/Nav';
 import Tab from 'react-bootstrap/Tab';
@@ -5,7 +6,7 @@ import { connect } from 'react-redux'
 import SplitPane from 'react-split-pane'
 import { Dispatch } from 'redux'
 
-import { ApplicationState, AnyAction, record } from "../actions";
+import { ApplicationState, AnyAction, setSpeechSupport } from "../actions";
 
 import CartControl from './cart-control';
 import HamburgerControl from './hamburger-control';
@@ -20,21 +21,17 @@ import styles from './controls.module.css';
 
 interface Props {
   application: ApplicationState;
-  toggleRecording: (isRecording: boolean) => void;
+  speechSupported: (isRecording: boolean) => void;
 };
 
 class FrameControl extends React.Component<Props> {
-  onClick = () => {
-    this.props.toggleRecording(!this.props.application.isRecording);
-  }
-
   render() {
     if (this.props.application.world) {
       return (
         <div className={styles.frame}>
           <div>
             <SplitPane split="horizontal" minSize={100} defaultSize={400}>
-              <div style={{display: 'flex', flexDirection: 'column', width:'100%', height:'100%'}}>
+              <div className={styles.frameUpperPanel}>
                 {this.renderTabs()}
               </div>
               <div className={styles.frameLowerPanel}>
@@ -48,6 +45,18 @@ class FrameControl extends React.Component<Props> {
     } else {
       return <LoadingControl />;
     }
+  }
+
+  componentDidMount() {
+    let isChrome = false;
+    if (typeof window !== 'undefined') {
+      const w = window as any;
+      const b = Bowser.parse(window.navigator.userAgent);
+
+      // TODO: use browser.satisfies() for Chrome detection.
+      isChrome = b.browser.name === 'Chrome';
+    }
+    this.props.speechSupported(isChrome);
   }
 
   renderTabs() {
@@ -95,8 +104,8 @@ function mapStateToProps(application: ApplicationState) {
 
 function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
   return {
-    toggleRecording: (isRecording: boolean) => {
-      dispatch(record(isRecording));
+    speechSupported: (speechSupport: boolean) => {
+      dispatch(setSpeechSupport(speechSupport));
     },
   };
 }

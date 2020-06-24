@@ -11,6 +11,7 @@ import {
   SetCartAction,
   SetModeAction,
   SetWorldAction,
+  SetSpeechSupportAction,
 } from './actions';
 
 import { ApplicationState, initialState, HistoryItem } from './application-state';
@@ -36,6 +37,8 @@ export const ApplicationStateReducer: Reducer<ApplicationState, AnyAction> =
         return applySetCart(state, action);
       case ActionType.SET_MODE:
         return applySetMode(state, action);
+      case ActionType.SET_SPEECH_SUPPORT:
+        return applySetSpeechSupport(state, action);
       case ActionType.SET_WORLD:
         return applySetWorld(state, action);
       default:
@@ -116,6 +119,16 @@ function applySetMode(
   return {
     ...appState,
     mode
+  };
+}
+
+function applySetSpeechSupport(
+  appState: ApplicationState,
+  { speechSupport }: SetSpeechSupportAction
+): ApplicationState {
+  return {
+    ...appState,
+    speechSupport
   };
 }
 
