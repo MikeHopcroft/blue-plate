@@ -1,3 +1,20 @@
+.cart {
+  flex-grow: 1;
+  background-color: lightskyblue;
+}
+
+.cartItem {
+  margin-left: 10px;
+}
+
+.cartWelcome {
+  flex-grow: 1;
+  background-color: lightskyblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .frame {
   width: 100%;
   height: 100%;
@@ -13,24 +30,8 @@
 
 .frameTab {
   width: 100%;
+  height: 100%;
   overflow: auto;
-}
-
-.cartWelcome {
-  flex-grow: 1;
-  background-color: lightskyblue;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.cart {
-  flex-grow: 1;
-  background-color: lightskyblue;
-}
-
-.cartItem {
-  margin-left: 10px;
 }
 
 .historyGroup {
@@ -43,7 +44,18 @@
   font-weight: normal;
 }
 
+.infoPane {
+  padding: 1em;
+}
+
 .recorder {
   background-color: lightgray;
   padding: 4px;
+}
+
+.warning {
+  border-color: red;
+  border-style: solid;
+  border-width: 2;
+  background-color: pink;
 }

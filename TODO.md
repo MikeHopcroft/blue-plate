@@ -1,5 +1,7 @@
 # TODO List
 
+* Glitch while loading - info pane renders before cart.
+  * This may be the markdown re-rendering.
 * x Integrate token-flow
 * x Integrate short-order
 * Import menu
@@ -36,15 +38,28 @@
   * Arabic numerals
   * ok, okay
   * Browser detect and help message
+    * x Initial detection
+    * x Warning in markdown
+    * use browser.satisfies() for Chrome detection.
+    * Include in ApplicationState for button enable/disable
+    * Link to chrome should open in new tab or window. This may require allowing HTML rendering or using a special renderer.
+      * https://stackoverflow.com/questions/4425198/can-i-create-links-with-target-blank-in-markdown
   * Diagnose problem on Edge
   * Text input well
   * Processing spinner
   * x Wire up Web Speech API
   * x Recording state machine bug - this.setState vs this.props
 * Info Tab
-  * Investigate markdown loaders for info-control
-  * https://dev.to/tinacms/creating-a-markdown-blog-with-next-js-52hk
-  * https://www.npmjs.com/package/react-markdown
+  * Warning: Did not expect server HTML to contain a <div> in <div>.
+    * Likely related to chrome detect in SSR.
+    * https://stackoverflow.com/questions/45350360/react-16-warning-warning-js36-warning-did-not-expect-server-html-to-contain-a
+  * x Investigate markdown loaders for info-control
+    * x WARNING control: https://github.com/rexxars/react-markdown/issues/218
+    * x https://dev.to/tinacms/creating-a-markdown-blog-with-next-js-52hk
+    * x https://www.npmjs.com/package/react-markdown
+    * x Image loading: https://stackoverflow.com/questions/51060771/react-markdown-images-not-rendering-in-browser
+    * x https://www.newline.co/@dmitryrogozhny/how-to-render-markdown-in-react-with-react-markdown--5d1c3849
+    * x General react notes, written in markdown: https://mnyark.github.io/react-markdown/#adding-images-fonts-and-files
 * Menu Tab
   * Sort products
   * Master/Detail for menu

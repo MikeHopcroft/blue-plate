@@ -6,6 +6,10 @@ module.exports = {
         test: /\.ya?ml$/,
         use: 'js-yaml-loader',
       },
+      {
+        test: /\.md$/,
+        use: 'raw-loader',
+      }
     );
 
     // https://github.com/3rd-Eden/useragent/pull/117
