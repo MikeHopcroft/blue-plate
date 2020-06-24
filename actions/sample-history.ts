@@ -1,5 +1,4 @@
-import { Cart } from 'prix-fixe';
-import { HistoryItem, TextSource } from './application-state';
+import { Correctness, HistoryItem, TextSource } from './application-state';
 
 export function getSampleHistory(): HistoryItem[] {
   return sampleHistory.map(item => {
@@ -8,22 +7,164 @@ export function getSampleHistory(): HistoryItem[] {
       cart: item.cart || { items: []},
       timestamp: new Date(item.timestamp),
       text: item.text,
+      correctness: item.correctness as Correctness,
+      note: item.note,
     }
   })
 }
 
 const sampleHistory = [
   {
+      "cart": {
+          "items": [
+              {
+                  "uid": 30,
+                  "key": "302:1:2",
+                  "quantity": 1,
+                  "children": [
+                      {
+                          "uid": 29,
+                          "key": "1001:3",
+                          "quantity": 1,
+                          "children": []
+                      }
+                  ]
+              }
+          ]
+      },
+      "source": "MICROPHONE",
+      "timestamp": "2020-06-24T20:50:21.525Z",
+      "text": "hi I'd like a grande iced latte with extra foam",
+      "correctness": "CORRECT",
+      "note": "This is the text of the note.",
+    },
+  {
+      "cart": {
+          "items": [
+              {
+                  "uid": 30,
+                  "key": "302:1:2",
+                  "quantity": 1,
+                  "children": [
+                      {
+                          "uid": 29,
+                          "key": "1001:3",
+                          "quantity": 1,
+                          "children": []
+                      },
+                      {
+                          "uid": 32,
+                          "key": "704",
+                          "quantity": 1,
+                          "children": []
+                      }
+                  ]
+              },
+              {
+                  "uid": 33,
+                  "key": "2000",
+                  "quantity": 1,
+                  "children": []
+              }
+          ]
+      },
+      "source": "MICROPHONE",
+      "timestamp": "2020-06-24T20:50:27.409Z",
+      "text": "actually make that a decaf and give me a muffin",
+      "correctness": "INCORRECT",
+  },
+  {
+      "cart": {
+          "items": [
+              {
+                  "uid": 30,
+                  "key": "302:1:2",
+                  "quantity": 1,
+                  "children": [
+                      {
+                          "uid": 29,
+                          "key": "1001:3",
+                          "quantity": 1,
+                          "children": []
+                      },
+                      {
+                          "uid": 32,
+                          "key": "704",
+                          "quantity": 1,
+                          "children": []
+                      }
+                  ]
+              },
+              {
+                  "uid": 33,
+                  "key": "2000",
+                  "quantity": 1,
+                  "children": [
+                      {
+                          "uid": 40,
+                          "key": "2:2",
+                          "quantity": 1,
+                          "children": []
+                      }
+                  ]
+              }
+          ]
+      },
+      "source": "MICROPHONE",
+      "timestamp": "2020-06-24T20:50:34.103Z",
+      "text": "can I get that with strawberry jam"
+  },
+  {
+      "cart": {
+          "items": [
+              {
+                  "uid": 30,
+                  "key": "302:1:2",
+                  "quantity": 1,
+                  "children": [
+                      {
+                          "uid": 29,
+                          "key": "1001:3",
+                          "quantity": 1,
+                          "children": []
+                      },
+                      {
+                          "uid": 32,
+                          "key": "704",
+                          "quantity": 1,
+                          "children": []
+                      }
+                  ]
+              },
+              {
+                  "uid": 33,
+                  "key": "2000",
+                  "quantity": 1,
+                  "children": []
+              }
+          ]
+      },
+      "source": "MICROPHONE",
+      "timestamp": "2020-06-24T20:50:38.231Z",
+      "text": "remove the strawberry jam"
+  }
+];
+
+const sampleHistory2 = [
+  {
     "source" : "MICROPHONE",
     "cart": { items: [] },
     "timestamp": "2020-06-23T02:09:21.148Z",
-    "text": "I'd like a grande latte"
+    "text": "I'd like a grande latte",
+    "correctness": "CORRECT",
+    "note": "This is the text of the note."
   },
   {
     "source" : "KEYBOARD",
     "cart": { items: [] },
     "timestamp": "2020-06-23T02:09:28.101Z",
-    "text": "fix that with D cup"
+    "text": "fix that with D cup",
+    "correctness": "INCORRECT",
   },
   {
     "source" : "UNKNOWN",

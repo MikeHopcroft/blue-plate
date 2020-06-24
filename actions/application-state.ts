@@ -14,11 +14,18 @@ export enum TextSource {
   MICROPHONE = 'MICROPHONE',
 }
 
+export enum Correctness {
+  CORRECT = 'CORRECT',
+  INCORRECT = 'INCORRECT',
+}
+
 export interface HistoryItem {
   cart: Cart;
   source: TextSource;
   timestamp: Date;
   text: string;
+  correctness?: Correctness;
+  note?: string;
 };
 
 export interface ApplicationState {

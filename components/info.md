@@ -15,8 +15,9 @@ To place an order, press the green record button and speak as you would to a dri
 
 You can say things like:
 * _Hi! I'd like a grande iced latte with extra foam._
-* _Actually, make that a decaf and add a muffin._
-* _Can you make that latte a flat white and get me a cup of coffee?_"
+* _Actually, make that a decaf and give me a muffin._
+* _Can I get that with strawberry jam?_
+* _Remove the strawberry jam._
 
 Click on the `Menu` tab at the top for information about items you can order.
 The `History` tab shows a transcription of your conversation. The menu in the top right provides and option for downloading the transcription. 

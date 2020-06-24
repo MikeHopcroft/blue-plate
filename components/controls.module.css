@@ -59,6 +59,11 @@
   font-weight: normal;
 }
 
+.historyItemHeader {
+  display: flex;
+  flex-direction: row;
+}
+
 .historyCart {
   padding-left: 3ex;
 }

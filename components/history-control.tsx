@@ -1,11 +1,20 @@
 import { Cart, ItemInstance, World } from 'prix-fixe';
 import React from 'react';
-import { FaKeyboard, FaMicrophone, FaQuestionCircle } from 'react-icons/fa';
+import {
+  FaComment,
+  FaKeyboard,
+  FaMicrophone,
+  FaQuestionCircle,
+  FaStickyNote,
+  FaThumbsDown,
+  FaThumbsUp
+} from 'react-icons/fa';
 import { connect } from 'react-redux'
 
-import { ApplicationState, HistoryItem, TextSource } from "../actions";
+import { ApplicationState, HistoryItem, TextSource, Correctness } from "../actions";
 
 import styles from './controls.module.css';
+import { Tooltip } from 'react-bootstrap';
 
 interface Props {
   history: HistoryItem[];
@@ -59,9 +68,14 @@ class HistoryControl extends React.Component<Props> {
   renderHistoryItem = (item: HistoryItem, index: number) => {
     return (
       <div className={styles.historyItem} key={'x' + index}>
-        { renderSource(item.source ) }
-        <b>{`${item.timestamp.toLocaleTimeString()}: `}</b>
-        <i>{item.text}</i>
+        <div className={styles.historyItemHeader}>
+          { renderCorrectness(item.correctness) }
+          { renderSource(item.source ) }
+          <b>{`${item.timestamp.toLocaleTimeString()}: `}</b>
+          <span style={{paddingLeft: '6px'}}><i>{item.text}</i></span>
+          {/* <div style={{flexGrow: 1}}></div> */}
+          { renderNote(item.note)}
+        </div>
         {this.renderCart(item.cart)}
       </div>
     );
@@ -108,6 +122,29 @@ function renderSourceIcon(source: TextSource) {
       return <FaMicrophone/>;
     default:
       return <FaQuestionCircle/>
+  }
+}
+
+function renderCorrectness(correctness: Correctness) {
+  return (<div>{renderCorrectnessIcon(correctness)}</div>);
+}
+
+function renderCorrectnessIcon(correctness: Correctness) {
+  switch (correctness) {
+    case Correctness.CORRECT:
+      return <FaThumbsUp style={{color: 'green'}}/>;
+    case Correctness.INCORRECT:
+      return <FaThumbsDown style={{color: 'red'}}/>;
+    default:
+      return <FaQuestionCircle style={{color: 'lightgray'}}/>;
+  }
+}
+
+function renderNote(note?: string) {
+  if (note) {
+    return <div style={{paddingLeft: '4px'}}><FaComment style={{color: '#ffd699'}}/></div>;
+  } else {
+    return null;
   }
 }
 

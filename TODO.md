@@ -2,7 +2,7 @@
 
 * remove pages/api/hello.js
 * replace favicon.ico
-* remove vercel.svg
+* x remove vercel.svg
 * publish packages
 * github pages hosting with ssl.
   * https://help.github.com/en/github/working-with-github-pages/about-github-pages
