@@ -31,7 +31,10 @@ export function* loadWorldSaga(action: LoadWorldAction) {
     ['/samples/menu/coffee.yaml', coffee],
   ]);
 
-  const spec: CatalogSpec = yield loadCatalogSpec(loader, '/samples/menu/menu.yaml');
+  const spec: CatalogSpec = yield loadCatalogSpec(
+    loader,
+    '/samples/menu/menu.yaml'
+  );
   const world = createWorld3(spec);
   const shortOrderWorld = createShortOrderWorld2(
     world,
@@ -40,7 +43,7 @@ export function* loadWorldSaga(action: LoadWorldAction) {
     true
   );
 
-  yield(put(setWorld(world, shortOrderWorld)));
+  yield(put(setWorld(world, shortOrderWorld, lexiconSpec)));
 }
 
 // TODO: clean this up.

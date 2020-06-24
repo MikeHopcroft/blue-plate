@@ -1,5 +1,5 @@
 import { World, Cart } from 'prix-fixe';
-import { ShortOrderWorld } from 'short-order';
+import { LexiconSpec, ShortOrderWorld } from 'short-order';
 
 import { ApplicationMode, TextSource } from "./application-state";
 
@@ -107,10 +107,20 @@ export interface SetWorldAction {
   type: ActionType.SET_WORLD;
   world: World;
   shortOrderWorld: ShortOrderWorld;
+  lexiconSpec: LexiconSpec;
 };
 
-export function setWorld(world: World, shortOrderWorld: ShortOrderWorld): SetWorldAction {
-  return { type: ActionType.SET_WORLD, world, shortOrderWorld };
+export function setWorld(
+  world: World,
+  shortOrderWorld: ShortOrderWorld,
+  lexiconSpec: LexiconSpec
+): SetWorldAction {
+  return {
+    type: ActionType.SET_WORLD,
+    world,
+    shortOrderWorld,
+    lexiconSpec,
+  };
 }
 
 export interface SetSpeechSupportAction {

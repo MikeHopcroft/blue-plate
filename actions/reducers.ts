@@ -148,12 +148,13 @@ function applySetSpeechSupport(
 
 function applySetWorld(
   appState: ApplicationState,
-  { world, shortOrderWorld }: SetWorldAction
+  { world, shortOrderWorld, lexiconSpec }: SetWorldAction
 ): ApplicationState {
   return {
     ...appState,
     world,
     shortOrderWorld,
+    lexiconSpec,
     cart: { items: [] },
   };
 }

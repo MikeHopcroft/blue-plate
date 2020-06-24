@@ -1,24 +1,44 @@
 import React from 'react';
 import { connect } from 'react-redux'
+import { LexiconSpec, TokenSpec } from 'short-order';
 
-import { ApplicationState, AnyAction, record } from "../actions";
+import { ApplicationState } from "../actions";
+
+import styles from './controls.module.css';
 
 interface Props {
-  application: ApplicationState;
+  lexiconSpec?: LexiconSpec;
 };
 
 class LexiconControl extends React.Component<Props> {
   render() {
-    return (
-      <h1>
-        Lexicon
-      </h1>
-    );
+    if (!this.props.lexiconSpec) {
+      return null;
+    } else {
+      return renderLexicon(this.props.lexiconSpec);
+    }
   }
 }
 
-function mapStateToProps(application: ApplicationState) {
-  return { application };
+function renderLexicon(lexicon: LexiconSpec) {
+  return lexicon.lexicon.map(renderTokenSpec);
+}
+
+function renderTokenSpec(spec: TokenSpec, index1) {
+  return (
+    <div className={styles.lexiconToken} key={index1}>
+      {spec.name}
+      {spec.aliases.map((alias,index2) => 
+        <div className={styles.lexiconAlias} key={index2}>
+          {alias}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function mapStateToProps({ lexiconSpec }: ApplicationState) {
+  return { lexiconSpec };
 }
 
 export default connect(mapStateToProps)(LexiconControl);

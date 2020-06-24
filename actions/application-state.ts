@@ -1,5 +1,5 @@
 import { Cart, World } from 'prix-fixe';
-import { ShortOrderWorld } from 'short-order';
+import { LexiconSpec, ShortOrderWorld } from 'short-order';
 
 import { getSampleHistory } from './sample-history';
 
@@ -25,6 +25,7 @@ export interface ApplicationState {
   world?: World;
   speechSupport: boolean;
   shortOrderWorld?: ShortOrderWorld;
+  lexiconSpec?: LexiconSpec;
   mode: ApplicationMode;
   isRecording: boolean;
   transcription: string;

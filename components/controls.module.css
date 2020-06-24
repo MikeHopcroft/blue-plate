@@ -67,6 +67,16 @@
   padding: 1em;
 }
 
+.lexiconToken {
+  padding-bottom: 1ex;
+  font-weight: bold;
+}
+
+.lexiconAlias {
+  padding-left: 1em;
+  font-weight: normal;
+}
+
 .recorder {
   background-color: lightgray;
   padding: 4px;

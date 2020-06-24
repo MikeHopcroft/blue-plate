@@ -1,5 +1,14 @@
 # TODO List
 
+* remove pages/api/hello.js
+* replace favicon.ico
+* remove vercel.svg
+* publish packages
+* github pages hosting with ssl.
+  * https://help.github.com/en/github/working-with-github-pages/about-github-pages
+  * https://help.github.com/en/github/working-with-github-pages/securing-your-github-pages-site-with-https
+* Prototype modal dialogs
+* Use gts
 * Consider making chrome warning more visible
   * Perhaps a permanant part of the layout?
 * History scroll to bottom scrolls Info to the bottom as well.
@@ -14,9 +23,6 @@
 * x Integrate short-order
 * x Chrome browser detection and message
   * x Allow text box entry instead of STT
-* github pages hosting with ssl.
-  * https://help.github.com/en/github/working-with-github-pages/about-github-pages
-  * https://help.github.com/en/github/working-with-github-pages/securing-your-github-pages-site-with-https
 * After first end-to-end run
   * Figure out what goes into the sagas
   * Consider replacing Cart with State
@@ -38,7 +44,6 @@
 * Scroll bar on cart
 * Add banner at top
   * Need to think about this - it looks cluttered
-* Use gts
 * Upload bug report or open issue on github
 * x Find proper home for .tab-content rule in _app.css.
 * Web Speech
@@ -87,6 +92,8 @@
 * Graph Tab
   * Locate graphing code
 * Lexicon Tab
+  * x Initial version
+  * Explanatory text, perhaps in markdown.
 * History Tab
   * x Icon to indicate typed vs recorded
   * Icon to indicate correct vs incorrect
