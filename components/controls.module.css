@@ -62,6 +62,15 @@
   padding: 4px;
 }
 
+.recorderInput {
+  display: flex;
+  flex-direction: row;
+}
+
+/* .recorderOutput {
+
+} */
+
 .warning {
   border-color: red;
   border-style: solid;

@@ -1,5 +1,7 @@
 # TODO List
 
+* History scroll to bottom scrolls Info to the bottom as well.
+  * Seems like tabs all share the same scroll position value.
 * Glitch while loading - info pane renders before cart.
   * This may be the markdown re-rendering.
 * x Integrate token-flow

@@ -7,6 +7,7 @@ import { Dispatch } from 'redux'
 import { ApplicationState, AnyAction, process, record } from "../actions";
 
 import styles from './controls.module.css';
+import { Col, Form, Row } from "react-bootstrap";
 
 interface Props {
   application: ApplicationState;
@@ -16,6 +17,12 @@ interface Props {
 
 class RecorderControl extends React.Component<Props> {
   private recognition: any;
+  private input: React.RefObject<HTMLInputElement>;
+
+  constructor(props: Props) {
+    super(props)
+    this.input = React.createRef()
+  }
 
   async componentDidMount() {
     const SpeechRecognition =
@@ -59,31 +66,48 @@ class RecorderControl extends React.Component<Props> {
     this.recognition.stop();
   }
 
+  public onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      console.log('submitText');
+      this.props.transcriptionReady(this.input.current.value, true);
+      this.input.current.value = '';
+      e.preventDefault()
+    }
+  }
+
   render() {
     return (
       <div className={styles.recorder}>
-        <Button
-          className="btn btn-success btn-sm"
-          disabled={
-            !this.props.application.speechSupport ||
-            this.props.application.isRecording
-          }
-          onClick={this.startRecognition}
-        >
-          <FaMicrophone/>
-          <i className="fa fa-microphone"/> Start Recording
-        </Button>
-        <Button
-          className="btn btn-danger btn-sm"
-          disabled={
-            !this.props.application.speechSupport ||
-            !this.props.application.isRecording
-          }
-          onClick={this.endRecognition}
-        >
-          <FaMicrophoneSlash/>
-          <i className="fa fa-microphone-slash"/> Stop Recording
-        </Button>
+        <div className={styles.recorderInput}>
+          <Button
+            className="btn btn-success btn-sm"
+            disabled={
+              !this.props.application.speechSupport ||
+              this.props.application.isRecording
+            }
+            onClick={this.startRecognition}
+          >
+            <FaMicrophone />
+            Start Recording
+          </Button>
+          <Button
+            className="btn btn-danger btn-sm"
+            disabled={
+              !this.props.application.speechSupport ||
+              !this.props.application.isRecording
+            }
+            onClick={this.endRecognition}
+          >
+            <FaMicrophoneSlash />
+            Stop Recording
+          </Button>
+          <input
+            style={{flexGrow: 1, marginLeft: '2em'}}
+            type="text"
+            placeholder="enter text"
+            ref = {this.input} onKeyDown={this.onKeyDown}
+          ></input>
+        </div>
         <div>
           <b>Transcription: </b>
           <i>
