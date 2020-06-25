@@ -1,4 +1,4 @@
-import { Cart, World } from 'prix-fixe';
+import { Cart, PID, World } from 'prix-fixe';
 import { LexiconSpec, ShortOrderWorld } from 'short-order';
 
 import { getSampleHistory } from './sample-history';
@@ -38,6 +38,7 @@ export interface ApplicationState {
   transcription: string;
   cart: Cart;
   history: HistoryItem[];
+  currentPID?: PID;
 }
 
 export function initialState(): ApplicationState {
@@ -50,5 +51,6 @@ export function initialState(): ApplicationState {
       items: []
     },
     history: getSampleHistory(),
+    currentPID: 302
   }
 }

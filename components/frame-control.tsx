@@ -9,13 +9,14 @@ import { Dispatch } from 'redux'
 import { ApplicationState, AnyAction, setSpeechSupport } from "../actions";
 
 import CartControl from './cart-control';
+import GraphControl from './graph-control';
 import HamburgerControl from './hamburger-control';
+import HistoryControl from './history-control';
 import InfoControl from './info-control';
 import LexiconControl from './lexicon-control';
-import MenuControl from './menu-control';
-import GraphControl from './graph-control';
-import HistoryControl from './history-control';
 import LoadingControl from './loading-control';
+import MenuControl from './menu-control';
+import ProductDetailControl from './product-detail-control';
 import RecorderControl from './recorder-control';
 
 import styles from './controls.module.css';
@@ -31,7 +32,7 @@ class FrameControl extends React.Component<Props> {
       return (
         <div className={styles.frame}>
           <div>
-            <SplitPane split="horizontal" minSize={100} defaultSize={400}>
+            <SplitPane split="horizontal" minSize={100} defaultSize={600}>
               <div className={styles.frameUpperPanel}>
                 {this.renderTabs()}
               </div>

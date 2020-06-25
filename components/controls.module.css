@@ -82,6 +82,14 @@
   font-weight: normal;
 }
 
+.nested {
+  padding-left: 2ex;
+}
+
+.selected {
+  background-color: gray;
+}
+
 .recorder {
   background-color: lightgray;
   padding: 4px;

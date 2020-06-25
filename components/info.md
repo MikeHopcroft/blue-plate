@@ -20,12 +20,4 @@ You can say things like:
 * _Remove the strawberry jam._
 
 Click on the `Menu` tab at the top for information about items you can order.
-The `History` tab shows a transcription of your conversation. The menu in the top right provides and option for downloading the transcription. 
-
-For more information:
-* [short-order](https://github.com/MikeHopcroft/ShortOrder)
-* [token-flow](https://github.com/MikeHopcroft/TokenFlow)
-* [prix-fixe](https://github.com/MikeHopcroft/PrixFixe)
-
-
-![Example image](expansion1.png)
+The `History` tab shows a transcription of your conversation. The menu in the top right provides an option for downloading the transcription. 

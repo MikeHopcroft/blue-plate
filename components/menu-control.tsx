@@ -4,6 +4,9 @@ import { connect } from 'react-redux'
 
 import { ApplicationState } from "../actions";
 
+import ProductDetailControl from './product-detail-control';
+import ProductListControl from './product-list-control';
+
 interface Props {
   application: ApplicationState;
 };
@@ -11,17 +14,23 @@ interface Props {
 class MenuControl extends React.Component<Props> {
   render() {
     return (
-      <div>
-        {printCatalog(this.props.application.world!.catalog)}
+      <div style={{
+        display: 'flex',
+        flexDirection: 'row'
+      }}>
+        <ProductListControl/>
+        <ProductDetailControl/>
       </div>
     );
   }
 }
 
 function printCatalog(catalog: ICatalog) {
-  return [...catalog.specificEntities()].map(item => (
-    <div key={item.sku.toString()}>
-      {`${item.name} (${item.sku})`}
+  const products = [...catalog.genericEntities()];
+  products.sort((a,b) => (a.name.localeCompare(b.name)));
+  return products.map((item, index) => (
+    <div key={index}>
+      {item.name} ({item.pid})
     </div>
   ));
 }
