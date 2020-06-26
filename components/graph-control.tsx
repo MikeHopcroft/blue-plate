@@ -4,26 +4,6 @@ import React from 'react';
 import { createLayout, Edge, Layout } from './layout';
 
 import styles from './controls.module.css';
-import { renderGeneric } from './product-detail-control';
-
-// interface Edge2 {
-//   startCol: number;
-//   endCol: number;
-//   text: string;
-// }
-
-// interface Column2 {
-//   x1: number;
-//   x2: number;
-//   // in: Edge[];
-//   // out: Edge[];
-// }
-
-
-// interface Measure {
-//   width: number;
-//   height: number;
-// }
 
 interface Props {
   transcription: string;
@@ -51,10 +31,13 @@ export default class GraphControl extends React.Component<Props, State> {
     console.log('  map');
     // console.log(this.columns);
     return (
-      <g transform="translate(100,100)">
+      <g transform="translate(100,200)">
         { this.layout.edges.map((e,i) => (
-          <EdgeControl key={i} edge={e} padding={this.layout.xPadding}/>)
-        )}
+          <EdgeControl key={i} edge={e} padding={this.layout.xPadding}/>
+        ))}
+        { this.layout.columns.map(c => (
+          <circle cx={c.x1} cy={0} r={5} className={styles.graphVertex}/>
+        ))}
       </g>
     );
   }
@@ -117,20 +100,11 @@ class EdgeControl extends React.Component<EdgeProps, EdgeState> {
       y: e.y + e.textHeight * 0.35,
     }
 
-    const centerY = e.y; // - e.textHeight * 0.5;
-
     return (
       <g>
         <path
           className={styles.graphPath}
-          d={`
-            M${e.x},${0}
-            H${e.x + padding}
-            V${centerY}
-            H${e.x + e.width - padding}
-            V${0}
-            H${e.x + e.width}
-          `}
+          d = {this.getPath()}
         />
         <rect {...dimensionsBox} className={styles.graphShape}/>
         <text {...dimensionsText} ref={e.control} className={styles.graphText}>
@@ -138,6 +112,46 @@ class EdgeControl extends React.Component<EdgeProps, EdgeState> {
         </text>
       </g>
     );
+  }
+
+  getPath(): string {
+    const padding = this.props.padding;
+    const e = this.props.edge;
+
+    const u = padding/2;
+    const left = e.x;
+    const right = e.x + e.width;
+
+    if (e.y === 0) {
+      return `
+        M${left},${0}
+        H${right}
+      `;
+    } else if (e.y > 0) {
+      return `
+        M${left},${0}
+        h${u}
+        a${u},${u},0,0,1,${u},${u}
+        V${e.y-u}
+        a${u},${u},0,0,0,${u},${u}
+        H${right - 3*u}
+        a${u},${u},0,0,0,${u},${-u}
+        V${u}
+        a${u},${u},0,0,1,${u},${-u}
+      `;
+    } else {
+      return `
+        M${left},${0}
+        h${u}
+        a${u},${u},0,0,0,${u},${-u}
+        V${e.y+u}
+        a${u},${u},0,0,1,${u},${-u}
+        H${right - 3*u}
+        a${u},${u},0,0,1,${u},${u}
+        V${-u}
+        a${u},${u},0,0,0,${u},${u}
+      `;
+    }
   }
 
   componentDidMount() {

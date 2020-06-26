@@ -90,6 +90,9 @@ export class Layout {
       } else {
         e.y = 0;
       }
+      if (e.text==='token2') {
+        e.y = -100;
+      }
       console.log(`${i}: "${e.text}" y=${e.y}`);
     }
 

@@ -90,6 +90,22 @@
   * react-router for detail selection?
 * Test Authoring Tab
 * Graph Tab
+  * Top
+    * Use results of layout to set translation of entire graph
+    * Render paths under boxes
+    * x Circles between labels
+    * x Arcs on paths
+    * Different styling for words vs tokens
+    * Rounded corners on labels?
+    * Tooltips with weight, token type, value, etc.
+    * Perhaps only render boxes on first pass
+    * Row assignment
+    * Row height computation
+    * Highlighted path
+    * Integrate with token-flow
+    * Integrate with GraphPanelControl
+    * Display path selection UI
+    * Coalesce checkbox
   * Locate graphing code
   * Measuring text
     * .35em for vertical alignment with dy: https://stackoverflow.com/questions/19127035/what-is-the-difference-between-svgs-x-and-dx-attribute
