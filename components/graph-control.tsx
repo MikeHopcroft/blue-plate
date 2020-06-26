@@ -1,28 +1,36 @@
 import React from 'react';
+// import { Graph } from 'token-flow';
+
+import { createLayout, Edge, Layout } from './layout';
 
 import styles from './controls.module.css';
+import { renderGeneric } from './product-detail-control';
 
-interface EdgeInfo {
-  startCol: number;
-  endCol: number;
-}
+// interface Edge2 {
+//   startCol: number;
+//   endCol: number;
+//   text: string;
+// }
 
-interface Column {
-  x1: number;
-  x2: number;
-}
+// interface Column2 {
+//   x1: number;
+//   x2: number;
+//   // in: Edge[];
+//   // out: Edge[];
+// }
 
-interface Measure {
-  width: number;
-  height: number;
-}
+
+// interface Measure {
+//   width: number;
+//   height: number;
+// }
 
 interface Props {
-  edges: string[];
+  transcription: string;
 };
 
 interface State {
-  measures: Measure[];
+  measurePassId: Symbol;
 }
 
 const leftPadding = 10;
@@ -31,103 +39,51 @@ const run1 = 10;
 const rise = 50;
 
 export default class GraphControl extends React.Component<Props, State> {
-  edges: string[] = [];
-  edgeControls: Array<React.RefObject<EdgeControl>>;
-  edgeInfo: EdgeInfo[] = [];
-  columns: Column[] = [];
-  measures: Measure[];
+  transcription: string;
 
-  layout() {
-    console.log('inside layout xxx');
-    console.log('inside layout yyy');
-    console.log(this);
-    let x = leftPadding;
-    this.columns = [];
-    for (const [i,e] of this.edges.entries()) {
-      console.log(`i=${i} e=${e}`);
-      const w = this.measures[i].width;
-      const x1 = x;
-      const x2 = x + w + 2 * (run0 + run1);
-      console.log('here');
-      this.columns.push({x1, x2});
-      x = x2;
-      console.log(this);
-    }
-  }
+  layout: Layout;
+  measurePassId: Symbol;
 
   render() {
     console.log('GraphControl.render()');
-    if (this.edges !== this.props.edges) {
+    if (this.transcription !== this.props.transcription) {
       // Props changed. Render structure in order to gather text box measures.
-      console.log('  measure');
-      this.edges = this.props.edges;
-      this.edgeControls = this.edges.map(x => React.createRef<EdgeControl>());
-      this.measures = this.edges.map(x => ({width: 0, height: 0}));
-      this.columns = this.edges.map(x => ({x1: 0, x2: 0}));
-    } else if (this.measures !== this.state.measures) {
-        // We just got new text box measures. Layout before rendering.
-        console.log('  layout')
-        this.measures = this.state.measures;
-        this.layout();
+      console.log('  create layout');
+      this.transcription = this.props.transcription;
+      this.layout = createLayout(this.transcription);
     }
 
     console.log('  map');
-    console.log(this.columns);
-    return this.edges.map((x,i) => {
-      console.log(`  x=${x} i=${i}`);
-      console.log(this);
-      const c = this.columns[i];
-      const m = this.measures[i];
-
-      return <EdgeControl
-        key={i}
-        ref={this.edgeControls[i]}
-        x1={c.x1}
-        x2={c.x2}
-        y={100}
-        w={m.width}
-        h={m.height}
-        text={this.edges[i]}
-      />;
+    // console.log(this.columns);
+    return this.layout.edges.map((e,i) => {
+      return <EdgeControl key={i} edge={e}/>;
     });
   }
 
   componentDidMount() {
     console.log('GraphControl.componentDidMount() xxx');
-    console.log(this);
-    const measures: Measure[] = [];
-    for (const [i, e] of this.edgeControls.entries()) {
-      const { width, height } = e.current.textElement.current.getBBox();
-      console.log(`  width=${width} height=${height}`);
-      measures.push({ width, height });
-    }
-    this.setState({ measures });
+    this.layout.measure();
+    this.layout.layout();
+
+    // Force rerender since measurements have changed.
+    this.setState({ measurePassId: this.layout.measurePassId})
   }
 
   componentDidUpdate() {
     console.log('GraphControl.componentDidUpdate()');
-    console.log(this);
-    console.log(this.measures !== this.state.measures);
-    if (this.measures !== this.state.measures) {
-      // this.measures = this.state.measures;
-      const measures: Measure[] = [];
-      for (const [i, e] of this.edgeControls.entries()) {
-        const { width, height } = e.current.textElement.current.getBBox();
-        console.log(`  width=${width} height=${height}`);
-        measures.push({ width, height });
-      }
-      this.setState({ measures: measures });
+
+    if (this.layout.measurePassId !== this.state.measurePassId) {
+      this.layout.measure();
+      this.layout.layout();
+
+      // Force rerender since measurements have changed.
+      this.setState({ measurePassId: this.layout.measurePassId})
     }
   }
 }
 
 interface EdgeProps {
-  x1: number;
-  x2: number;
-  y: number;
-  w: number;
-  h: number;
-  text: string;
+  edge: Edge;
 }
 
 interface EdgeState {
@@ -146,23 +102,26 @@ class EdgeControl extends React.Component<EdgeProps, EdgeState> {
 
   render() {
     console.log('EdgeControl.render()');
+    const e = this.props.edge;
+
+    const padding = (e.width - e.textWidth)/2;
     const dimensionsBox = {
-      x: this.props.x1,
-      y: this.props.y - this.props.h * 0.825,
-      width: this.props.w,
-      height: this.props.h,
+      x: e.x + padding,
+      y: e.y - e.textHeight * 0.825 + 200,
+      width: e.textWidth,
+      height: e.textHeight,
     }
 
     const dimensionsText = {
-      x: this.props.x1,
-      y: this.props.y,
+      x: e.x + padding,
+      y: e.y + 200,
     }
 
     return (
       <g>
         <rect {...dimensionsBox} className={styles.graphShape}/>
-        <text {...dimensionsText} ref={this.textElement} className={styles.graphText}>
-          { this.props.text }
+        <text {...dimensionsText} ref={e.control} className={styles.graphText}>
+          { e.text }
         </text>
       </g>
     );
@@ -170,15 +129,13 @@ class EdgeControl extends React.Component<EdgeProps, EdgeState> {
 
   componentDidMount() {
     console.log('EdgeControl.componentDidMount()');
-    this.currentProps = this.props;
-    this.setState({ bbox: this.textElement.current.getBBox() });
   }
 
   componentDidUpdate() {
     console.log('EdgeControl.componentDidUpdate()');
-    if (this.currentProps !== this.props) {
-      this.currentProps = this.props;
-      this.setState({ bbox: this.textElement.current.getBBox() });
-    }
+    // if (this.currentProps !== this.props) {
+    //   this.currentProps = this.props;
+    //   this.setState({ bbox: this.textElement.current.getBBox() });
+    // }
   }
 }
