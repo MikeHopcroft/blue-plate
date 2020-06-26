@@ -48,6 +48,12 @@
   stroke: blue;
 }
 
+.graphPath {
+  fill: none;
+  stroke: red;
+  stroke-width: 3px;
+}
+
 .graphText {
   font: italic 36px sans-serif;
   line-height: 0.65

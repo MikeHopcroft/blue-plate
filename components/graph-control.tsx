@@ -33,11 +33,6 @@ interface State {
   measurePassId: Symbol;
 }
 
-const leftPadding = 10;
-const run0 = 10;
-const run1 = 10;
-const rise = 50;
-
 export default class GraphControl extends React.Component<Props, State> {
   transcription: string;
 
@@ -55,9 +50,13 @@ export default class GraphControl extends React.Component<Props, State> {
 
     console.log('  map');
     // console.log(this.columns);
-    return this.layout.edges.map((e,i) => {
-      return <EdgeControl key={i} edge={e}/>;
-    });
+    return (
+      <g transform="translate(100,100)">
+        { this.layout.edges.map((e,i) => (
+          <EdgeControl key={i} edge={e} padding={this.layout.xPadding}/>)
+        )}
+      </g>
+    );
   }
 
   componentDidMount() {
@@ -84,6 +83,7 @@ export default class GraphControl extends React.Component<Props, State> {
 
 interface EdgeProps {
   edge: Edge;
+  padding: number;
 }
 
 interface EdgeState {
@@ -104,21 +104,34 @@ class EdgeControl extends React.Component<EdgeProps, EdgeState> {
     console.log('EdgeControl.render()');
     const e = this.props.edge;
 
-    const padding = (e.width - e.textWidth)/2;
+    const padding = this.props.padding;
     const dimensionsBox = {
-      x: e.x + padding,
-      y: e.y - e.textHeight * 0.825 + 200,
+      x: e.x + 2 * padding,
+      y: e.y - e.textHeight * 0.5,
       width: e.textWidth,
       height: e.textHeight,
     }
 
     const dimensionsText = {
-      x: e.x + padding,
-      y: e.y + 200,
+      x: e.x + 2 * padding,
+      y: e.y + e.textHeight * 0.35,
     }
+
+    const centerY = e.y; // - e.textHeight * 0.5;
 
     return (
       <g>
+        <path
+          className={styles.graphPath}
+          d={`
+            M${e.x},${0}
+            H${e.x + padding}
+            V${centerY}
+            H${e.x + e.width - padding}
+            V${0}
+            H${e.x + e.width}
+          `}
+        />
         <rect {...dimensionsBox} className={styles.graphShape}/>
         <text {...dimensionsText} ref={e.control} className={styles.graphText}>
           { e.text }

@@ -44,7 +44,7 @@ export class Layout {
       const { width, height } = e.control.current.getBBox();
       e.textWidth = width;
       e.textHeight = height;
-      e.width = width + 2 * this.xPadding;
+      e.width = 0; //width + 2 * this.xPadding;
       e.height = height + 2 * this.yPadding;
     }
   }
@@ -61,10 +61,13 @@ export class Layout {
     for (const c of this.columns) {
       c.x1 = 0;
       for (const e of c.in) {
-        const x = e.x + e.width;
+        const x = e.x + e.textWidth + this.xPadding * 4;
         if (x > c.x1) {
           c.x1 = x;
         }
+      }
+      for (const e of c.in) {
+        e.width = c.x1 - e.x;
       }
       for (const e of c.out) {
         e.x = c.x1;
@@ -138,8 +141,8 @@ export function createLayout(text: string): Layout {
   }
 
   const edges: Edge[] = words.map((word,i) => new Edge(i, i+1, word));
-  edges.push(new Edge(0, 1, 'token0'));
-  edges.push(new Edge(0, 3, 'token1'));
+  edges.push(new Edge(0, 1, 'token0a'));
+  edges.push(new Edge(0, 2, 'token1xxxxxxxxxxyyyyyyyy'));
   edges.push(new Edge(1, 4, 'token2'));
 
   for (const [i,e] of edges.entries()) {
