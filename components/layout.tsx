@@ -126,17 +126,19 @@ export class Layout {
     this.rows[0].y = 0;
 
     let y = this.rows[0].height / 2 + this.yPadding;
+    // let y = this.yPadding;
     // Even rows go one the baseline and below.
     for (let i = 1; i < this.rows.length; i += 2) {
       this.rows[i].y = y;
-      y += this.rows[i].height + this.yPadding;
+      y += this.rows[i].height / 2 + this.yPadding;
     }
 
     // Odd rows go above the baseline.
     y = -this.rows[0].height / 2 - this.yPadding;
+    // y = -this.yPadding;
     for (let i = 2; i < this.rows.length; i += 2) {
       this.rows[i].y = y;
-      y -= this.rows[i].height + this.yPadding;
+      y -= this.rows[i].height / 2 + this.yPadding;
     }
 
     for (const e of this.edges) {
@@ -155,6 +157,12 @@ export class Layout {
     this.rows.push(r);
     r.tryAssign(e);
   }
+}
+
+export enum EdgeTreatment {
+  WORD = 'WORD',
+  TOKEN = 'TOKEN',
+  SELECTED = 'SELECTED'
 }
 
 export class Edge {
@@ -176,10 +184,18 @@ export class Edge {
 
   row: Row;
 
-  constructor(startCol: number, endCol: number, text: string) {
+  treatment: EdgeTreatment;
+
+  constructor(
+    startCol: number,
+    endCol: number,
+    text: string,
+    treatment: EdgeTreatment
+  ) {
     this.startCol = startCol;
     this.endCol = endCol;
     this.text = text;
+    this.treatment = treatment;
 
     this.length = endCol - startCol;
     this.control = React.createRef<SVGTextElement>();
@@ -200,10 +216,10 @@ export function createLayout(text: string): Layout {
     words.push(`word${words.length + 1}`);
   }
 
-  const edges: Edge[] = words.map((word,i) => new Edge(i, i+1, word));
-  edges.push(new Edge(0, 2, 'token0aaaa'));
-  edges.push(new Edge(0, 2, 'token1xxxxxxxxxxyyyyyyyy'));
-  edges.push(new Edge(1, 4, 'token2'));
+  const edges: Edge[] = words.map((word,i) => new Edge(i, i+1, word, EdgeTreatment.WORD));
+  edges.push(new Edge(0, 2, 'token0aaaa', EdgeTreatment.SELECTED));
+  edges.push(new Edge(0, 2, 'token1xxxxxxxxxxyyyyyyyy', EdgeTreatment.TOKEN));
+  edges.push(new Edge(1, 4, 'token2', EdgeTreatment.TOKEN));
 
   for (const [i,e] of edges.entries()) {
     console.log(`${i}: "${e.text}"`);

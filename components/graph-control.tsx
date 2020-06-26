@@ -1,7 +1,7 @@
 import React from 'react';
 // import { Graph } from 'token-flow';
 
-import { createLayout, Edge, Layout } from './layout';
+import { createLayout, Edge, Layout, EdgeTreatment } from './layout';
 
 import styles from './controls.module.css';
 
@@ -29,16 +29,25 @@ export default class GraphControl extends React.Component<Props, State> {
     }
 
     console.log('  map');
+    const selected = this.layout.edges.filter(e => e.treatment === EdgeTreatment.SELECTED);
+    const other = this.layout.edges.filter(e => e.treatment !== EdgeTreatment.SELECTED);
     return (
       <g transform="translate(100,200)">
-        { this.layout.edges.map((e,i) => (
+        { this.layout.columns.map((c,i) => (
+          <circle key={i} cx={c.x1} cy={0} r={5} className={styles.graphVertex}/>
+        ))}
+        { other.map((e,i) => (
           <EdgePath key={i} edge={e} padding={this.layout.xPadding}/>
+        ))}
+        { selected.map((e,i) => (
+          <g key={i}>
+            <EdgePath  edge={e} padding={this.layout.xPadding}/>
+            <circle cx={e.x} cy={0} r={5} className={styles.graphVertexSelected}/>
+            <circle cx={e.x + e.width} cy={0} r={5} className={styles.graphVertexSelected}/>
+          </g>
         ))}
         { this.layout.edges.map((e,i) => (
           <EdgeLabel key={i} edge={e} padding={this.layout.xPadding}/>
-        ))}
-        { this.layout.columns.map((c,i) => (
-          <circle key={i} cx={c.x1} cy={0} r={5} className={styles.graphVertex}/>
         ))}
       </g>
     );
@@ -76,6 +85,11 @@ class EdgeLabel extends React.Component<EdgeProps> {
     console.log('EdgeControl.render()');
     const e = this.props.edge;
 
+    const treatment = (e.treatment === EdgeTreatment.SELECTED) ?
+      styles.graphShapeSelected : (e.treatment === EdgeTreatment.WORD) ?
+      styles.graphShapeWord : styles.graphShapeToken;
+    const className = `${styles.graphShape} ${treatment}`;
+
     const padding = this.props.padding;
     const dimensionsBox = {
       x: e.x + 2 * padding,
@@ -91,52 +105,12 @@ class EdgeLabel extends React.Component<EdgeProps> {
 
     return (
       <g>
-        <rect {...dimensionsBox} className={styles.graphShape}/>
+        <rect {...dimensionsBox} className={className}/>
         <text {...dimensionsText} ref={e.control} className={styles.graphText}>
           { e.text }
         </text>
       </g>
     );
-  }
-
-  getPath(): string {
-    const padding = this.props.padding;
-    const e = this.props.edge;
-
-    const u = padding/2;
-    const left = e.x;
-    const right = e.x + e.width;
-
-    if (e.y === 0) {
-      return `
-        M${left},${0}
-        H${right}
-      `;
-    } else if (e.y > 0) {
-      return `
-        M${left},${0}
-        h${u}
-        a${u},${u},0,0,1,${u},${u}
-        V${e.y-u}
-        a${u},${u},0,0,0,${u},${u}
-        H${right - 3*u}
-        a${u},${u},0,0,0,${u},${-u}
-        V${u}
-        a${u},${u},0,0,1,${u},${-u}
-      `;
-    } else {
-      return `
-        M${left},${0}
-        h${u}
-        a${u},${u},0,0,0,${u},${-u}
-        V${e.y+u}
-        a${u},${u},0,0,1,${u},${-u}
-        H${right - 3*u}
-        a${u},${u},0,0,1,${u},${u}
-        V${-u}
-        a${u},${u},0,0,0,${u},${u}
-      `;
-    }
   }
 }
 
@@ -144,12 +118,16 @@ class EdgePath extends React.Component<EdgeProps> {
   render() {
     console.log('EdgePath.render()');
     const e = this.props.edge;
+    const className =
+      (e.treatment === EdgeTreatment.SELECTED) ?
+      styles.graphPathSelected :
+      styles.graphPath;
 
-    const padding = this.props.padding;
+      const padding = this.props.padding;
 
     return (
       <path
-        className={styles.graphPath}
+        className={className}
         d = {this.getPath()}
       />
     );
@@ -179,6 +157,7 @@ class EdgePath extends React.Component<EdgeProps> {
         a${u},${u},0,0,0,${u},${-u}
         V${u}
         a${u},${u},0,0,1,${u},${-u}
+        H${right}
       `;
     } else {
       return `
@@ -191,6 +170,7 @@ class EdgePath extends React.Component<EdgeProps> {
         a${u},${u},0,0,1,${u},${u}
         V${-u}
         a${u},${u},0,0,0,${u},${u}
+        H${right}
       `;
     }
   }

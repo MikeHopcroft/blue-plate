@@ -43,12 +43,28 @@
   overflow: auto;
 }
 
-.graphShape {
+.graphShapeSelected {
+  fill: pink;
+  stroke: red;
+}
+
+.graphShapeToken {
   fill: lightcyan;
   stroke: blue;
 }
 
+.graphShapeWord {
+  fill: lightgreen;
+  stroke: blue;
+}
+
 .graphPath {
+  fill: none;
+  stroke: black;
+  stroke-width: 3px;
+}
+
+.graphPathSelected {
   fill: none;
   stroke: red;
   stroke-width: 3px;
@@ -61,6 +77,11 @@
 
 .graphVertex {
   fill: black;
+  stroke: none;
+}
+
+.graphVertexSelected {
+  fill: red;
   stroke: none;
 }
 
