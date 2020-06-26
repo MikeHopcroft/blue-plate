@@ -92,7 +92,7 @@
 * Graph Tab
   * Top
     * Use results of layout to set translation of entire graph
-    * Render paths under boxes
+    * x Render paths under boxes
     * x Circles between labels
     * x Arcs on paths
     * Different styling for words vs tokens

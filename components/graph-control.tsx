@@ -29,11 +29,13 @@ export default class GraphControl extends React.Component<Props, State> {
     }
 
     console.log('  map');
-    // console.log(this.columns);
     return (
       <g transform="translate(100,200)">
         { this.layout.edges.map((e,i) => (
-          <EdgeControl key={i} edge={e} padding={this.layout.xPadding}/>
+          <EdgePath key={i} edge={e} padding={this.layout.xPadding}/>
+        ))}
+        { this.layout.edges.map((e,i) => (
+          <EdgeLabel key={i} edge={e} padding={this.layout.xPadding}/>
         ))}
         { this.layout.columns.map((c,i) => (
           <circle key={i} cx={c.x1} cy={0} r={5} className={styles.graphVertex}/>
@@ -69,20 +71,7 @@ interface EdgeProps {
   padding: number;
 }
 
-interface EdgeState {
-  bbox: SVGRect;
-}
-
-class EdgeControl extends React.Component<EdgeProps, EdgeState> {
-  textElement: React.RefObject<SVGTextElement>;
-  currentProps: EdgeProps;
-
-  constructor(props) {
-    super(props);
-
-    this.textElement = React.createRef()
-  }
-
+class EdgeLabel extends React.Component<EdgeProps> {
   render() {
     console.log('EdgeControl.render()');
     const e = this.props.edge;
@@ -102,10 +91,6 @@ class EdgeControl extends React.Component<EdgeProps, EdgeState> {
 
     return (
       <g>
-        <path
-          className={styles.graphPath}
-          d = {this.getPath()}
-        />
         <rect {...dimensionsBox} className={styles.graphShape}/>
         <text {...dimensionsText} ref={e.control} className={styles.graphText}>
           { e.text }
@@ -153,12 +138,60 @@ class EdgeControl extends React.Component<EdgeProps, EdgeState> {
       `;
     }
   }
+}
 
-  componentDidMount() {
-    console.log('EdgeControl.componentDidMount()');
+class EdgePath extends React.Component<EdgeProps> {
+  render() {
+    console.log('EdgePath.render()');
+    const e = this.props.edge;
+
+    const padding = this.props.padding;
+
+    return (
+      <path
+        className={styles.graphPath}
+        d = {this.getPath()}
+      />
+    );
   }
 
-  componentDidUpdate() {
-    console.log('EdgeControl.componentDidUpdate()');
+  getPath(): string {
+    const padding = this.props.padding;
+    const e = this.props.edge;
+
+    const u = padding/2;
+    const left = e.x;
+    const right = e.x + e.width;
+
+    if (e.y === 0) {
+      return `
+        M${left},${0}
+        H${right}
+      `;
+    } else if (e.y > 0) {
+      return `
+        M${left},${0}
+        h${u}
+        a${u},${u},0,0,1,${u},${u}
+        V${e.y-u}
+        a${u},${u},0,0,0,${u},${u}
+        H${right - 3*u}
+        a${u},${u},0,0,0,${u},${-u}
+        V${u}
+        a${u},${u},0,0,1,${u},${-u}
+      `;
+    } else {
+      return `
+        M${left},${0}
+        h${u}
+        a${u},${u},0,0,0,${u},${-u}
+        V${e.y+u}
+        a${u},${u},0,0,1,${u},${-u}
+        H${right - 3*u}
+        a${u},${u},0,0,1,${u},${u}
+        V${-u}
+        a${u},${u},0,0,0,${u},${u}
+      `;
+    }
   }
 }
