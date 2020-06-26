@@ -43,8 +43,13 @@
   overflow: auto;
 }
 
-.graphNode {
-  font: italic 60px sans-serif;
+.graphShape {
+  fill: lightcyan;
+  stroke: blue;
+}
+
+.graphText {
+  font: italic 36px sans-serif;
   line-height: 0.65
 }
 

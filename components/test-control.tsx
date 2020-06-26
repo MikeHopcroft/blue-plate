@@ -1,7 +1,6 @@
 import React from 'react';
 
 import styles from './controls.module.css';
-import { xxx } from './attributes-control';
 
 interface SVGState {
   text_extents: null | [number, number];
