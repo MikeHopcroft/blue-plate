@@ -91,6 +91,14 @@
 * Test Authoring Tab
 * Graph Tab
   * Locate graphing code
+  * Measuring text
+    * .35em for vertical alignment with dy: https://stackoverflow.com/questions/19127035/what-is-the-difference-between-svgs-x-and-dx-attribute
+    * Most promising: https://stackoverflow.com/questions/44748197/calculating-svg-bounding-boxes-with-react
+    * https://medium.com/@CarysMills/wrapping-svg-text-without-svg-2-ecbfb58f7ba4
+    * https://stackoverflow.com/questions/53767047/how-to-measure-width-of-a-string-in-svg-before-creating-the-actual-svg-element
+    * https://stackoverflow.com/questions/43880276/how-to-measure-svg-elements-in-react
+    * https://docs.jsplumbtoolkit.com/community/current/index.html
+    * https://blog.scottlogic.com/2015/02/02/svg-layout-flexbox.html
 * Lexicon Tab
   * x Initial version
   * Explanatory text, perhaps in markdown.
