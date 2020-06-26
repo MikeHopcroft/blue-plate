@@ -35,8 +35,8 @@ export default class GraphControl extends React.Component<Props, State> {
         { this.layout.edges.map((e,i) => (
           <EdgeControl key={i} edge={e} padding={this.layout.xPadding}/>
         ))}
-        { this.layout.columns.map(c => (
-          <circle cx={c.x1} cy={0} r={5} className={styles.graphVertex}/>
+        { this.layout.columns.map((c,i) => (
+          <circle key={i} cx={c.x1} cy={0} r={5} className={styles.graphVertex}/>
         ))}
       </g>
     );
@@ -160,9 +160,5 @@ class EdgeControl extends React.Component<EdgeProps, EdgeState> {
 
   componentDidUpdate() {
     console.log('EdgeControl.componentDidUpdate()');
-    // if (this.currentProps !== this.props) {
-    //   this.currentProps = this.props;
-    //   this.setState({ bbox: this.textElement.current.getBBox() });
-    // }
   }
 }

@@ -99,8 +99,8 @@
     * Rounded corners on labels?
     * Tooltips with weight, token type, value, etc.
     * Perhaps only render boxes on first pass
-    * Row assignment
-    * Row height computation
+    * x Row assignment
+    * x Row height computation
     * Highlighted path
     * Integrate with token-flow
     * Integrate with GraphPanelControl

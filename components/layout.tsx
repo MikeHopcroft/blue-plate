@@ -8,12 +8,47 @@ export interface Column {
   out: Edge[];
 }
 
+class Row {
+  edges: Array<Edge | null> = [];
+  height = 0;
+  y = 0;
+
+  constructor(columnCount: number) {
+    for (let i = 0; i < columnCount; ++i) {
+      this.edges.push(null);
+    }
+  }
+
+  tryAssign(e: Edge): boolean {
+    for (let i = e.startCol; i < e.endCol; ++i) {
+      if (this.edges[i]) {
+        return false;
+      }
+    }
+    for (let i = e.startCol; i < e.endCol; ++i) {
+      this.edges[i] = e;
+    }
+    e.row = this;
+    return true;
+  }
+
+  setHeight() {
+    this.height = 0;
+    for (const e of this.edges) {
+      if (e && e.height > this.height) {
+        this.height = e.height;
+      }
+    }
+  }
+}
+
 export class Layout {
   xPadding = 20;
   yPadding = 30;
 
   edges: Edge[];
   columns: Column[] = [];
+  rows: Row[] = [];
 
   measurePassId: Symbol = Symbol('measure');
 
@@ -77,28 +112,48 @@ export class Layout {
     //
     // Assign rows
     //
-    console.log(this.edges);
-    let y = 0;
-    for (const [i,e] of this.edges.entries()) {
-      // if (i < 5) {
-      //   e.y = 0;
-      // } else {
-      //   e.y = (i - 4) * 100;
-      // }
-      if (e.text.startsWith('token')) {
-        e.y = ++y * 100;
-      } else {
-        e.y = 0;
-      }
-      if (e.text==='token2') {
-        e.y = -100;
-      }
-      console.log(`${i}: "${e.text}" y=${e.y}`);
+    for (const e of this.edges) {
+      this.assign(e);
     }
 
     //
     // Layout y-coordinates
     //
+    for (const r of this.rows) {
+      r.setHeight();
+    }
+
+    this.rows[0].y = 0;
+
+    let y = this.rows[0].height / 2 + this.yPadding;
+    // Even rows go one the baseline and below.
+    for (let i = 1; i < this.rows.length; i += 2) {
+      this.rows[i].y = y;
+      y += this.rows[i].height + this.yPadding;
+    }
+
+    // Odd rows go above the baseline.
+    y = -this.rows[0].height / 2 - this.yPadding;
+    for (let i = 2; i < this.rows.length; i += 2) {
+      this.rows[i].y = y;
+      y -= this.rows[i].height + this.yPadding;
+    }
+
+    for (const e of this.edges) {
+      e.y = e.row.y;
+    }
+    console.log(this);
+  }
+
+  assign(e: Edge) {
+    for (const r of this.rows) {
+      if (r.tryAssign(e)) {
+        return;
+      }
+    }
+    const r = new Row(this.columns.length);
+    this.rows.push(r);
+    r.tryAssign(e);
   }
 }
 
@@ -118,6 +173,8 @@ export class Edge {
 
   x: number;
   y: number;
+
+  row: Row;
 
   constructor(startCol: number, endCol: number, text: string) {
     this.startCol = startCol;
@@ -144,7 +201,7 @@ export function createLayout(text: string): Layout {
   }
 
   const edges: Edge[] = words.map((word,i) => new Edge(i, i+1, word));
-  edges.push(new Edge(0, 1, 'token0a'));
+  edges.push(new Edge(0, 2, 'token0aaaa'));
   edges.push(new Edge(0, 2, 'token1xxxxxxxxxxyyyyyyyy'));
   edges.push(new Edge(1, 4, 'token2'));
 
