@@ -1,7 +1,9 @@
 # TODO List
 
-* chrome warning showing up in static site build.
-  * Actually - issue may be due to tab control mount/unmount.
+* up/down arrow for transcription box
+* x chrome warning showing up in static site build.
+  * x Actually - issue may be due to tab control mount/unmount.
+  * x Actually - was mistaken
 * remove pages/api/hello.js
 * replace favicon.ico
 * x remove vercel.svg
@@ -81,8 +83,9 @@
     * x https://www.newline.co/@dmitryrogozhny/how-to-render-markdown-in-react-with-react-markdown--5d1c3849
     * x General react notes, written in markdown: https://mnyark.github.io/react-markdown/#adding-images-fonts-and-files
 * Menu Tab
-  * Sort products
-  * Master/Detail for menu
+  * Product search filter
+  * x Sort products
+  * . Master/Detail for menu
   * Breadcrumb
     * product/attribute
     * product/option
@@ -91,18 +94,20 @@
   * Organize menu by products/options/groups
   * react-router for detail selection?
 * Test Authoring Tab
+* Settings Tab
 * Graph Tab
   * Top
+    * Edge sort order should perfer words over other edges.
+    * x Integrate with short-order and token-flow
+    * Display path selection UI
+    * Coalesce checkbox
     * x getBBox issue
       * https://stackoverflow.com/questions/21387965/getbbox-width-and-height-returns-0
       * https://stackoverflow.com/questions/40744176/getbbox-and-getcomputedtextlength-once-working-once-not
       * https://github.com/DmitryBaranovskiy/raphael/issues/760
       * https://stackoverflow.com/questions/28282295/getbbox-of-svg-when-hidden
     * x Use results of layout to set translation of entire graph
-    * Integrate with token-flow
     * x Integrate with GraphPanelControl
-    * Display path selection UI
-    * Coalesce checkbox
     * x Render paths under boxes
     * x Circles between labels
     * x Arcs on paths

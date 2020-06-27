@@ -1,5 +1,6 @@
 import { Cart, ItemInstance, World } from 'prix-fixe';
 import React from 'react';
+
 import {
   FaComment,
   FaKeyboard,
@@ -9,12 +10,12 @@ import {
   FaThumbsDown,
   FaThumbsUp
 } from 'react-icons/fa';
+
 import { connect } from 'react-redux'
 
 import { ApplicationState, HistoryItem, TextSource, Correctness } from "../actions";
 
 import styles from './controls.module.css';
-import { Tooltip } from 'react-bootstrap';
 
 interface Props {
   history: HistoryItem[];

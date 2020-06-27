@@ -53,7 +53,6 @@ class FrameControl extends React.Component<Props> {
     if (typeof window !== 'undefined') {
       const w = window as any;
       const b = Bowser.parse(window.navigator.userAgent);
-
       // TODO: use browser.satisfies() for Chrome detection.
       isChrome = b.browser.name === 'Chrome';
     }

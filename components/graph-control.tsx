@@ -1,19 +1,24 @@
 import React from 'react';
-// import { Graph } from 'token-flow';
+import { connect } from 'react-redux'
+import { ShortOrderWorld } from 'short-order';
 
-import { createLayout, Edge, Layout, EdgeTreatment } from './layout';
+import { ApplicationState } from "../actions";
+
+import { EdgeLabel, EdgePath } from './edge-controls';
+import { createLayout, Layout, EdgeTreatment } from './layout';
 
 import styles from './controls.module.css';
 
 interface Props {
   transcription: string;
+  shortOrderWorld?: ShortOrderWorld
 };
 
 interface State {
   measurePassId: Symbol;
 }
 
-export default class GraphControl extends React.Component<Props, State> {
+class GraphControl extends React.Component<Props, State> {
   transcription: string;
 
   layout: Layout;
@@ -25,7 +30,10 @@ export default class GraphControl extends React.Component<Props, State> {
       // Props changed. Render structure in order to gather text box measures.
       console.log('  create layout');
       this.transcription = this.props.transcription;
-      this.layout = createLayout(this.transcription);
+      this.layout = createLayout(
+        this.props.shortOrderWorld,
+        this.transcription
+      );
     }
 
     console.log('  map');
@@ -49,7 +57,7 @@ export default class GraphControl extends React.Component<Props, State> {
     return (
       <svg style={{ width: w, height: h }}>
         <g transform={translate}>
-          { r }
+          {/* { r } */}
           { this.layout.columns.map((c,i) => (
             <circle key={i} cx={c.x1} cy={0} r={5} className={styles.graphVertex}/>
           ))}
@@ -76,7 +84,7 @@ export default class GraphControl extends React.Component<Props, State> {
     this.layout.measure();
     this.layout.layout();
 
-    // Force rerender since measurements have changed.
+    // Trigger another render since measurements have changed.
     this.setState({ measurePassId: this.layout.measurePassId})
   }
 
@@ -88,7 +96,7 @@ export default class GraphControl extends React.Component<Props, State> {
       this.layout.measure();
       this.layout.layout();
 
-      // Force rerender since measurements have changed.
+      // Trigger another render since measurements have changed.
       this.setState({ measurePassId: this.layout.measurePassId})
     } else {
       console.log('  skip measure and layout');
@@ -96,109 +104,8 @@ export default class GraphControl extends React.Component<Props, State> {
   }
 }
 
-interface EdgeProps {
-  edge: Edge;
-  padding: number;
+function mapStateToProps({ shortOrderWorld, transcription}: ApplicationState) {
+  return { shortOrderWorld, transcription };
 }
 
-class EdgeLabel extends React.Component<EdgeProps> {
-  render() {
-    console.log('EdgeControl.render()');
-    const e = this.props.edge;
-
-    const treatment = (e.treatment === EdgeTreatment.SELECTED) ?
-      styles.graphShapeSelected : (e.treatment === EdgeTreatment.WORD) ?
-      styles.graphShapeWord : styles.graphShapeToken;
-    const className = `${styles.graphShape} ${treatment}`;
-
-    const padding = this.props.padding;
-    const dimensionsBox = {
-      x: e.x + 2 * padding,
-      y: e.y - e.textHeight * 0.5,
-      width: e.textWidth,
-      height: e.textHeight,
-    }
-
-    const dimensionsText = {
-      x: e.x + 2 * padding,
-      y: e.y + e.textHeight * 0.35,
-    }
-
-    return (
-      <g>
-        <rect {...dimensionsBox} className={className}/>
-        <text {...dimensionsText} ref={e.control} className={styles.graphText}>
-          { e.text }
-          <title>{e.text}</title>
-        </text>
-      </g>
-    );
-  }
-
-  
-  componentDidMount() {
-    console.log(`EdgeLabel.componentDidMount`);
-  }
-}
-
-class EdgePath extends React.Component<EdgeProps> {
-  render() {
-    console.log('EdgePath.render()');
-    const e = this.props.edge;
-    const className =
-      (e.treatment === EdgeTreatment.SELECTED) ?
-      styles.graphPathSelected :
-      styles.graphPath;
-
-      const padding = this.props.padding;
-
-    return (
-      <path
-        className={className}
-        d = {this.getPath()}
-      />
-    );
-  }
-
-  getPath(): string {
-    const padding = this.props.padding;
-    const e = this.props.edge;
-
-    const u = padding/2;
-    const left = e.x;
-    const right = e.x + e.width;
-
-    if (e.y === 0) {
-      return `
-        M${left},${0}
-        H${right}
-      `;
-    } else if (e.y > 0) {
-      return `
-        M${left},${0}
-        h${u}
-        a${u},${u},0,0,1,${u},${u}
-        V${e.y-u}
-        a${u},${u},0,0,0,${u},${u}
-        H${right - 3*u}
-        a${u},${u},0,0,0,${u},${-u}
-        V${u}
-        a${u},${u},0,0,1,${u},${-u}
-        H${right}
-      `;
-    } else {
-      return `
-        M${left},${0}
-        h${u}
-        a${u},${u},0,0,0,${u},${-u}
-        V${e.y+u}
-        a${u},${u},0,0,1,${u},${-u}
-        H${right - 3*u}
-        a${u},${u},0,0,1,${u},${u}
-        V${-u}
-        a${u},${u},0,0,0,${u},${u}
-        H${right}
-      `;
-    }
-  }
-}
+export default connect(mapStateToProps)(GraphControl);

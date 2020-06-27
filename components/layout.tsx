@@ -1,5 +1,58 @@
 import React from 'react';
-// import * as tf from 'token-flow';
+import { ShortOrderWorld, tokenToString } from 'short-order';
+import { coalesceGraph, filterGraph, Graph } from 'token-flow';
+
+
+export enum EdgeTreatment {
+  WORD = 'WORD',
+  TOKEN = 'TOKEN',
+  SELECTED = 'SELECTED'
+}
+
+export class Edge {
+  startCol: number;
+  endCol: number;
+  text: string;
+
+  length: number;
+  control: React.RefObject<SVGTextElement>;
+
+  textWidth: number;
+  textHeight: number;
+
+  width: number;
+  height: number;
+
+  x: number;
+  y: number;
+
+  row: Row;
+
+  treatment: EdgeTreatment;
+
+  constructor(
+    startCol: number,
+    endCol: number,
+    text: string,
+    treatment: EdgeTreatment
+  ) {
+    this.startCol = startCol;
+    this.endCol = endCol;
+    this.text = text;
+    this.treatment = treatment;
+
+    this.length = endCol - startCol;
+    this.control = React.createRef<SVGTextElement>();
+
+    this.textWidth = 0;
+    this.textHeight = 0;
+
+    this.width = 0;
+    this.height = 0;
+    this.x = 0;
+    this.y = 0;
+  }
+}
 
 export interface Column {
   x1: number;
@@ -46,7 +99,7 @@ export interface MinMax {x1: number, x2: number, y1:number, y2:number};
 
 export class Layout {
   xPadding = 20;
-  yPadding = 30;
+  yPadding = 10;
 
   edges: Edge[];
   columns: Column[] = [];
@@ -151,12 +204,6 @@ export class Layout {
     }
 
     // Upate the bounding box for the entire layout.
-    const e = this.edges[0];
-    let minX = e.x;
-    let maxX = e.x + e.width;
-    let minY = e.y;
-    let maxY = e.y + e.height;
-
     this.boundingBox = this.edges.reduce<Partial<MinMax>>((acc, edge) => {
       const x1 = edge.x;
       const x2 = edge.x + edge.width;
@@ -184,71 +231,46 @@ export class Layout {
   }
 }
 
-export enum EdgeTreatment {
-  WORD = 'WORD',
-  TOKEN = 'TOKEN',
-  SELECTED = 'SELECTED'
-}
+export function createLayout(world: ShortOrderWorld, text: string): Layout {
+  const terms = world.lexer.lexicon.termModel.breakWords(text);
 
-export class Edge {
-  startCol: number;
-  endCol: number;
-  text: string;
+  const rawGraph: Graph = world.lexer.createGraph(text);
 
-  length: number;
-  control: React.RefObject<SVGTextElement>;
+  // TODO: REVIEW: MAGIC NUMBER
+  const coalescedGraph = coalesceGraph(world.lexer.tokenizer, rawGraph);
+  const filteredGraph: Graph = filterGraph(coalescedGraph, 0.35);
+  // 0.35 is the score cutoff for the filtered graph.
 
-  textWidth: number;
-  textHeight: number;
-
-  width: number;
-  height: number;
-
-  x: number;
-  y: number;
-
-  row: Row;
-
-  treatment: EdgeTreatment;
-
-  constructor(
-    startCol: number,
-    endCol: number,
-    text: string,
-    treatment: EdgeTreatment
-  ) {
-    this.startCol = startCol;
-    this.endCol = endCol;
-    this.text = text;
-    this.treatment = treatment;
-
-    this.length = endCol - startCol;
-    this.control = React.createRef<SVGTextElement>();
-
-    this.textWidth = 0;
-    this.textHeight = 0;
-
-    this.width = 0;
-    this.height = 0;
-    this.x = 0;
-    this.y = 0;
+  const edges: Edge[] = [];
+  for (const [i, term] of terms.entries()) {
+    edges.push(new Edge(i, i + 1, term, EdgeTreatment.WORD));
   }
-}
-
-export function createLayout(text: string): Layout {
-  const words = text.split(/\s+/);
-  while (words.length < 5) {
-    words.push(`word${words.length + 1}`);
+  for (const [i, edgeList] of filteredGraph.edgeLists.entries()) {
+      // console.log(`  vertex ${i}: "${terms[i]}"`);
+      for (const edge of edgeList) {
+        const token = tokenToString(edge.token);
+        if (token !== '[UNKNOWNTOKEN]') {
+          edges.push(new Edge(i, i + edge.length, token, EdgeTreatment.TOKEN));
+        }
+        // console.log(`    length:${edge.length}, score:${edge.score.toFixed(2)}, token:${token}`);
+      }
   }
+  return new Layout(coalescedGraph.edgeLists.length, edges);
 
-  const edges: Edge[] = words.map((word,i) => new Edge(i, i+1, word, EdgeTreatment.WORD));
-  edges.push(new Edge(0, 2, 'token0aaaa', EdgeTreatment.SELECTED));
-  edges.push(new Edge(0, 2, 'token1xxxxxxxxxxyyyyyyyy', EdgeTreatment.TOKEN));
-  edges.push(new Edge(1, 4, 'token2', EdgeTreatment.TOKEN));
 
-  // for (const [i,e] of edges.entries()) {
-  //   console.log(`${i}: "${e.text}"`);
+  // const words = text.split(/\s+/);
+  // while (words.length < 5) {
+  //   words.push(`word${words.length + 1}`);
   // }
 
-  return new Layout(words.length, edges);
+  // const edges: Edge[] = words.map((word,i) => new Edge(i, i+1, word, EdgeTreatment.WORD));
+  // edges.push(new Edge(0, 2, 'token0aaaa', EdgeTreatment.SELECTED));
+  // edges.push(new Edge(0, 2, 'token1xxxxxxxxxxyyyyyyyy', EdgeTreatment.TOKEN));
+  // edges.push(new Edge(1, 4, 'token2', EdgeTreatment.TOKEN));
+
+  // // for (const [i,e] of edges.entries()) {
+  // //   console.log(`${i}: "${e.text}"`);
+  // // }
+
+  // return new Layout(words.length, edges);
 }
