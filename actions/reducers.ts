@@ -10,6 +10,7 @@ import {
   ResetAction,
   SetCartAction,
   SetModeAction,
+  SetPIDAction,
   SetWorldAction,
   SetSpeechSupportAction,
 } from './actions';
@@ -43,6 +44,8 @@ export const ApplicationStateReducer: Reducer<ApplicationState, AnyAction> =
         return applySetCart(state, action);
       case ActionType.SET_MODE:
         return applySetMode(state, action);
+      case ActionType.SET_PID:
+        return applySetPID(state, action);  
       case ActionType.SET_SPEECH_SUPPORT:
         return applySetSpeechSupport(state, action);
       case ActionType.SET_WORLD:
@@ -133,6 +136,16 @@ function applySetMode(
   return {
     ...appState,
     mode
+  };
+}
+
+function applySetPID(
+  appState: ApplicationState,
+  { pid }: SetPIDAction
+): ApplicationState {
+  return {
+    ...appState,
+    currentPID: pid,
   };
 }
 

@@ -98,9 +98,11 @@
     * x https://www.newline.co/@dmitryrogozhny/how-to-render-markdown-in-react-with-react-markdown--5d1c3849
     * x General react notes, written in markdown: https://mnyark.github.io/react-markdown/#adding-images-fonts-and-files
 * Menu Tab
-  * . Master/Detail for menu
+  * Cookbooks and recipes
+  * Close button for option detail pane returns to product.
   * Product search filter
   * Organize menu by products/options/groups
+  * x Master/Detail for menu
   * x Arrange options in columns
   * x Sort products
   * Breadcrumb

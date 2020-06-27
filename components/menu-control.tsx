@@ -14,9 +14,11 @@ interface Props {
 class MenuControl extends React.Component<Props> {
   render() {
     return (
-      <div style={{
+      <div className='foo' style={{
         display: 'flex',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        width: '100%',
+        height: '100%'
       }}>
         <ProductListControl/>
         <ProductDetailControl/>

@@ -1,4 +1,4 @@
-import { World, Cart } from 'prix-fixe';
+import { Cart, PID, World } from 'prix-fixe';
 import { LexiconSpec, ShortOrderWorld } from 'short-order';
 
 import { ApplicationMode, TextSource } from "./application-state";
@@ -12,6 +12,7 @@ export enum ActionType {
   RESET = 'RESET',
   SET_CART = 'SET_CART',
   SET_MODE = 'SET_MODE',
+  SET_PID = 'SET_PID',
   SET_SPEECH_SUPPORT = 'SET_SPEECH_SUPPORT',
   SET_WORLD = 'SET_WORLD',
 };
@@ -103,6 +104,15 @@ export function setMode(mode: ApplicationMode): SetModeAction {
   return { type: ActionType.SET_MODE, mode };
 }
 
+export interface SetPIDAction {
+  type: ActionType.SET_PID;
+  pid: PID;
+};
+
+export function setPID(pid: PID): SetPIDAction {
+  return { type: ActionType.SET_PID, pid };
+}
+
 export interface SetWorldAction {
   type: ActionType.SET_WORLD;
   world: World;
@@ -141,5 +151,6 @@ export type AnyAction =
   ResetAction |
   SetCartAction |
   SetModeAction |
+  SetPIDAction |
   SetWorldAction |
   SetSpeechSupportAction;

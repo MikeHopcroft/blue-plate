@@ -99,7 +99,7 @@ class FrameControl extends React.Component<Props> {
           <Tab.Pane eventKey="info">
             <InfoControl />
           </Tab.Pane>
-          <Tab.Pane eventKey="menu">
+          <Tab.Pane eventKey="menu" style={{height: '100%', overflow: 'auto'}}>
             <MenuControl />
           </Tab.Pane>
           <Tab.Pane eventKey="lexicon">
