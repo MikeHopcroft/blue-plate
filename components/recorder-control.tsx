@@ -19,7 +19,7 @@ interface Props {
   recording: (isRecording: boolean) => void;
   transcriptionReady: (
     source: TextSource,
-    transcription: string, 
+    transcription: string,
     final: boolean
   ) => void;
 };
@@ -27,6 +27,9 @@ interface Props {
 class RecorderControl extends React.Component<Props> {
   private recognition: any;
   private input: React.RefObject<HTMLInputElement>;
+
+  private historyIndex = 0;
+  private newText: string;
 
   constructor(props: Props) {
     super(props)
@@ -79,7 +82,10 @@ class RecorderControl extends React.Component<Props> {
     this.recognition.stop();
   }
 
-  public onKeyDown = (e: React.KeyboardEvent) => {
+  public onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const input = this.input.current;
+    const history = this.props.application.history;
+
     if (e.key === 'Enter') {
       console.log('submitText');
       this.props.transcriptionReady(
@@ -87,8 +93,40 @@ class RecorderControl extends React.Component<Props> {
         this.input.current.value,
         true
       );
-      this.input.current.value = '';
+      input.value = '';
+      this.historyIndex = 0;
       e.preventDefault()
+    } else if (e.key === 'ArrowUp') {
+      if (this.historyIndex < history.length) {
+        if (this.historyIndex === 0) {
+          this.newText = input.value;
+        }
+        ++this.historyIndex;
+        const text = history[
+          history.length - this.historyIndex
+        ].text;
+        input.value = text;
+        setCaretPosition(input, text.length);
+        e.preventDefault();
+      } else {
+        e.preventDefault();
+      }
+    } else if (e.key === 'ArrowDown') {
+      const history = this.props.application.history;
+      if (this.historyIndex > 1) {
+        --this.historyIndex;
+        const text = history[
+          history.length - this.historyIndex
+        ].text;
+        input.value = text;
+        setCaretPosition(input, text.length);
+        e.preventDefault();
+      } else {
+        this.historyIndex = 0;
+        input.value = this.newText;
+        setCaretPosition(input, this.newText.length);
+        e.preventDefault();
+      }
     }
   }
 
@@ -119,10 +157,10 @@ class RecorderControl extends React.Component<Props> {
             Stop Recording
           </Button>
           <input
-            style={{flexGrow: 1, marginLeft: '2em'}}
+            style={{ flexGrow: 1, marginLeft: '2em' }}
             type="text"
             placeholder="enter text"
-            ref = {this.input} onKeyDown={this.onKeyDown}
+            ref={this.input} onKeyDown={this.onKeyDown}
           ></input>
         </div>
         <div>
@@ -134,6 +172,13 @@ class RecorderControl extends React.Component<Props> {
       </div>
     );
   }
+}
+
+function setCaretPosition(input: HTMLInputElement, position: number) {
+  input.focus();
+  input.setSelectionRange(position, position);
+  input.selectionStart = position;
+  input.selectionEnd = position;
 }
 
 function mapStateToProps(application: ApplicationState) {

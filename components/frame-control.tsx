@@ -63,6 +63,10 @@ class FrameControl extends React.Component<Props> {
   // GraphControl layout algorithm. It turns out the getBBox() returns
   // an empty bounding box for svg text elements that aren't currently
   // visible.
+  //   https://stackoverflow.com/questions/21387965/getbbox-width-and-height-returns-0
+  //   https://stackoverflow.com/questions/40744176/getbbox-and-getcomputedtextlength-once-working-once-not
+  //   https://github.com/DmitryBaranovskiy/raphael/issues/760
+  //   https://stackoverflow.com/questions/28282295/getbbox-of-svg-when-hidden
   renderTabs() {
     return (
       <Tab.Container 

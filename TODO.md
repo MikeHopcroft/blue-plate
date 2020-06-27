@@ -1,6 +1,10 @@
 # TODO List
 
-* up/down arrow for transcription box
+* Checkbox to disable graph rendering
+* Tab for more-info/resources
+* Lexicon quantity - show value
+* intents for undo, start over, clear cart, etc
+* x up/down arrow for transcription box
 * sort intents on lexicon tab
 * x chrome warning showing up in static site build.
   * x Actually - issue may be due to tab control mount/unmount.
