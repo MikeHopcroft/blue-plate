@@ -1,32 +1,42 @@
 # TODO List
 
+* Spanish version
+  * Text to number
+  * Number to text
+  * Stemmer
+  * Special punctuation
+* Speech-to-text filter
+* Graph should not rerender as transcription changes - or should it?
 * Checkbox to disable graph rendering
 * Tab for more-info/resources
-* Lexicon quantity - show value
 * intents for undo, start over, clear cart, etc
-* x up/down arrow for transcription box
-* sort intents on lexicon tab
-* x chrome warning showing up in static site build.
-  * x Actually - issue may be due to tab control mount/unmount.
-  * x Actually - was mistaken
-* remove pages/api/hello.js
-* replace favicon.ico
-* x remove vercel.svg
 * publish packages
 * github pages hosting with ssl.
   * https://help.github.com/en/github/working-with-github-pages/about-github-pages
   * https://help.github.com/en/github/working-with-github-pages/securing-your-github-pages-site-with-https
 * Prototype modal dialogs
 * Use gts
+* replace favicon.ico
 * Consider making chrome warning more visible
   * Perhaps a permanant part of the layout?
+* Import menu
+* Edit intents
+* x Lexicon quantity - show value
+* x Graph unit attribute rendering
+* x Graph token scores in title
+* x sort intents on lexicon tab
+* x up/down arrow for transcription box
+* x chrome warning showing up in static site build.
+  * x Actually - issue may be due to tab control mount/unmount.
+  * x Actually - was mistaken
+* x remove pages/api/hello.js
+* x remove vercel.svg
 * History scroll to bottom scrolls Info to the bottom as well.
   * Seems like tabs all share the same scroll position value.
-* Glitch while loading - info pane renders before cart.
-  * This may be the markdown re-rendering.
-  * Seems to be a development server issue.
-  * Doesn't happen with exported site.
-* Import menu
+* x Glitch while loading - info pane renders before cart.
+  * x This may be the markdown re-rendering.
+  * x Seems to be a development server issue. Yes.
+  * x Doesn't happen with exported site. Correct.
 * Integrate Azure speech to text
 * x Integrate token-flow
 * x Integrate short-order
@@ -88,16 +98,16 @@
     * x https://www.newline.co/@dmitryrogozhny/how-to-render-markdown-in-react-with-react-markdown--5d1c3849
     * x General react notes, written in markdown: https://mnyark.github.io/react-markdown/#adding-images-fonts-and-files
 * Menu Tab
+  * . Master/Detail for menu
   * Product search filter
+  * Organize menu by products/options/groups
   * x Arrange options in columns
   * x Sort products
-  * . Master/Detail for menu
   * Breadcrumb
     * product/attribute
     * product/option
     * product/option/attribute
     * etc
-  * Organize menu by products/options/groups
   * react-router for detail selection?
 * Test Authoring Tab
 * Settings Tab

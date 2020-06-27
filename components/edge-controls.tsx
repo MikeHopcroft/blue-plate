@@ -37,7 +37,7 @@ export class EdgeLabel extends React.Component<EdgeProps> {
         <rect {...dimensionsBox} className={className}/>
         <text {...dimensionsText} ref={e.control} className={styles.graphText}>
           { e.text }
-          <title>{e.text}</title>
+          <title>{e.title}</title>
         </text>
       </g>
     );

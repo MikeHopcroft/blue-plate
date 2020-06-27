@@ -104,6 +104,7 @@ lexicon:
   #############################################################################
   - name: UNIT
     aliases:
+      - shot [of]
       - pump [of]
       - shakes [of]
       - sprinkles [of]

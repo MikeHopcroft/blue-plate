@@ -7,7 +7,7 @@ import {
 } from 'prix-fixe';
 
 import { put, select } from 'redux-saga/effects';
-import { createShortOrderWorld2 } from 'short-order';
+import { createShortOrderWorld2, LexiconSpec } from 'short-order';
 
 import {
   appendHistory,
@@ -41,6 +41,11 @@ export function* loadWorldSaga(action: LoadWorldAction) {
     lexiconSpec,
     undefined,
     true
+  );
+
+  // Sort for display by LexiconControl.
+  (lexiconSpec as LexiconSpec).lexicon.sort((a,b) => 
+    a.name.localeCompare(b.name)
   );
 
   yield(put(setWorld(world, shortOrderWorld, lexiconSpec)));

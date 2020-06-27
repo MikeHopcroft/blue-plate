@@ -27,7 +27,7 @@ function renderLexicon(lexicon: LexiconSpec) {
 function renderTokenSpec(spec: TokenSpec, index1) {
   return (
     <div className={styles.lexiconToken} key={index1}>
-      {spec.name}
+      {spec.name}{spec.name=='QUANTITY'?`(${spec.value})`:''}
       {spec.aliases.map((alias,index2) => 
         <div className={styles.lexiconAlias} key={index2}>
           {alias}

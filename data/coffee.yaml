@@ -166,6 +166,9 @@ catalog:
         - name: cinnamon syrup
           aliases:
             - "cinnamon [syrup]"
+        - name: chocolate syrup
+          aliases:
+            - "chocolate [syrup]"
         - name: hazelnut syrup
           aliases:
             - "hazelnut [syrup]"

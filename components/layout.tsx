@@ -13,6 +13,7 @@ export class Edge {
   startCol: number;
   endCol: number;
   text: string;
+  title: string; 
 
   length: number;
   control: React.RefObject<SVGTextElement>;
@@ -34,11 +35,13 @@ export class Edge {
     startCol: number,
     endCol: number,
     text: string,
+    title: string,
     treatment: EdgeTreatment
   ) {
     this.startCol = startCol;
     this.endCol = endCol;
     this.text = text;
+    this.title = title;
     this.treatment = treatment;
 
     this.length = endCol - startCol;
@@ -243,34 +246,16 @@ export function createLayout(world: ShortOrderWorld, text: string): Layout {
 
   const edges: Edge[] = [];
   for (const [i, term] of terms.entries()) {
-    edges.push(new Edge(i, i + 1, term, EdgeTreatment.WORD));
+    edges.push(new Edge(i, i + 1, term, "score=0", EdgeTreatment.WORD));
   }
   for (const [i, edgeList] of filteredGraph.edgeLists.entries()) {
-      // console.log(`  vertex ${i}: "${terms[i]}"`);
       for (const edge of edgeList) {
-        const token = tokenToString(edge.token);
-        if (token !== '[UNKNOWNTOKEN]') {
-          edges.push(new Edge(i, i + edge.length, token, EdgeTreatment.TOKEN));
+        const description = tokenToString(edge.token);
+        const title = 'score=' + edge.score.toFixed(2);
+        if (description !== '[UNKNOWNTOKEN]') {
+          edges.push(new Edge(i, i + edge.length, description, title, EdgeTreatment.TOKEN));
         }
-        // console.log(`    length:${edge.length}, score:${edge.score.toFixed(2)}, token:${token}`);
       }
   }
   return new Layout(coalescedGraph.edgeLists.length, edges);
-
-
-  // const words = text.split(/\s+/);
-  // while (words.length < 5) {
-  //   words.push(`word${words.length + 1}`);
-  // }
-
-  // const edges: Edge[] = words.map((word,i) => new Edge(i, i+1, word, EdgeTreatment.WORD));
-  // edges.push(new Edge(0, 2, 'token0aaaa', EdgeTreatment.SELECTED));
-  // edges.push(new Edge(0, 2, 'token1xxxxxxxxxxyyyyyyyy', EdgeTreatment.TOKEN));
-  // edges.push(new Edge(1, 4, 'token2', EdgeTreatment.TOKEN));
-
-  // // for (const [i,e] of edges.entries()) {
-  // //   console.log(`${i}: "${e.text}"`);
-  // // }
-
-  // return new Layout(words.length, edges);
 }
