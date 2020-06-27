@@ -42,11 +42,13 @@ export function renderGeneric(world: World, pid: PID) {
     return (
       <div>
         <h1>{item.name} ({item.pid})</h1>
-        {renderProductAliases(item)}
-        {renderProductAttributes(world, item)}
-        {renderLegalSpecifics(world, item)}
-        {renderLegalOptions(world, item)}
-        {renderExlusionSets(world, item)}
+        <div style={{display: 'flex', flexDirection: 'row'}}>
+          {renderProductAliases(item)}
+          {renderProductAttributes(world, item)}
+          {renderLegalSpecifics(world, item)}
+          {renderLegalOptions(world, item)}
+          {renderExlusionSets(world, item)}
+        </div>
       </div>
     );
   }
@@ -58,8 +60,8 @@ function renderProductAttributes(
 ) {
   const tensor = world.attributeInfo.getTensor(item.tensor);
   return (
-    <div>
-      <div style={{fontWeight: 'bold'}}>Attributes:</div>
+    <div className={styles.menuDetailColumn}>
+      <div style={{fontWeight: 'bold'}}>Attributes</div>
       {tensor.dimensions.map(renderDimension)}
     </div>
   );
@@ -84,8 +86,8 @@ function renderProductAttributes(
 
 function renderProductAliases(item: GenericTypedEntity) {
   return (
-    <div>
-      <div style={{fontWeight: 'bold'}}>Aliases:</div>
+    <div className={styles.menuDetailColumn}>
+      <div style={{fontWeight: 'bold'}}>Aliases</div>
       {renderAliases(item.aliases)}
     </div>
   )
@@ -110,8 +112,8 @@ function renderLegalSpecifics(world: World, item: GenericTypedEntity) {
   const catalog = world.catalog;
   const keys = [...catalog.getSpecificsForGeneric(item.pid)];
   return (
-    <div>
-      <div style={{fontWeight: 'bold'}}>Specific Forms:</div>
+    <div className={styles.menuDetailColumn}>
+      <div style={{fontWeight: 'bold'}}>Specific Forms</div>
       {keys.map(renderSpecific)}
     </div>
   );
@@ -124,7 +126,9 @@ function renderLegalSpecifics(world: World, item: GenericTypedEntity) {
     return (
       <div className={styles.nested} key={index}>
         {name} ({key}, {sku})
-        {defaultMark? <span style={{paddingLeft: '1ex'}}><FaCheckCircle/></span> : null}
+        {defaultMark? <span style={{paddingLeft: '1ex'}}>
+          <FaCheckCircle title="default form"/>
+        </span> : null}
       </div>
     )
   }
@@ -145,9 +149,11 @@ function renderLegalOptions(world: World, item: GenericTypedEntity) {
   lines.sort();
 
   return (
-    <div>
+    <div className={styles.menuDetailColumn}>
       <div style={{fontWeight: 'bold'}}>
-        Options for {specific.name}:
+        Options for <span style={{backgroundColor: 'lightgray'}}>
+          {specific.name} ({specific.key}, {specific.sku})
+        </span>
       </div>
       {lines.map(renderText)}
     </div>
@@ -166,7 +172,7 @@ function renderExlusionSets(world: World, item: GenericTypedEntity) {
   const sets = [...rules.getExclusionGroups(item.pid)];
 
   return (
-    <div>
+    <div className={styles.menuDetailColumn}>
       <div style={{fontWeight: 'bold'}}>Exclusion Sets</div>
       {sets.map(renderOneExlusionSet)}
     </div>

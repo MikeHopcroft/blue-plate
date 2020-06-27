@@ -34,14 +34,14 @@ function printCatalog(catalog: ICatalog, currentPID: PID) {
   }
 
   products.sort((a,b) => (a.name.localeCompare(b.name)));
-  // options.sort((a,b) => (a.name.localeCompare(b.name)));
+  options.sort((a,b) => (a.name.localeCompare(b.name)));
 
   return (
     <div>
       <div style={{fontWeight: 'bold'}}>Products:</div>
       {products.map(renderItem)}
-      {/* <div style={{fontWeight: 'bold'}}>Options:</div>
-      {options.map(renderItem)} */}
+      <div style={{fontWeight: 'bold'}}>Options:</div>
+      {options.map(renderItem)}
     </div>
   );
 

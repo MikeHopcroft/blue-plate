@@ -20,4 +20,4 @@ You can say things like:
 * _Remove the strawberry jam._
 
 Click on the `Menu` tab at the top for information about items you can order.
-The `History` tab shows a transcription of your conversation. The menu in the top right provides an option for downloading the transcription. 
+The `History` tab shows a transcription of your conversation. The dropdown in the top right provides an option for downloading the transcription. 

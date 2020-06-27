@@ -10,6 +10,7 @@
 }
 
 .cartWelcome {
+  font-size: 36pt;
   flex-grow: 1;
   background-color: lightskyblue;
   display: flex;
@@ -122,6 +123,12 @@
 .lexiconAlias {
   padding-left: 1em;
   font-weight: normal;
+}
+
+.menuDetailColumn {
+  padding-left: 1em;
+  padding-right: 1em;
+  border-left: solid black 1px;
 }
 
 .nested {

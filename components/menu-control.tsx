@@ -25,16 +25,6 @@ class MenuControl extends React.Component<Props> {
   }
 }
 
-function printCatalog(catalog: ICatalog) {
-  const products = [...catalog.genericEntities()];
-  products.sort((a,b) => (a.name.localeCompare(b.name)));
-  return products.map((item, index) => (
-    <div key={index}>
-      {item.name} ({item.pid})
-    </div>
-  ));
-}
-
 function mapStateToProps(application: ApplicationState) {
   return { application };
 }

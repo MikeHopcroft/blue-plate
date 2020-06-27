@@ -1,6 +1,7 @@
 # TODO List
 
 * up/down arrow for transcription box
+* sort intents on lexicon tab
 * x chrome warning showing up in static site build.
   * x Actually - issue may be due to tab control mount/unmount.
   * x Actually - was mistaken
@@ -84,6 +85,7 @@
     * x General react notes, written in markdown: https://mnyark.github.io/react-markdown/#adding-images-fonts-and-files
 * Menu Tab
   * Product search filter
+  * x Arrange options in columns
   * x Sort products
   * . Master/Detail for menu
   * Breadcrumb
