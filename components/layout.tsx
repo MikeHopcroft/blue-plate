@@ -42,6 +42,8 @@ class Row {
   }
 }
 
+export interface MinMax {x1: number, x2: number, y1:number, y2:number};
+
 export class Layout {
   xPadding = 20;
   yPadding = 30;
@@ -49,6 +51,8 @@ export class Layout {
   edges: Edge[];
   columns: Column[] = [];
   rows: Row[] = [];
+
+  boundingBox: MinMax = { x1: 0, x2: 0, y1:0, y2:0 };
 
   measurePassId: Symbol = Symbol('measure');
 
@@ -77,6 +81,7 @@ export class Layout {
 
     for (const e of this.edges) {
       const { width, height } = e.control.current.getBBox();
+      console.log(`"${e.text}": width: ${width}, height: ${height}`);
       e.textWidth = width;
       e.textHeight = height;
       e.width = 0; //width + 2 * this.xPadding;
@@ -144,6 +149,26 @@ export class Layout {
     for (const e of this.edges) {
       e.y = e.row.y;
     }
+
+    // Upate the bounding box for the entire layout.
+    const e = this.edges[0];
+    let minX = e.x;
+    let maxX = e.x + e.width;
+    let minY = e.y;
+    let maxY = e.y + e.height;
+
+    this.boundingBox = this.edges.reduce<Partial<MinMax>>((acc, edge) => {
+      const x1 = edge.x;
+      const x2 = edge.x + edge.width;
+      const y1 = edge.y - edge.textHeight/2;
+      const y2 = edge.y + edge.textHeight/2;
+      acc.x1 = ( acc.x1 === undefined || x1 < acc.x1 ) ? x1 : acc.x1;
+      acc.x2 = ( acc.x2 === undefined || x2 > acc.x2 ) ? x2 : acc.x2;
+      acc.y1 = ( acc.y1 === undefined || y1 < acc.y1 ) ? y1 : acc.y1;
+      acc.y2 = ( acc.y2 === undefined || y2 > acc.y2 ) ? y2 : acc.y2;
+      return acc;
+    }, {}) as MinMax;
+
     console.log(this);
   }
 
@@ -221,10 +246,9 @@ export function createLayout(text: string): Layout {
   edges.push(new Edge(0, 2, 'token1xxxxxxxxxxyyyyyyyy', EdgeTreatment.TOKEN));
   edges.push(new Edge(1, 4, 'token2', EdgeTreatment.TOKEN));
 
-  for (const [i,e] of edges.entries()) {
-    console.log(`${i}: "${e.text}"`);
-  }
-
+  // for (const [i,e] of edges.entries()) {
+  //   console.log(`${i}: "${e.text}"`);
+  // }
 
   return new Layout(words.length, edges);
 }

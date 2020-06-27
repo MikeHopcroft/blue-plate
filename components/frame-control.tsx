@@ -60,9 +60,18 @@ class FrameControl extends React.Component<Props> {
     this.props.speechSupported(isChrome);
   }
 
+  // DESIGN NOTE: mountOnEnter and unmountOnExit are necessary for the
+  // GraphControl layout algorithm. It turns out the getBBox() returns
+  // an empty bounding box for svg text elements that aren't currently
+  // visible.
   renderTabs() {
     return (
-      <Tab.Container id="left-tabs-example" defaultActiveKey="info">
+      <Tab.Container 
+        id="left-tabs-example"
+        defaultActiveKey="info"
+        mountOnEnter={true}
+        unmountOnExit={true}
+      >
         <Nav variant="tabs" className="flex-row">
         <Nav.Item>
             <Nav.Link eventKey="info">Info</Nav.Link>
@@ -93,7 +102,7 @@ class FrameControl extends React.Component<Props> {
           <Tab.Pane eventKey="lexicon">
             <LexiconControl />
           </Tab.Pane>
-          <Tab.Pane eventKey="graph">
+          <Tab.Pane eventKey="graph" style={{height: '100%', overflow: 'auto'}}>
             <GraphPanelControl />
           </Tab.Pane>
           <Tab.Pane eventKey="history">

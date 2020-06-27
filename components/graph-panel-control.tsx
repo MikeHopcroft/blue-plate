@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 
 import { ApplicationState } from "../actions";
 
+import GraphControl from './graph-control';
+
 interface Props {
   application: ApplicationState;
 };
@@ -10,9 +12,7 @@ interface Props {
 class GraphPanelControl extends React.Component<Props> {
   render() {
     return (
-      <h1>
-        Graph
-      </h1>
+      <GraphControl transcription = 'hello to the world'/>
     );
   }
 }

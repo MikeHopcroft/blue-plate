@@ -1,5 +1,7 @@
 # TODO List
 
+* chrome warning showing up in static site build.
+  * Actually - issue may be due to tab control mount/unmount.
 * remove pages/api/hello.js
 * replace favicon.ico
 * x remove vercel.svg
@@ -91,21 +93,28 @@
 * Test Authoring Tab
 * Graph Tab
   * Top
-    * Use results of layout to set translation of entire graph
+    * x getBBox issue
+      * https://stackoverflow.com/questions/21387965/getbbox-width-and-height-returns-0
+      * https://stackoverflow.com/questions/40744176/getbbox-and-getcomputedtextlength-once-working-once-not
+      * https://github.com/DmitryBaranovskiy/raphael/issues/760
+      * https://stackoverflow.com/questions/28282295/getbbox-of-svg-when-hidden
+    * x Use results of layout to set translation of entire graph
+    * Integrate with token-flow
+    * x Integrate with GraphPanelControl
+    * Display path selection UI
+    * Coalesce checkbox
     * x Render paths under boxes
     * x Circles between labels
     * x Arcs on paths
-    * Different styling for words vs tokens
+    * x Different styling for words vs tokens
     * Rounded corners on labels?
     * Tooltips with weight, token type, value, etc.
-    * Perhaps only render boxes on first pass
+      * https://stackoverflow.com/questions/46384057/how-to-display-a-tooltip-div-when-an-svg-element-is-hovered
+      * https://stackoverflow.com/questions/10643426/how-to-add-a-tooltip-to-an-svg-graphic/10643525#10643525
+    * Performance: perhaps only render boxes on first pass
     * x Row assignment
     * x Row height computation
-    * Highlighted path
-    * Integrate with token-flow
-    * Integrate with GraphPanelControl
-    * Display path selection UI
-    * Coalesce checkbox
+    * x Highlighted path
   * Locate graphing code
   * Measuring text
     * .35em for vertical alignment with dy: https://stackoverflow.com/questions/19127035/what-is-the-difference-between-svgs-x-and-dx-attribute
