@@ -1,6 +1,7 @@
 # TODO List
 
-* Coffecup favicon
+* x MIT License
+* x Favicon
   * Coffee
   * Fries
   * Hot Dog
@@ -8,6 +9,7 @@
   * Pizza Slice
   * Microphone
   * https://favicon.io/emoji-favicons/
+  * https://favicon.io/emoji-favicons/french-fries/
 * Extend menu
   * Burgers
   * Hot dogs
