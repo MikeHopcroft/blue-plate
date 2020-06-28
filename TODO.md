@@ -1,25 +1,43 @@
 # TODO List
 
+* Coffecup favicon
+  * Coffee
+  * Fries
+  * Hot Dog
+  * Hamburger
+  * Pizza Slice
+  * Microphone
+  * https://favicon.io/emoji-favicons/
+* Extend menu
+  * Burgers
+  * Hot dogs
+  * Fries
+  * Wings
+  * Mexican
+* Speech-to-text filter
+  * From speech
+  * From text
+* Link buttons in markdown for navigating to other modes (e.g. settings)
+* x publish packages
+* github pages hosting with ssl.
+  * https://help.github.com/en/github/working-with-github-pages/about-github-pages
+  * https://help.github.com/en/github/working-with-github-pages/securing-your-github-pages-site-with-https
 * Spanish version
   * Text to number
   * Number to text
   * Stemmer
   * Special punctuation
-* Speech-to-text filter
+* Endeavor to keep graph centerline at same y-value across graphs
 * Graph should not rerender as transcription changes - or should it?
 * Checkbox to disable graph rendering
 * Tab for more-info/resources
 * intents for undo, start over, clear cart, etc
-* publish packages
-* github pages hosting with ssl.
-  * https://help.github.com/en/github/working-with-github-pages/about-github-pages
-  * https://help.github.com/en/github/working-with-github-pages/securing-your-github-pages-site-with-https
 * Prototype modal dialogs
 * Use gts
 * replace favicon.ico
 * Consider making chrome warning more visible
   * Perhaps a permanant part of the layout?
-* Import menu
+* Import/upload menu files
 * Edit intents
 * x Lexicon quantity - show value
 * x Graph unit attribute rendering
