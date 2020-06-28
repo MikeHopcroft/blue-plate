@@ -14,7 +14,7 @@
     "bowser": "^2.9.0",
     "js-file-download": "^0.4.12",
     "next": "9.4.4",
-    "prix-fixe": "0.0.54",
+    "prix-fixe": "0.0.55",
     "react": "16.13.1",
     "react-bootstrap": "^1.0.1",
     "react-dom": "16.13.1",

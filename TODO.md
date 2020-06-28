@@ -1,46 +1,46 @@
 # TODO List
 
-* x MIT License
-* x Favicon
-  * Coffee
-  * Fries
-  * Hot Dog
-  * Hamburger
-  * Pizza Slice
-  * Microphone
-  * https://favicon.io/emoji-favicons/
-  * https://favicon.io/emoji-favicons/french-fries/
+* Endeavor to keep graph centerline at same y-value across graphs
+* x Speech-to-text filter
+  * x From speech
+  * x From text
+* Clear cart button
+* History tab actions
+  * Thumbs up/down
+  * Edit notes
+* Spanish version
+  * Dropdown menu for English vs Spanish
+  * bilingual?
+  * Configure speech recognition
+  * Text to number
+  * Number to text
+  * Stemmer
+  * Text-to-speech filter
+    * Additional punctuation - perhaps remove all non-alpha?
 * Extend menu
   * Burgers
   * Hot dogs
   * Fries
   * Wings
   * Mexican
-* Speech-to-text filter
-  * From speech
-  * From text
+* intents for undo, start over, clear cart, etc
 * Link buttons in markdown for navigating to other modes (e.g. settings)
-* x publish packages
-* github pages hosting with ssl.
-  * https://help.github.com/en/github/working-with-github-pages/about-github-pages
-  * https://help.github.com/en/github/working-with-github-pages/securing-your-github-pages-site-with-https
-* Spanish version
-  * Text to number
-  * Number to text
-  * Stemmer
-  * Special punctuation
-* Endeavor to keep graph centerline at same y-value across graphs
+* Control panel
+  * Stemmer options
+  * Speech to text configuration
+  * Rerun with new options - compare with previous
+  * Log options/settings to history
 * Graph should not rerender as transcription changes - or should it?
 * Checkbox to disable graph rendering
 * Tab for more-info/resources
-* intents for undo, start over, clear cart, etc
 * Prototype modal dialogs
 * Use gts
-* replace favicon.ico
 * Consider making chrome warning more visible
   * Perhaps a permanant part of the layout?
 * Import/upload menu files
 * Edit intents
+* x publish packages
+* x replace favicon.ico
 * x Lexicon quantity - show value
 * x Graph unit attribute rendering
 * x Graph token scores in title
@@ -74,12 +74,6 @@
   * Some bug reporting service back end.
   * x Add carts to session history
   * Fix Oliver's bugs
-* Control panel
-  * Stemmer options
-  * Speech to text configuration
-  * Rerun with new options - compare with previous
-  * Log options/settings to history
-* x Clear cart button
 * Scroll bar on cart
 * Add banner at top
   * Need to think about this - it looks cluttered
@@ -172,7 +166,7 @@
   * Explanatory text, perhaps in markdown.
 * History Tab
   * x Icon to indicate typed vs recorded
-  * Icon to indicate correct vs incorrect
+  * x Icon to indicate correct vs incorrect
   * Local storage
   * x Autoscroll on new entry
   * x Height update problem
@@ -233,3 +227,20 @@
 * x Set up redux state.
 * x Integrate Web Speech API
 * x Integrate prix-fixe
+* x MIT License
+* x Favicon
+  * Coffee
+  * Fries
+  * Hot Dog
+  * Hamburger
+  * Pizza Slice
+  * Microphone
+  * https://favicon.io/emoji-favicons/
+  * https://favicon.io/emoji-favicons/french-fries/
+* x github pages hosting with ssl.
+  * https://help.github.com/en/github/working-with-github-pages/about-github-pages
+  * https://help.github.com/en/github/working-with-github-pages/securing-your-github-pages-site-with-https
+  * Next.js with gh-pages
+    * https://github.com/thierryc/Next-gh-page-example
+    * https://medium.com/@anotherplanet/git-tips-next-js-github-pages-2dbc9a819cb8
+    * https://itnext.io/next-js-app-on-github-pages-768020f2b65e

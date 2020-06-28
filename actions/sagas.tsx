@@ -3,6 +3,7 @@ import {
   createWorld3,
   loadCatalogSpec,
   ObjectLoader,
+  speechToTextFilter,
   State,
 } from 'prix-fixe';
 
@@ -59,9 +60,13 @@ function getAppState(appState: ApplicationState): ApplicationState {
 export function* processSaga({ source, text, final }: ProcessAction) {
   // TODO: remove final check for interim carts.
   if (final) {
+    const filtered = speechToTextFilter(text);
     const appState = yield(select(getAppState));
     const state0: State = { cart: appState.cart };
-    const state1: State = yield appState.shortOrderWorld.processor(text, state0);
+    const state1: State = yield appState.shortOrderWorld.processor(
+      filtered,
+      state0
+    );
     yield(put(setCart(state1.cart)));
     yield(put(appendHistory(state1.cart, source, text)));
   }
