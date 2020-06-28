@@ -4,16 +4,21 @@
 * x Speech-to-text filter
   * x From speech
   * x From text
-* Clear cart button
 * History tab actions
+  * Visible on hover
   * Thumbs up/down
   * Edit notes
+* Menu option detail overlay
+  * Close button
+* Clear cart button
+* PNGs of icons for info page documentation.
+* Intents for undo, start over, clear cart, etc
 * Spanish version
   * Dropdown menu for English vs Spanish
-  * bilingual?
+  * Bilingual?
   * Configure speech recognition
-  * Text to number
-  * Number to text
+  * Text to number - can stay as English
+  * Number to text - can stay as English
   * Stemmer
   * Text-to-speech filter
     * Additional punctuation - perhaps remove all non-alpha?
@@ -23,7 +28,6 @@
   * Fries
   * Wings
   * Mexican
-* intents for undo, start over, clear cart, etc
 * Link buttons in markdown for navigating to other modes (e.g. settings)
 * Control panel
   * Stemmer options

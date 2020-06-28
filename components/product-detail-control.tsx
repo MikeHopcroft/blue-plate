@@ -163,7 +163,8 @@ function renderProductAttributes(
   function renderAttribute(attribute: AttributeDescription, index: number) {
     return (
       <div className={styles.nested} key={index}>
-        { renderAliases(attribute.aliases)}
+        <div style={{fontWeight: 'bold'}}>{attribute.name}</div>
+        { renderAliases(attribute.aliases) }
       </div>
     )
   }
