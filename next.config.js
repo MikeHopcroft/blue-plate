@@ -1,3 +1,5 @@
+const debug = process.env.NODE_ENV !== "production";
+
 module.exports = {
   webpack: function (config) {
     // https://github.com/vercel/next.js/issues/3141
@@ -19,4 +21,5 @@ module.exports = {
 
     return config;
   },
+  assetPrefix: !debug ? '/blue-plate' : '',
 };
