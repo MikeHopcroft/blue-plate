@@ -39,6 +39,7 @@ export interface ApplicationState {
   cart: Cart;
   history: HistoryItem[];
   currentPID?: PID;
+  optionPID?: PID;
 }
 
 export function initialState(): ApplicationState {

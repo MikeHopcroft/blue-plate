@@ -50,7 +50,7 @@ class ProductListControl extends React.Component<Props> {
           onSelect={this.onSelect}
           variant="pills"
         >
-          <div style={{fontWeight: 'bold'}}>Productsxxx:</div>
+          <div style={{fontWeight: 'bold'}}>Products:</div>
           {products.map(renderItem)}
           <div style={{fontWeight: 'bold'}}>Options:</div>
           {options.map(renderItem)}
@@ -60,30 +60,12 @@ class ProductListControl extends React.Component<Props> {
   
     function renderItem(item: GenericTypedEntity) {
       return (
-        <Nav.Item key={item.pid}>
-          <Nav.Link style={{whiteSpace: 'nowrap'}} eventKey={item.pid}>
+        <Nav.Item key={item.pid} style={{paddingTop: '0', paddingBottom: '0'}}>
+          <Nav.Link style={{whiteSpace: 'nowrap', paddingTop: '0', paddingBottom: '0'}} eventKey={item.pid}>
             {item.name} ({item.pid})
           </Nav.Link>
         </Nav.Item>
       );
-    }
-  
-    function renderItem2(item: GenericTypedEntity) {
-      // TODO: do this with styling or correct boostrap component
-      // that already handles selection.
-      if (item.pid === currentPID) {
-        return (
-          <div className={styles.nested + ' ' + styles.selected} key={item.pid}>
-            {item.name} ({item.pid})
-          </div>
-        );
-      } else {
-        return (
-          <div className={styles.nested} key={item.pid}>
-            {item.name} ({item.pid})
-          </div>
-        );
-      }
     }
   }
 }

@@ -10,43 +10,66 @@ import {
 } from 'prix-fixe';
 
 import React from 'react';
+import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
-import { FaCheckCircle } from 'react-icons/fa';
+
+import { 
+  FaArrowCircleLeft,
+  FaCheckCircle,
+  FaTimes,
+  FaWindowClose
+} from 'react-icons/fa';
+
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 
-import { AnyAction, ApplicationState, setPID } from "../actions";
+import { AnyAction, ApplicationState, setOptionPID } from "../actions";
 
 import styles from './controls.module.css';
 
 interface Props {
   world: World;
   currentPID: PID;
-  selectionChanged: (pid: PID) => void;
+  optionPID: PID;
+  optionChanged: (pid: PID | undefined) => void;
 };
 
 class ProductDetailControl extends React.Component<Props> {
-  onSelect = (pid: PID) => {
-    this.props.selectionChanged(pid);
-  }
-
   render() {
     return (
       <div style={{ width: '100%', height: '100%', overflow: 'auto'}}>
-        {this.renderGeneric(this.props.world, this.props.currentPID)}
+        {this.renderGeneric(this.props.world)}
       </div>
     );
   }
 
-  renderGeneric(world: World, pid: PID) {
+  renderGeneric(world: World) {
     const catalog = world.catalog;
+
+    let pid = this.props.currentPID;
+    if (this.props.optionPID !== undefined) {
+      pid = this.props.optionPID;
+    }
+
+    const closeButton = (
+      <Button
+        variant='outline-light'
+        onClick={() => this.props.optionChanged(undefined)}
+        >
+        <FaArrowCircleLeft style={{color: '#007bff', width: "30px", height: "30px"}}/>
+      </Button>
+    );
+
     if (!catalog.hasPID(pid)) {
       return <div>Unknown PID {pid}</div>;
     } else {
       const item = catalog.getGeneric(pid);
       return (
         <div>
-          <h1>{item.name} ({item.pid})</h1>
+          <div style={{display: 'flex', flexDirection: 'row'}}>
+            {pid === this.props.optionPID ? closeButton : null }
+            <h1>{item.name} ({item.pid})</h1>
+          </div>
           <div style={{display: 'flex', flexDirection: 'row'}}>
             {renderProductAliases(item)}
             {renderProductAttributes(world, item)}
@@ -131,7 +154,7 @@ class ProductDetailControl extends React.Component<Props> {
       <Nav.Link
         className={styles.nested}
         key={item.pid}
-        onClick={() => this.onSelect(item.pid)}
+        onClick={() => this.props.optionChanged(item.pid)}
       >
         {item.name} ({item.pid})
       </Nav.Link>
@@ -223,14 +246,15 @@ function renderLegalSpecifics(world: World, item: GenericTypedEntity) {
 function mapStateToProps(application: ApplicationState) {
   return {
     world: application.world,
-    currentPID: application.currentPID
+    currentPID: application.currentPID,
+    optionPID: application.optionPID,
   };
 }
 
 function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
   return {
-    selectionChanged: (pid: PID) => {
-      dispatch(setPID(pid));
+    optionChanged: (pid: PID) => {
+      dispatch(setOptionPID(pid));
     },
   };
 }

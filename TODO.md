@@ -1,20 +1,27 @@
 # TODO List
 
+* regression.yaml failures
+  * What is wrong with "get a double double"?
+* SpeechToTextFilter: "double-double"
 * Deactivate popovers on click outside
   * https://stackoverflow.com/questions/11703093/how-to-dismiss-a-twitter-bootstrap-popover-by-clicking-outside
 * Endeavor to keep graph centerline at same y-value across graphs
+* Clear cart button
+* Intents for undo, start over, clear cart, etc
 * x Speech-to-text filter
   * x From speech
   * x From text
 * History tab actions
-  * Visible on hover
-  * Thumbs up/down
-  * Edit notes
-* Menu option detail overlay
-  * Close button
-* Clear cart button
+  * Popover grabs focus, sets caret to end
+  * Popover dismiss on enter key and or focus lost
+  * Popover writes to state
+  * x Visible on hover
+  * . Thumbs up/down
+  * . Edit notes
+* x Menu option detail overlay
+  * x Close button
+* Product search
 * PNGs of icons for info page documentation.
-* Intents for undo, start over, clear cart, etc
 * Spanish version
   * Dropdown menu for English vs Spanish
   * Bilingual?

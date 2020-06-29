@@ -188,7 +188,7 @@ function renderNote(hover: boolean, note?: string) {
         {/* <Popover.Title as="h3">Comment here</Popover.Title> */}
         <Popover.Content>
           <textarea rows={5} cols={20} style={{resize: 'both'}}>
-            Wrong number of lattes.
+            {note}
           </textarea>
         </Popover.Content>
       </Popover>
