@@ -1,5 +1,7 @@
 # TODO List
 
+* Deactivate popovers on click outside
+  * https://stackoverflow.com/questions/11703093/how-to-dismiss-a-twitter-bootstrap-popover-by-clicking-outside
 * Endeavor to keep graph centerline at same y-value across graphs
 * x Speech-to-text filter
   * x From speech
