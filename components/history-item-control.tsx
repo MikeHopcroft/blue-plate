@@ -163,7 +163,7 @@ function renderCorrectness(hover: boolean, correctness: Correctness) {
       </Dropdown>
     );
   } else {
-    return <div style={{ minWidth: '1rem', padding: '0px 2px' }}>{renderCorrectnessIcon(hover, correctness)}</div>;
+    return <div className='dropdown'>{renderCorrectnessIcon(hover, correctness)}</div>;
   }
 }
 
@@ -184,10 +184,12 @@ function renderNote(hover: boolean, note?: string) {
 
   if (hover) {
     const popover = (
-      <Popover id="popover-basic">
-        <Popover.Title as="h3">Comment here</Popover.Title>
+      <Popover id="popover-basic" style={{maxWidth: 'unset'}}>
+        {/* <Popover.Title as="h3">Comment here</Popover.Title> */}
         <Popover.Content>
-          Wrong number of lattes.
+          <textarea rows={5} cols={20} style={{resize: 'both'}}>
+            Wrong number of lattes.
+          </textarea>
         </Popover.Content>
       </Popover>
     );
