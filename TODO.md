@@ -1,13 +1,25 @@
 # TODO List
 
+* speechToTextFilter should appear in one place
+* lexicon master-detail
+* confusion matrix
+* word to concept viewer
+* recipes view
 * regression.yaml failures
   * What is wrong with "get a double double"?
 * SpeechToTextFilter: "double-double"
+* x Clear cart button
+* Undo button next to clear button
+* Consider moving clear and undo to the recorder bar
+* Intents for undo, start over, clear cart, etc
 * Deactivate popovers on click outside
   * https://stackoverflow.com/questions/11703093/how-to-dismiss-a-twitter-bootstrap-popover-by-clicking-outside
 * Endeavor to keep graph centerline at same y-value across graphs
-* Clear cart button
-* Intents for undo, start over, clear cart, etc
+* Guided tour / demo mode
+  * Text entry
+  * Switch tabs
+  * Play voice
+  * Recognize voice
 * x Speech-to-text filter
   * x From speech
   * x From text

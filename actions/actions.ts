@@ -5,6 +5,7 @@ import { ApplicationMode, TextSource } from "./application-state";
 
 export enum ActionType {
   APPEND_HISTORY = 'APPEND_HISTORY',
+  CLEAR_CART = 'CLEAR_CART',
   CLEAR_HISTORY = 'CLEAR_HISTORY',
   LOAD_WORLD = 'LOAD_WORLD',
   PROCESS = 'PROCESS',
@@ -36,6 +37,14 @@ export function appendHistory(
     source,
     text
   };
+}
+
+export interface ClearCartAction {
+  type: ActionType.CLEAR_CART;
+};
+
+export function clearCart(): ClearCartAction {
+  return { type: ActionType.CLEAR_CART };
 }
 
 export interface ClearHistoryAction {
@@ -154,6 +163,7 @@ export function setSpeechSupport(speechSupport: boolean): SetSpeechSupportAction
 
 export type AnyAction =
   AppendHistoryAction |
+  ClearCartAction |
   ClearHistoryAction |
   LoadWorldAction |
   ProcessAction |

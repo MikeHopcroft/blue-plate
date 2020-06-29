@@ -1,6 +1,5 @@
 import { Cart, ItemInstance, World } from 'prix-fixe';
 import React from 'react';
-import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';

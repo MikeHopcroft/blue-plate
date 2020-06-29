@@ -60,6 +60,8 @@ function getAppState(appState: ApplicationState): ApplicationState {
 export function* processSaga({ source, text, final }: ProcessAction) {
   // TODO: remove final check for interim carts.
   if (final) {
+    // TODO: call to speechToTextFilter() should not be duplicated
+    // in applyProcess().
     const filtered = speechToTextFilter(text);
     const appState = yield(select(getAppState));
     const state0: State = { cart: appState.cart };

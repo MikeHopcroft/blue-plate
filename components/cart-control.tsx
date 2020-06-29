@@ -1,13 +1,17 @@
 import { ItemInstance, World } from 'prix-fixe';
 import React from 'react';
+import Button from 'react-bootstrap/Button';
+import { FaRegTrashAlt, FaUndo } from 'react-icons/fa';
 import { connect } from 'react-redux'
+import { Dispatch } from 'redux'
 
-import { ApplicationState } from "../actions";
+import { AnyAction, ApplicationState, clearCart } from "../actions";
 
 import styles from './controls.module.css';
 
 interface Props {
   application: ApplicationState;
+  onClearCart: () => void;
 };
 
 class CartControl extends React.Component<Props> {
@@ -26,7 +30,23 @@ class CartControl extends React.Component<Props> {
     } else {
       return (
         <div className={styles.cart}>
-          <b>Shopping Cart {cart.items.length === 0 ? 'is Empty' : ''}</b>
+          <div style={{display: 'flex', flexDirection: 'row'}}>
+            <b>Shopping Cart</b>
+            <div style={{flexGrow: 1}}/>
+            <Button
+              variant='outline-primary'
+              style={{border: 'none'}}
+            >
+              <FaUndo/>
+            </Button>
+            <Button
+              variant='outline-primary'
+              style={{border: 'none'}}
+              onClick={this.props.onClearCart}
+            >
+              <FaRegTrashAlt/>
+            </Button>
+          </div>
           {renderItemList(world, cart.items)}
           {/* But do thy worst to steal thyself away, For term of life thou art assured mine; And life no longer than thy love will stay, For it depends upon that love of thine. Then need I not to fear the worst of wrongs, When in the least of them my life hath end. I see a better state to me belongs Than that which on thy humour doth depend: Thou canst not vex me with inconstant mind, Since that my life on thy revolt doth lie. */}
         </div>
@@ -53,4 +73,12 @@ function mapStateToProps(application: ApplicationState) {
   return { application };
 }
 
-export default connect(mapStateToProps)(CartControl);
+function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
+  return {
+    onClearCart: () => {
+      dispatch(clearCart());
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartControl);

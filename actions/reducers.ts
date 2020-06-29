@@ -1,9 +1,11 @@
+import { speechToTextFilter } from 'prix-fixe';
 import { Reducer } from 'redux';
 
 import {
   ActionType,
   AnyAction,
   AppendHistoryAction,
+  ClearCartAction,
   ClearHistoryAction,
   ProcessAction,
   RecordAction,
@@ -20,7 +22,6 @@ import {
   ApplicationState,
   initialState,
   HistoryItem,
-  TextSource
 } from './application-state';
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -33,6 +34,8 @@ export const ApplicationStateReducer: Reducer<ApplicationState, AnyAction> =
     switch (action.type) {
       case ActionType.APPEND_HISTORY:
         return applyAppendHistory(state, action);
+      case ActionType.CLEAR_CART:
+        return applyClearCart(state, action);
       case ActionType.CLEAR_HISTORY:
         return applyClearHistory(state, action);
       case ActionType.PROCESS:
@@ -77,6 +80,16 @@ function applyAppendHistory(
   }
 }
 
+function applyClearCart(
+  appState: ApplicationState,
+  action: ClearCartAction
+): ApplicationState {
+  return {
+    ...appState,
+    cart: { items: [] }
+  }
+}
+
 function applyClearHistory(
   appState: ApplicationState,
   action: ClearHistoryAction
@@ -93,9 +106,12 @@ function applyProcess(
 ): ApplicationState {
   // Just update the transcription.
   // The real work is done in a saga.
+
+  // TODO: call to speechToTextFilter() should not be duplicated
+  // in processSaga().
   return {
     ...appState,
-    transcription: text,
+    transcription: speechToTextFilter(text),
   };
 }
 
