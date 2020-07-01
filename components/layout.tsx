@@ -2,6 +2,7 @@ import React from 'react';
 import { ShortOrderWorld, tokenToString } from 'short-order';
 import { coalesceGraph, filterGraph, Graph } from 'token-flow';
 
+import { formatToken, TokenFormat } from './edge-controls';
 
 export enum EdgeTreatment {
   WORD = 'WORD',
@@ -12,8 +13,11 @@ export enum EdgeTreatment {
 export class Edge {
   startCol: number;
   endCol: number;
-  text: string;
-  title: string; 
+
+  // score: number;
+  // text: string;
+  // title: string; 
+  info: TokenFormat;
 
   length: number;
   control: React.RefObject<SVGTextElement>;
@@ -34,14 +38,18 @@ export class Edge {
   constructor(
     startCol: number,
     endCol: number,
-    text: string,
-    title: string,
+    info: TokenFormat,
+    // score: number,
+    // text: string,
+    // title: string,
     treatment: EdgeTreatment
   ) {
     this.startCol = startCol;
     this.endCol = endCol;
-    this.text = text;
-    this.title = title;
+    this.info = info;
+    // this.score = score;
+    // this.text = text;
+    // this.title = title;
     this.treatment = treatment;
 
     this.length = endCol - startCol;
@@ -102,7 +110,7 @@ export interface MinMax {x1: number, x2: number, y1:number, y2:number};
 
 export class Layout {
   xPadding = 20;
-  yPadding = 10;
+  yPadding = 15;
 
   edges: Edge[];
   columns: Column[] = [];
@@ -137,7 +145,7 @@ export class Layout {
 
     for (const e of this.edges) {
       const { width, height } = e.control.current.getBBox();
-      console.log(`"${e.text}": width: ${width}, height: ${height}`);
+      // console.log(`"${e.text}": width: ${width}, height: ${height}`);
       e.textWidth = width;
       e.textHeight = height;
       e.width = 0; //width + 2 * this.xPadding;
@@ -246,15 +254,25 @@ export function createLayout(world: ShortOrderWorld, text: string): Layout {
 
   const edges: Edge[] = [];
   for (const [i, term] of terms.entries()) {
-    edges.push(new Edge(i, i + 1, term, "score=0", EdgeTreatment.WORD));
+    const info: TokenFormat = {
+      type: 'WORD: ',
+      name: term,
+      info: '',
+      score: 0
+    }
+    edges.push(new Edge(i, i + 1, info, EdgeTreatment.WORD));
   }
   for (const [i, edgeList] of filteredGraph.edgeLists.entries()) {
       for (const edge of edgeList) {
-        const description = tokenToString(edge.token);
-        const title = 'score=' + edge.score.toFixed(2);
-        if (description !== '[UNKNOWNTOKEN]') {
-          edges.push(new Edge(i, i + edge.length, description, title, EdgeTreatment.TOKEN));
+        const info = formatToken(edge.token, edge.score);
+        if (info.type !== 'UNKNOWNTOKEN') {
+          edges.push(new Edge(i, i + edge.length, info, EdgeTreatment.TOKEN));
         }
+        // const description = tokenToString(edge.token).toLowerCase();
+        // const title = 'score=' + edge.score.toFixed(2);
+        // if (description !== '[UNKNOWNTOKEN]') {
+        //   edges.push(new Edge(i, i + edge.length, edge.score, description, title, EdgeTreatment.TOKEN));
+        // }
       }
   }
   return new Layout(coalescedGraph.edgeLists.length, edges);

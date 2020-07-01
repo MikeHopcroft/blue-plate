@@ -1,8 +1,23 @@
+import { OPTION } from 'prix-fixe';
 import React from 'react';
+
+import {
+  AnyToken,
+  ATTRIBUTE,
+  ENTITY,
+  OPTION_RECIPE,
+  PRODUCT_RECIPE,
+  QUANTITY,
+  UNIT,
+  WORD,
+} from 'short-order';
+
+import { NUMBERTOKEN } from 'token-flow';
 
 import { Edge, EdgeTreatment } from './layout';
 
 import styles from './controls.module.css';
+import { Token } from 'token-flow';
 
 interface EdgeProps {
   edge: Edge;
@@ -16,28 +31,42 @@ export class EdgeLabel extends React.Component<EdgeProps> {
 
     const treatment = (e.treatment === EdgeTreatment.SELECTED) ?
       styles.graphShapeSelected : (e.treatment === EdgeTreatment.WORD) ?
-      styles.graphShapeWord : styles.graphShapeToken;
+        styles.graphShapeWord : styles.graphShapeToken;
     const className = `${styles.graphShape} ${treatment}`;
 
     const padding = this.props.padding;
+
+    const position = {
+      x: e.x, // + 2 * padding,
+      y: e.y  // - e.textHeight * 0.5,
+    }
+
     const dimensionsBox = {
-      x: e.x + 2 * padding,
-      y: e.y - e.textHeight * 0.5,
+      // x: e.x + 2 * padding,
+      // y: e.y - e.textHeight * 0.5,
+      x: 2 * padding,
+      y: -e.textHeight * 0.5,
       width: e.textWidth,
       height: e.textHeight,
     }
 
     const dimensionsText = {
-      x: e.x + 2 * padding,
-      y: e.y + e.textHeight * 0.35,
+      x: 2 * padding,
+      y: -e.textHeight * 0.1,
+      // x: e.x + 2 * padding,
+      // y: e.y + e.textHeight * 0.35,
     }
 
     return (
-      <g>
-        <rect {...dimensionsBox} className={className}/>
+      <g transform={`translate(${position.x} ${position.y})`}>
+        <rect {...dimensionsBox} className={className} />
         <text {...dimensionsText} ref={e.control} className={styles.graphText}>
-          { e.text }
-          <title>{e.title}</title>
+          <tspan style={{ fontWeight: 'bold' }}>{e.info.type}</tspan>
+          {e.info.name}
+          <tspan x={2 * padding} dy="1em">
+            score={e.info.score}{e.info.info}
+          </tspan>
+          {/* <title>{e.title}</title> */}
         </text>
       </g>
     );
@@ -51,15 +80,15 @@ export class EdgePath extends React.Component<EdgeProps> {
     const e = this.props.edge;
     const className =
       (e.treatment === EdgeTreatment.SELECTED) ?
-      styles.graphPathSelected :
-      styles.graphPath;
+        styles.graphPathSelected :
+        styles.graphPath;
 
-      const padding = this.props.padding;
+    const padding = this.props.padding;
 
     return (
       <path
         className={className}
-        d = {this.getPath()}
+        d={this.getPath()}
       />
     );
   }
@@ -68,7 +97,7 @@ export class EdgePath extends React.Component<EdgeProps> {
     const padding = this.props.padding;
     const e = this.props.edge;
 
-    const u = padding/2;
+    const u = padding / 2;
     const left = e.x;
     const right = e.x + e.width;
 
@@ -82,9 +111,9 @@ export class EdgePath extends React.Component<EdgeProps> {
         M${left},${0}
         h${u}
         a${u},${u},0,0,1,${u},${u}
-        V${e.y-u}
+        V${e.y - u}
         a${u},${u},0,0,0,${u},${u}
-        H${right - 3*u}
+        H${right - 3 * u}
         a${u},${u},0,0,0,${u},${-u}
         V${u}
         a${u},${u},0,0,1,${u},${-u}
@@ -95,9 +124,9 @@ export class EdgePath extends React.Component<EdgeProps> {
         M${left},${0}
         h${u}
         a${u},${u},0,0,0,${u},${-u}
-        V${e.y+u}
+        V${e.y + u}
         a${u},${u},0,0,1,${u},${-u}
-        H${right - 3*u}
+        H${right - 3 * u}
         a${u},${u},0,0,1,${u},${u}
         V${-u}
         a${u},${u},0,0,0,${u},${u}
@@ -106,3 +135,81 @@ export class EdgePath extends React.Component<EdgeProps> {
     }
   }
 }
+
+
+export interface TokenFormat {
+  type: string;
+  name: string;
+  info: string;
+  score: number;
+}
+
+export function formatToken(t: Token, score: number): TokenFormat {
+  const token = t as AnyToken;
+
+  let type: string;
+  let name: string;
+  let info: string;
+
+  switch (token.type) {
+    case ATTRIBUTE:
+      type = 'ATTRIBUTE: ';
+      name = token.name;
+      info = ', aid=' + token.id;
+      break;
+    case ENTITY:
+      type = 'PRODUCT: ';
+      name = token.name;
+      info = ', pid=' + token.pid;
+      break;
+    case NUMBERTOKEN:
+      type = 'NUMBER: ';
+      name = token.value.toString();
+      info = '';
+      break;
+    case OPTION:
+      type = 'OPTION: ';
+      name = token.name;
+      info = ', pid=' + token.id;
+      break;
+    case OPTION_RECIPE:
+      type = 'OPTION_RECIPE: ';
+      name = token.name;
+      info = ', rid=' + token.rid;
+      break;
+    case PRODUCT_RECIPE:
+      type = 'PRODUCT_RECIPE: ';
+      name = token.name;
+      info = ', rid=' + token.rid;
+      break;
+    case QUANTITY:
+      type = 'QUANTITY: ';
+      name = token.value.toString();
+      info = '';
+      break;
+    case UNIT:
+      type = 'UNIT ';
+      name = '';
+      info = '';
+      break;
+    case WORD:
+      type = 'WORD ';
+      name = token.text;
+      info = '';
+      break;
+    default:
+      {
+        const symbol = t.type.toString();
+        type = `${symbol.slice(7, symbol.length - 1)}`;
+        name = '';
+        info = '';
+      }
+  }
+  return {
+    type,
+    name,
+    info,
+    score
+  }
+}
+

@@ -1,15 +1,28 @@
 # TODO List
 
-* speechToTextFilter should appear in one place
-* lexicon master-detail
-* confusion matrix
-* word to concept viewer
-* recipes view
+* Better graph visuals
+  * Space around boxes
+  * Highlight best path
+  * x Multiline with score
+* Rename SetSpeechSupport to SetSpeechSupported
+* "a lotta"
+* "with x instead of y"
+* Clear cart should clear the transcription
+* History grouping should be based on gap length, not start to end time
+* History groups break at cart resets
+* "an espresso" =? "a nespresso"
 * regression.yaml failures
   * What is wrong with "get a double double"?
+    * Product recipes not implemented
 * SpeechToTextFilter: "double-double"
-* x Clear cart button
+* speechToTextFilter should be called from exactly one place
 * Undo button next to clear button
+* . Finish up history editing controls (thumbs, notes)
+* lexicon master-detail
+* confusion matrix
+  * word => attrib/entity/intent viewer
+* recipes view
+* x Clear cart button
 * Consider moving clear and undo to the recorder bar
 * Intents for undo, start over, clear cart, etc
 * Deactivate popovers on click outside

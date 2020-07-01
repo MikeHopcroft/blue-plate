@@ -23,3 +23,18 @@ You can say things like:
 
 Click on the `Menu` tab at the top for information about items you can order.
 The `History` tab shows a transcription of your conversation. The dropdown in the top right provides an option for downloading the transcription. 
+
+**Interesting Examples**
+
+* In this example, _"double"_ could associate left as a `double shot` or right as the `double` attribute.
+  * _add a grande cappuccino double espresso_
+* Changes to specific items in the cart
+  * _can I get a skinny vanilla cinnamon latte please_
+  * _can you make that with two pumps of vanilla_
+  * _add one espresso_
+  * _make the latte soy_
+  * _make the latte with almond milk_
+  * _make the espresso decaf_
+  * _add almond syrup to the latte_
+  * _add vanilla syrup to the espresso_
+  * _remove the vanilla syrup from the latte_

@@ -17,14 +17,16 @@ export enum TextSource {
 export enum Correctness {
   CORRECT = 'CORRECT',
   INCORRECT = 'INCORRECT',
+  UNKNOWN = 'UNKNOWN',
 }
 
 export interface HistoryItem {
   cart: Cart;
+  id: number;
   source: TextSource;
   timestamp: Date;
   text: string;
-  correctness?: Correctness;
+  correctness: Correctness;
   note?: string;
 };
 

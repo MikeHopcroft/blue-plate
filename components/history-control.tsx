@@ -56,7 +56,9 @@ class HistoryControl extends React.Component<Props, State> {
     return (
       <div className={styles.historyGroup} key={index.toString()}>
         {group[0].timestamp.toLocaleDateString()}
-        { group.map((item, index) => <HistoryItemControl history={item} key={index}/>)}
+        { group.map((item) => 
+          <HistoryItemControl history={item} key={item.id}/>
+        )}
       </div>
     )
   }

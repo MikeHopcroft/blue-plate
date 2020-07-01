@@ -1,4 +1,4 @@
-import { speechToTextFilter } from 'prix-fixe';
+import { IdGenerator, speechToTextFilter } from 'prix-fixe';
 import { Reducer } from 'redux';
 
 import {
@@ -16,12 +16,14 @@ import {
   SetPIDAction,
   SetWorldAction,
   SetSpeechSupportAction,
+  UpdateHistoryItemAction,
 } from './actions';
 
 import {
   ApplicationState,
   initialState,
   HistoryItem,
+  Correctness,
 } from './application-state';
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -56,10 +58,15 @@ export const ApplicationStateReducer: Reducer<ApplicationState, AnyAction> =
         return applySetSpeechSupport(state, action);
       case ActionType.SET_WORLD:
         return applySetWorld(state, action);
+      case ActionType.UPDATE_HISTORY_ITEM:
+        return applyUpdateHistoryItem(state, action);
       default:
         return state;
     }
   };
+
+
+export const historyIds = new IdGenerator();
 
 function applyAppendHistory(
   appState: ApplicationState,
@@ -67,6 +74,8 @@ function applyAppendHistory(
 ): ApplicationState {
   const item: HistoryItem = {
     cart,
+    correctness: Correctness.UNKNOWN,
+    id: historyIds.next(),
     source,
     timestamp: new Date(),
     text
@@ -199,5 +208,22 @@ function applySetWorld(
     shortOrderWorld,
     lexiconSpec,
     cart: { items: [] },
+  };
+}
+
+function applyUpdateHistoryItem(
+  appState: ApplicationState,
+  { id, changes }: UpdateHistoryItemAction
+): ApplicationState {
+  const history = appState.history.map(item =>
+    (id === item.id) ? {...item, ...changes} : item
+  );
+
+  // console.log(`applyUpdateHistoryItem(${id},${JSON.stringify(changes)}`);
+  // console.log(history);
+
+  return {
+    ...appState,
+    history
   };
 }

@@ -1,7 +1,7 @@
 import { Cart, PID, World } from 'prix-fixe';
 import { LexiconSpec, ShortOrderWorld } from 'short-order';
 
-import { ApplicationMode, TextSource } from "./application-state";
+import { ApplicationMode, TextSource, HistoryItem } from "./application-state";
 
 export enum ActionType {
   APPEND_HISTORY = 'APPEND_HISTORY',
@@ -17,6 +17,7 @@ export enum ActionType {
   SET_PID = 'SET_PID',
   SET_SPEECH_SUPPORT = 'SET_SPEECH_SUPPORT',
   SET_WORLD = 'SET_WORLD',
+  UPDATE_HISTORY_ITEM = 'UPDATE_HISTORY'
 };
 
 export interface AppendHistoryAction {
@@ -161,6 +162,22 @@ export function setSpeechSupport(speechSupport: boolean): SetSpeechSupportAction
   return { type: ActionType.SET_SPEECH_SUPPORT, speechSupport };
 }
 
+export interface UpdateHistoryItemAction {
+  type: ActionType.UPDATE_HISTORY_ITEM;
+  id: number;
+  changes: Partial<HistoryItem>;
+};
+
+export function updateHistoryItem(
+  id: number,
+  changes: Partial<HistoryItem>): UpdateHistoryItemAction {
+  return {
+    type: ActionType.UPDATE_HISTORY_ITEM,
+    id,
+    changes
+  };
+}
+
 export type AnyAction =
   AppendHistoryAction |
   ClearCartAction |
@@ -174,4 +191,5 @@ export type AnyAction =
   SetOptionPIDAction |
   SetPIDAction |
   SetWorldAction |
-  SetSpeechSupportAction;
+  SetSpeechSupportAction |
+  UpdateHistoryItemAction;

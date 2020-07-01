@@ -1,10 +1,12 @@
 import { Correctness, HistoryItem, TextSource } from './application-state';
+import { historyIds } from './reducers';
 
 export function getSampleHistory(): HistoryItem[] {
   return sampleHistory.map(item => {
     return {
       source: item.source as TextSource,
       cart: item.cart || { items: []},
+      id: historyIds.next(),
       timestamp: new Date(item.timestamp),
       text: item.text,
       correctness: item.correctness as Correctness,

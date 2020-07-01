@@ -16,14 +16,23 @@ import {
 } from 'react-icons/fa';
 
 import { connect } from 'react-redux'
+import { Dispatch } from 'redux'
 
-import { ApplicationState, HistoryItem, TextSource, Correctness } from "../actions";
+import {
+  AnyAction,
+  ApplicationState,
+  Correctness,
+  HistoryItem,
+  TextSource,
+  updateHistoryItem,
+} from "../actions";
 
 import styles from './controls.module.css';
 
 interface Props {
   history: HistoryItem;
   world: World;
+  setCorrectness: (id: number, value: Partial<HistoryItem>) => void;
 };
 
 interface State {
@@ -58,6 +67,21 @@ class HistoryItemControl extends React.Component<Props, State> {
     this.setState({ hover: false });
   }
 
+  setCorrectness = (id, key: string) => {
+    // console.log(`setCorrectness(${key})`);
+    if (
+      key === Correctness.CORRECT ||
+      key === Correctness.INCORRECT ||
+      key === Correctness.UNKNOWN
+    ) {
+      this.props.setCorrectness(id, { correctness: key });
+    }
+  }
+
+  setNote = (id: number, note: string) => {
+    this.props.setCorrectness(id, { note });
+  }
+
   render() {
     const item = this.props.history;
     return (
@@ -68,13 +92,13 @@ class HistoryItemControl extends React.Component<Props, State> {
       // style={this.state.hover?{backgroundColor: 'gray'}:{}}
       >
         <div className={styles.historyItemHeader}>
-          {renderCorrectness(this.state.hover, item.correctness)}
+          {renderCorrectness(this.state.hover, item, this.setCorrectness)}
           {renderSource(item.source)}
           <b>{`${item.timestamp.toLocaleTimeString()}: `}</b>
           <span style={{ paddingLeft: '6px' }}><i>{item.text}</i></span>
           {/* <div style={{flexGrow: 1}}></div> */}
           {/* {this.state.hover || item.note ? renderNote(item.note) : null} */}
-          { renderNote(this.state.hover, item.note) }
+          { renderNote(this.state.hover, item, this.setNote) }
         </div>
         {this.renderCart(item.cart)}
       </div>
@@ -146,18 +170,25 @@ const CustomToggle = React.forwardRef<
   )
 });
 
-function renderCorrectness(hover: boolean, correctness: Correctness) {
+function renderCorrectness(
+  hover: boolean,
+  item: HistoryItem,
+  setCorrectness: (id: number, key: string) => void
+) {
+  const correctness = item.correctness;
+  const id = item.id;
+
   if (hover) {
     return (
-      <Dropdown>
+      <Dropdown onSelect={(key) => {setCorrectness(id, key)}}>
         <Dropdown.Toggle as={CustomToggle} id="dropdown-basic">
           {renderCorrectnessIcon(hover, correctness)}
         </Dropdown.Toggle>
 
         <Dropdown.Menu style={{ minWidth: '1rem', padding: '0px 2px' }}>
-          <Dropdown.Item href="#/action-1" style={{ padding: '1px 1ex' }}><FaThumbsUp style={{ color: 'green' }} /></Dropdown.Item>
-          <Dropdown.Item href="#/action-2" style={{ padding: '1px 1ex' }}><FaThumbsDown style={{ color: 'red' }} /></Dropdown.Item>
-          <Dropdown.Item href="#/action-3" style={{ padding: '1px 1ex' }}><FaQuestionCircle style={{ color: 'lightgray' }} /></Dropdown.Item>
+          <Dropdown.Item eventKey={Correctness.CORRECT} style={{ padding: '1px 1ex' }}><FaThumbsUp style={{ color: 'green' }} /></Dropdown.Item>
+          <Dropdown.Item eventKey={Correctness.INCORRECT} style={{ padding: '1px 1ex' }}><FaThumbsDown style={{ color: 'red' }} /></Dropdown.Item>
+          <Dropdown.Item eventKey={Correctness.UNKNOWN} style={{ padding: '1px 1ex' }}><FaQuestionCircle style={{ color: 'lightgray' }} /></Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     );
@@ -177,18 +208,26 @@ function renderCorrectnessIcon(hover: boolean, correctness: Correctness) {
   }
 }
 
-function renderNote(hover: boolean, note?: string) {
+function renderNote(
+  hover: boolean,
+  item: HistoryItem,
+  setNote: (id: number, text: string) => void,
+) {
+  const note = item.note;
   const style = note ? { color: '#ffd699' } : { color: 'lightgray'};
   const icon = note ? <FaComment style={style}/> : <FaRegComment style={style}/>;
 
   if (hover) {
     const popover = (
       <Popover id="popover-basic" style={{maxWidth: 'unset'}}>
-        {/* <Popover.Title as="h3">Comment here</Popover.Title> */}
         <Popover.Content>
-          <textarea rows={5} cols={20} style={{resize: 'both'}}>
-            {note}
-          </textarea>
+          <textarea
+            onInput = {(e) => setNote(item.id, e.currentTarget.value)}
+            rows={5}
+            cols={20}
+            style={{resize: 'both'}}
+            defaultValue={note}
+          />
         </Popover.Content>
       </Popover>
     );
@@ -209,4 +248,13 @@ function mapStateToProps(application: ApplicationState) {
   return { world: application.world };
 }
 
-export default connect(mapStateToProps)(HistoryItemControl);
+function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
+  return {
+    setCorrectness: (id: number, changes: Partial<HistoryItem>) => {
+      // console.log(`${id}: ${JSON.stringify(changes)}`);
+      dispatch(updateHistoryItem(id, changes));
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HistoryItemControl);
