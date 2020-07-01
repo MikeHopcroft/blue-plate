@@ -24,6 +24,8 @@ interface EdgeProps {
   padding: number;
 }
 
+const BOX_PADDING = 2;
+
 export class EdgeLabel extends React.Component<EdgeProps> {
   render() {
     console.log('EdgeControl.render()');
@@ -37,24 +39,20 @@ export class EdgeLabel extends React.Component<EdgeProps> {
     const padding = this.props.padding;
 
     const position = {
-      x: e.x, // + 2 * padding,
-      y: e.y  // - e.textHeight * 0.5,
+      x: e.x,
+      y: e.y,
     }
 
     const dimensionsBox = {
-      // x: e.x + 2 * padding,
-      // y: e.y - e.textHeight * 0.5,
-      x: 2 * padding,
-      y: -e.textHeight * 0.5,
-      width: e.textWidth,
-      height: e.textHeight,
+      x: 2 * padding - BOX_PADDING,
+      y: -e.textHeight * 0.5 - BOX_PADDING,
+      width: e.textWidth + BOX_PADDING * 2,
+      height: e.textHeight + BOX_PADDING * 2,
     }
 
     const dimensionsText = {
       x: 2 * padding,
       y: -e.textHeight * 0.1,
-      // x: e.x + 2 * padding,
-      // y: e.y + e.textHeight * 0.35,
     }
 
     return (
@@ -64,7 +62,7 @@ export class EdgeLabel extends React.Component<EdgeProps> {
           <tspan style={{ fontWeight: 'bold' }}>{e.info.type}</tspan>
           {e.info.name}
           <tspan x={2 * padding} dy="1em">
-            score={e.info.score}{e.info.info}
+            score={e.info.score.toFixed(1)}{e.info.info}
           </tspan>
           {/* <title>{e.title}</title> */}
         </text>
@@ -82,8 +80,6 @@ export class EdgePath extends React.Component<EdgeProps> {
       (e.treatment === EdgeTreatment.SELECTED) ?
         styles.graphPathSelected :
         styles.graphPath;
-
-    const padding = this.props.padding;
 
     return (
       <path

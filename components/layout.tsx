@@ -14,9 +14,6 @@ export class Edge {
   startCol: number;
   endCol: number;
 
-  // score: number;
-  // text: string;
-  // title: string; 
   info: TokenFormat;
 
   length: number;
@@ -39,17 +36,11 @@ export class Edge {
     startCol: number,
     endCol: number,
     info: TokenFormat,
-    // score: number,
-    // text: string,
-    // title: string,
     treatment: EdgeTreatment
   ) {
     this.startCol = startCol;
     this.endCol = endCol;
     this.info = info;
-    // this.score = score;
-    // this.text = text;
-    // this.title = title;
     this.treatment = treatment;
 
     this.length = endCol - startCol;
@@ -106,7 +97,7 @@ class Row {
   }
 }
 
-export interface MinMax {x1: number, x2: number, y1:number, y2:number};
+export interface MinMax { x1: number, x2: number, y1: number, y2: number };
 
 export class Layout {
   xPadding = 20;
@@ -116,17 +107,28 @@ export class Layout {
   columns: Column[] = [];
   rows: Row[] = [];
 
-  boundingBox: MinMax = { x1: 0, x2: 0, y1:0, y2:0 };
+  boundingBox: MinMax = { x1: 0, x2: 0, y1: 0, y2: 0 };
 
   measurePassId: Symbol = Symbol('measure');
 
   constructor(columnCount: number, edges: Edge[]) {
-    edges.sort((a,b) => {
-      const d = a.length - b.length;
+    edges.sort((a, b) => {
+      let d = a.length - b.length;
       if (d) {
         return d;
       }
-      return a.startCol - b.startCol;
+      d = a.startCol - b.startCol;
+      if (d) {
+        return d;
+      }
+
+      if (a.treatment === b.treatment) {
+        return 0;
+      } else if (a.treatment === EdgeTreatment.WORD) {
+        return -1;
+      } else {
+        return 1;
+      }
     })
     this.edges = edges;
     for (let i = 0; i <= columnCount; ++i) {
@@ -145,10 +147,9 @@ export class Layout {
 
     for (const e of this.edges) {
       const { width, height } = e.control.current.getBBox();
-      // console.log(`"${e.text}": width: ${width}, height: ${height}`);
       e.textWidth = width;
       e.textHeight = height;
-      e.width = 0; //width + 2 * this.xPadding;
+      e.width = 0;
       e.height = height + 2 * this.yPadding;
     }
   }
@@ -195,7 +196,6 @@ export class Layout {
     this.rows[0].y = 0;
 
     let y = this.rows[0].height / 2 + this.yPadding;
-    // let y = this.yPadding;
     // Even rows go one the baseline and below.
     for (let i = 1; i < this.rows.length; i += 2) {
       this.rows[i].y = y;
@@ -204,7 +204,6 @@ export class Layout {
 
     // Odd rows go above the baseline.
     y = -this.rows[0].height / 2 - this.yPadding;
-    // y = -this.yPadding;
     for (let i = 2; i < this.rows.length; i += 2) {
       this.rows[i].y = y;
       y -= this.rows[i].height / 2 + this.yPadding;
@@ -218,12 +217,12 @@ export class Layout {
     this.boundingBox = this.edges.reduce<Partial<MinMax>>((acc, edge) => {
       const x1 = edge.x;
       const x2 = edge.x + edge.width;
-      const y1 = edge.y - edge.textHeight/2;
-      const y2 = edge.y + edge.textHeight/2;
-      acc.x1 = ( acc.x1 === undefined || x1 < acc.x1 ) ? x1 : acc.x1;
-      acc.x2 = ( acc.x2 === undefined || x2 > acc.x2 ) ? x2 : acc.x2;
-      acc.y1 = ( acc.y1 === undefined || y1 < acc.y1 ) ? y1 : acc.y1;
-      acc.y2 = ( acc.y2 === undefined || y2 > acc.y2 ) ? y2 : acc.y2;
+      const y1 = edge.y - edge.textHeight / 2;
+      const y2 = edge.y + edge.textHeight / 2;
+      acc.x1 = (acc.x1 === undefined || x1 < acc.x1) ? x1 : acc.x1;
+      acc.x2 = (acc.x2 === undefined || x2 > acc.x2) ? x2 : acc.x2;
+      acc.y1 = (acc.y1 === undefined || y1 < acc.y1) ? y1 : acc.y1;
+      acc.y2 = (acc.y2 === undefined || y2 > acc.y2) ? y2 : acc.y2;
       return acc;
     }, {}) as MinMax;
 
@@ -244,36 +243,37 @@ export class Layout {
 
 export function createLayout(world: ShortOrderWorld, text: string): Layout {
   const terms = world.lexer.lexicon.termModel.breakWords(text);
-
   const rawGraph: Graph = world.lexer.createGraph(text);
+  const coalescedGraph = coalesceGraph(world.lexer.tokenizer, rawGraph);
 
   // TODO: REVIEW: MAGIC NUMBER
-  const coalescedGraph = coalesceGraph(world.lexer.tokenizer, rawGraph);
-  const filteredGraph: Graph = filterGraph(coalescedGraph, 0.35);
-  // 0.35 is the score cutoff for the filtered graph.
+  // Magic number: 0.35 is the score cutoff for the filtered graph.
+  const scoreThreshold = 0.35;
+  const filteredGraph: Graph = filterGraph(coalescedGraph, scoreThreshold);
+
+  const paths = [
+    ...world.lexer.pathsFromGraph2(filteredGraph)
+  ].map(x => new Set(x));
 
   const edges: Edge[] = [];
-  for (const [i, term] of terms.entries()) {
-    const info: TokenFormat = {
-      type: 'WORD: ',
-      name: term,
-      info: '',
-      score: 0
-    }
-    edges.push(new Edge(i, i + 1, info, EdgeTreatment.WORD));
-  }
+
   for (const [i, edgeList] of filteredGraph.edgeLists.entries()) {
-      for (const edge of edgeList) {
-        const info = formatToken(edge.token, edge.score);
-        if (info.type !== 'UNKNOWNTOKEN') {
-          edges.push(new Edge(i, i + edge.length, info, EdgeTreatment.TOKEN));
+    for (const edge of edgeList) {
+      const info = formatToken(edge.token, edge.score);
+      if (info.type === 'UNKNOWNTOKEN' && edge.score === 0 && edge.length === 1) {
+        const treatment = paths[0].has(edge) ? EdgeTreatment.SELECTED : EdgeTreatment.WORD;
+        const info: TokenFormat = {
+          type: 'WORD: ',
+          name: terms[i],
+          info: '',
+          score: 0
         }
-        // const description = tokenToString(edge.token).toLowerCase();
-        // const title = 'score=' + edge.score.toFixed(2);
-        // if (description !== '[UNKNOWNTOKEN]') {
-        //   edges.push(new Edge(i, i + edge.length, edge.score, description, title, EdgeTreatment.TOKEN));
-        // }
+        edges.push(new Edge(i, i + 1, info, treatment));
+      } else {
+        const treatment = paths[0].has(edge) ? EdgeTreatment.SELECTED : EdgeTreatment.TOKEN;
+        edges.push(new Edge(i, i + edge.length, info, treatment));
       }
+    }
   }
   return new Layout(coalescedGraph.edgeLists.length, edges);
 }

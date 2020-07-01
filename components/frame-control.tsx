@@ -71,7 +71,7 @@ class FrameControl extends React.Component<Props> {
     return (
       <Tab.Container 
         id="left-tabs-example"
-        defaultActiveKey="info"
+        defaultActiveKey="graph"
         mountOnEnter={true}
         unmountOnExit={true}
       >

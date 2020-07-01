@@ -1,5 +1,20 @@
 # TODO List
 
+* Top
+  * Graph
+    * Highlighting paths
+    * Aliases popup
+  * Master/detail/drilldown control
+    * Products, Product Details, Option Details
+    * Tokens, Aliases, Matches
+    * Words, Tokens, Aliases
+  * English/Spanish
+    * Mode switcher
+    * Stemmer
+    * Speech config
+    * Menu and lexicon switch
+  * History fit and finish
+* Thumbs icon hits keyboard icon
 * Better graph visuals
   * Space around boxes
   * Highlight best path
