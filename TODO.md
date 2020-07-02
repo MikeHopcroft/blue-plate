@@ -2,22 +2,25 @@
 
 * Top
   * Graph
-    * Highlighting paths
+    * x Highlighting best path
+    * Highlighting other paths
     * Aliases popup
   * Master/detail/drilldown control
     * Products, Product Details, Option Details
-    * Tokens, Aliases, Matches
-    * Words, Tokens, Aliases
+    * x Tokens, Aliases, Expansions
+    * Words, Tokens, Token Details
   * English/Spanish
     * Mode switcher
     * Stemmer
     * Speech config
     * Menu and lexicon switch
   * History fit and finish
+    * Dismiss note editor control on enter
+    * Dismiss note editor on loss of focus
 * Thumbs icon hits keyboard icon
-* Better graph visuals
-  * Space around boxes
-  * Highlight best path
+* x Better graph visuals
+  * x Space around boxes
+  * x Highlight best path
   * x Multiline with score
 * Rename SetSpeechSupport to SetSpeechSupported
 * "a lotta"

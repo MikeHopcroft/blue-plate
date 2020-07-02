@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 import { ApplicationState } from "../actions";
 
+import { MasterDetail } from './master-detail-control';
 import ProductDetailControl from './product-detail-control';
 import ProductListControl from './product-list-control';
 
@@ -12,9 +13,15 @@ interface Props {
 };
 
 class MenuControl extends React.Component<Props> {
+  render1() {
+    return (
+      <MasterDetail/>
+    );
+  }
+
   render() {
     return (
-      <div className='foo' style={{
+      <div style={{
         display: 'flex',
         flexDirection: 'row',
         width: '100%',

@@ -13,7 +13,7 @@ import GraphPanelControl from './graph-panel-control';
 import HamburgerControl from './hamburger-control';
 import HistoryControl from './history-control';
 import InfoControl from './info-control';
-import LexiconControl from './lexicon-control';
+import LexiconControl from './lexicon/lexicon-control';
 import LoadingControl from './loading-control';
 import MenuControl from './menu-control';
 import RecorderControl from './recorder-control';
@@ -71,7 +71,7 @@ class FrameControl extends React.Component<Props> {
     return (
       <Tab.Container 
         id="left-tabs-example"
-        defaultActiveKey="graph"
+        defaultActiveKey="lexicon"
         mountOnEnter={true}
         unmountOnExit={true}
       >
@@ -102,7 +102,7 @@ class FrameControl extends React.Component<Props> {
           <Tab.Pane eventKey="menu" style={{height: '100%', overflow: 'auto'}}>
             <MenuControl />
           </Tab.Pane>
-          <Tab.Pane eventKey="lexicon">
+          <Tab.Pane eventKey="lexicon" style={{height: '100%', overflow: 'auto'}}>
             <LexiconControl />
           </Tab.Pane>
           <Tab.Pane eventKey="graph" style={{height: '100%', overflow: 'auto'}}>
