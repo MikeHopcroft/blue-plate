@@ -24,7 +24,7 @@ class HistoryControl extends React.Component<Props, State> {
 
   render() {
     return (
-      <div>
+      <div className={styles.historyPane}>
         {this.renderHistory(this.props.history)}
         <div ref={this.panelEndRef}/>
       </div>

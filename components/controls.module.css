@@ -39,9 +39,10 @@
 }
 
 .frameTab {
+  background-color: green;
   width: 100%;
   height: 100%;
-  overflow: auto;
+  /* overflow: auto; */
 }
 
 .graphShapeSelected {
@@ -111,8 +112,17 @@
   padding-left: 3ex;
 }
 
+.historyPane {
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+}
+
 .infoPane {
   padding: 1em;
+  overflow: auto;
+  height: 100%;
+  width: 100%;
 }
 
 .lexiconToken {

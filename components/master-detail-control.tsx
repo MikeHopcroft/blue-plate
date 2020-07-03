@@ -9,8 +9,8 @@ interface State {
 
 export function createMasterDetail(
   Master: React.ComponentType<{ selected?: string }>,
-  Detail: React.ComponentType<{ selected?: string }>,
-  Drilldown: React.ComponentType<{ selected: string }>
+  Detail: React.ComponentType<{ isDrilldown?: boolean, selected?: string }>,
+  Drilldown: React.ComponentType<{ isDrilldown?: boolean, selected: string }>
 ) {
   return class MasterDetailControl extends React.Component<{}, State> {
     constructor(props) {
@@ -18,15 +18,17 @@ export function createMasterDetail(
       this.onDetail = this.onDetail.bind(this);
       this.onDrilldown = this.onDrilldown.bind(this);
       this.state = {
-        detailKey: 'one'
+        // detailKey: 'one'
       }
     }
 
     onDetail = (detailKey: string | undefined) => {
+      console.log(`onDetail ${detailKey}`);
       this.setState({ detailKey, drilldownKey: undefined });
     }
 
     onDrilldown = (drilldownKey: string | undefined) => {
+      console.log(`onDrilldown ${drilldownKey}`);
       this.setState({ drilldownKey: drilldownKey.length === 0 ? undefined: drilldownKey });
     }
 
@@ -38,7 +40,7 @@ export function createMasterDetail(
           width: '100%',
           height: '100%'
         }}>
-          <div style={{ flexShrink: 0, height: '100%', overflow: 'auto'}}>
+          <div style={{ flexShrink: 0, overflow: 'auto'}}>
             <Nav
               className="flex-column"
               variant="pills"
@@ -51,12 +53,15 @@ export function createMasterDetail(
               <Master selected={this.state.detailKey} />
             </Nav>
           </div>
-          <div style={{  overflow: 'auto' }}>
-            <Nav onSelect={this.onDrilldown}>
+          <div id='baz' style={{flexGrow: 1, overflow: 'auto'}}>
+            <Nav
+              onSelect={this.onDrilldown}
+              // style={{ overflow: 'auto'}}
+            >
               {
                 (this.state.drilldownKey === undefined) ?
-                  <Detail selected={this.state.detailKey} /> :
-                  <Drilldown selected={this.state.drilldownKey} />
+                  <Detail isDrilldown={false} selected={this.state.detailKey} /> :
+                  <Drilldown isDrilldown={true} selected={this.state.drilldownKey} />
               }
             </Nav>
           </div>

@@ -26,18 +26,32 @@ import { Dispatch } from 'redux'
 import { AnyAction, ApplicationState, setOptionPID } from "../actions";
 
 import styles from './controls.module.css';
+import { BackButton } from './master-detail-control';
 
 interface Props {
+  // currentPID: PID;
+  // optionPID: PID;
+  // optionChanged: (pid: PID | undefined) => void;
+  isDrilldown?: boolean;
+  selected?: string;
   world: World;
-  currentPID: PID;
-  optionPID: PID;
-  optionChanged: (pid: PID | undefined) => void;
 };
 
 class ProductDetailControl extends React.Component<Props> {
+  render2() {
+    return (
+      <div style={{width: '500px', height: '500px', backgroundColor: 'lightblue'}}>
+        But do thy worst to steal thyself away, For term of life thou art assured mine; And life no longer than thy love will stay, For it depends upon that love of thine. Then need I not to fear the worst of wrongs, When in the least of them my life hath end. I see a better state to me belongs Than that which on thy humour doth depend: Thou canst not vex me with inconstant mind, Since that my life on thy revolt doth lie.
+      </div>
+    );
+  }
   render() {
     return (
-      <div style={{ width: '100%', height: '100%', overflow: 'auto'}}>
+      <div id='productDetail' style={{
+        width: '100%',
+        height: '100%',
+        // overflow: 'auto'
+      }}>
         {this.renderGeneric(this.props.world)}
       </div>
     );
@@ -46,28 +60,37 @@ class ProductDetailControl extends React.Component<Props> {
   renderGeneric(world: World) {
     const catalog = world.catalog;
 
-    let pid = this.props.currentPID;
-    if (this.props.optionPID !== undefined) {
-      pid = this.props.optionPID;
+    // let pid = this.props.currentPID;
+    // if (this.props.optionPID !== undefined) {
+    //   pid = this.props.optionPID;
+    // }
+    if (this.props.selected === undefined) {
+      return null;
     }
 
-    const closeButton = (
-      <Button
-        variant='outline-light'
-        onClick={() => this.props.optionChanged(undefined)}
-        >
-        <FaArrowCircleLeft style={{color: '#007bff', width: "30px", height: "30px"}}/>
-      </Button>
-    );
+    const pid = Number(this.props.selected);
+
+    // const closeButton = (
+    //   <Button
+    //     variant='outline-light'
+    //     onClick={() => this.props.optionChanged(undefined)}
+    //     >
+    //     <FaArrowCircleLeft style={{color: '#007bff', width: "30px", height: "30px"}}/>
+    //   </Button>
+    // );
 
     if (!catalog.hasPID(pid)) {
       return <div>Unknown PID {pid}</div>;
     } else {
       const item = catalog.getGeneric(pid);
       return (
-        <div>
+        <div style={{
+          width: '100%',
+          // overflow: 'auto'
+        }}>
           <div style={{display: 'flex', flexDirection: 'row'}}>
-            {pid === this.props.optionPID ? closeButton : null }
+            {/* {pid === this.props.optionPID ? closeButton : null } */}
+            { this.props.isDrilldown ? <BackButton/> : null }
             <h1>{item.name} ({item.pid})</h1>
           </div>
           <div style={{display: 'flex', flexDirection: 'row'}}>
@@ -151,13 +174,16 @@ class ProductDetailControl extends React.Component<Props> {
 
   renderGenericLink = (item: GenericTypedEntity) => {
     return (
-      <Nav.Link
-        className={styles.nested}
-        key={item.pid}
-        onClick={() => this.props.optionChanged(item.pid)}
-      >
-        {item.name} ({item.pid})
-      </Nav.Link>
+      <Nav.Item key={item.pid} style={{backgroundColor: 'lightblue', paddingTop: '0', paddingBottom: '0'}}>
+        <Nav.Link
+          className={styles.nested}
+          key={item.pid}
+          eventKey={item.pid}
+          // onClick={() => this.props.optionChanged(item.pid)}
+        >
+          {item.name} ({item.pid})
+        </Nav.Link>
+      </Nav.Item>
     );
   }
 }

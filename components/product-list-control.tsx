@@ -10,13 +10,14 @@ import styles from './controls.module.css';
 
 interface Props {
   application: ApplicationState;
-  selectionChanged: (pid: PID) => void;
+  // selectionChanged: (pid: PID) => void;
+  selected? : string;
 };
 
 class ProductListControl extends React.Component<Props> {
-  onSelect = (eventKey: string) => {
-    this.props.selectionChanged(Number(eventKey));
-  }
+  // onSelect = (eventKey: string) => {
+  //   this.props.selectionChanged(Number(eventKey));
+  // }
 
   render() {
     return (
@@ -38,16 +39,16 @@ class ProductListControl extends React.Component<Props> {
         options.push(item);
       }
     }
-  
+
     products.sort((a,b) => (a.name.localeCompare(b.name)));
     options.sort((a,b) => (a.name.localeCompare(b.name)));
-  
+
     return (
       <div style={{ width: '100%', height: '100%', overflow: 'auto'}}>
         <Nav
           className="flex-column"
-          activeKey={currentPID}
-          onSelect={this.onSelect}
+          // activeKey={currentPID}
+          // onSelect={this.onSelect}
           variant="pills"
         >
           <div style={{fontWeight: 'bold'}}>Products:</div>
@@ -57,7 +58,7 @@ class ProductListControl extends React.Component<Props> {
         </Nav>
       </div>
     );
-  
+
     function renderItem(item: GenericTypedEntity) {
       return (
         <Nav.Item key={item.pid} style={{paddingTop: '0', paddingBottom: '0'}}>

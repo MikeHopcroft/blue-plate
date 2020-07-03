@@ -13,7 +13,7 @@ import GraphPanelControl from './graph-panel-control';
 import HamburgerControl from './hamburger-control';
 import HistoryControl from './history-control';
 import InfoControl from './info-control';
-import LexiconControl from './lexicon/lexicon-control';
+import LexiconControl from './lexicon-control';
 import LoadingControl from './loading-control';
 import MenuControl from './menu-control';
 import RecorderControl from './recorder-control';
@@ -69,50 +69,57 @@ class FrameControl extends React.Component<Props> {
   //   https://stackoverflow.com/questions/28282295/getbbox-of-svg-when-hidden
   renderTabs() {
     return (
-      <Tab.Container 
-        id="left-tabs-example"
-        defaultActiveKey="lexicon"
-        mountOnEnter={true}
-        unmountOnExit={true}
+      <div
+        id='foobar'
+        style={{display: 'flex', flexDirection: 'column', width: '100%', height: '100%', backgroundColor: 'red'}}
       >
-        <Nav variant="tabs" className="flex-row">
-        <Nav.Item>
-            <Nav.Link eventKey="info">Info</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey="menu">Menu</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey="lexicon">Lexicon</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey="graph">Graph</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey="history">History</Nav.Link>
-          </Nav.Item>
-          <div style={{flexGrow: 1}}>
+        <Tab.Container 
+          id="left-tabs-example"
+          defaultActiveKey="lexicon"
+          mountOnEnter={true}
+          unmountOnExit={true}
+        >
+          <Nav variant="tabs" className="flex-row">
+            <Nav.Item>
+              <Nav.Link eventKey="info">Info</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="menu">Menu</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="lexicon">Lexicon</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="graph">Graph</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="history">History</Nav.Link>
+            </Nav.Item>
+            <div style={{flexGrow: 1}}>
+            </div>
+            <HamburgerControl/>
+          </Nav>
+          <div id='bar' style={{flexGrow: 1, overflow: 'hidden'}}>
+            <Tab.Content className={styles.frameTab}>
+              <Tab.Pane eventKey="info" style={{height: '100%'}}>
+                <InfoControl />
+              </Tab.Pane>
+              <Tab.Pane eventKey="menu" style={{height: '100%'}}>
+                <MenuControl />
+              </Tab.Pane>
+              <Tab.Pane eventKey="lexicon" style={{height: '100%', overflow: 'auto'}}>
+                <LexiconControl />
+              </Tab.Pane>
+              <Tab.Pane eventKey="graph" style={{height: '100%', overflow: 'auto'}}>
+                <GraphPanelControl />
+              </Tab.Pane>
+              <Tab.Pane eventKey="history" style={{height: '100%', overflow: 'auto'}}>
+                <HistoryControl history={this.props.application.history}/>
+              </Tab.Pane>
+            </Tab.Content>
           </div>
-          <HamburgerControl/>
-        </Nav>
-        <Tab.Content className={styles.frameTab}>
-          <Tab.Pane eventKey="info">
-            <InfoControl />
-          </Tab.Pane>
-          <Tab.Pane eventKey="menu" style={{height: '100%', overflow: 'auto'}}>
-            <MenuControl />
-          </Tab.Pane>
-          <Tab.Pane eventKey="lexicon" style={{height: '100%', overflow: 'auto'}}>
-            <LexiconControl />
-          </Tab.Pane>
-          <Tab.Pane eventKey="graph" style={{height: '100%', overflow: 'auto'}}>
-            <GraphPanelControl />
-          </Tab.Pane>
-          <Tab.Pane eventKey="history">
-            <HistoryControl history={this.props.application.history}/>
-          </Tab.Pane>
-        </Tab.Content>
-      </Tab.Container>
+        </Tab.Container>
+      </div>
     );
   }
 }

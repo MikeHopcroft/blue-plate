@@ -1,14 +1,25 @@
 # TODO List
 
 * Top
-  * Graph
-    * x Highlighting best path
-    * Highlighting other paths
-    * Aliases popup
+  * MasterDetail - scroll detail pane to home position on navigate
+    * Repro: make window small.
+    * Scroll to show legal options.
+    * Click on one.
+    * Expect to scroll back to upper left corner
+  * Publish and take short-order and token-flow
   * Master/detail/drilldown control
     * Products, Product Details, Option Details
     * x Tokens, Aliases, Expansions
     * Words, Tokens, Token Details
+    * Test Cases, Steps
+  * React hooks for world, ect that are now in ApplicationState
+  * Stem the words in the lexicon
+  * Demo keys - CTRL-1, CTRL-2, etc.
+  * Azure static website
+  * Graph
+    * x Highlighting best path
+    * Highlighting other paths
+    * Aliases popup
   * English/Spanish
     * Mode switcher
     * Stemmer
@@ -17,6 +28,10 @@
   * History fit and finish
     * Dismiss note editor control on enter
     * Dismiss note editor on loss of focus
+  * Word Frequencies/Collisions
+    * Word, Uses, Details of Use
+  * Test Suite
+    * Case, Expected/Observed/Edits
 * Thumbs icon hits keyboard icon
 * x Better graph visuals
   * x Space around boxes

@@ -4,9 +4,9 @@ import Nav from 'react-bootstrap/Nav';
 import { connect } from 'react-redux'
 import { LexiconSpec, TokenSpec } from 'short-order';
 
-import { ApplicationState } from "../../actions";
-import { BackButton, createMasterDetail } from '../master-detail-control';
-import styles from '../controls.module.css';
+import { ApplicationState } from "../actions";
+import { BackButton, createMasterDetail } from './master-detail-control';
+import styles from './controls.module.css';
 
 class Master extends React.Component<{
   lexiconSpec?: LexiconSpec,
