@@ -69,10 +69,12 @@ class FrameControl extends React.Component<Props> {
   //   https://stackoverflow.com/questions/28282295/getbbox-of-svg-when-hidden
   renderTabs() {
     return (
-      <div
-        id='foobar'
-        style={{display: 'flex', flexDirection: 'column', width: '100%', height: '100%', backgroundColor: 'red'}}
-      >
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        height: '100%'
+      }}>
         <Tab.Container 
           id="left-tabs-example"
           defaultActiveKey="lexicon"
@@ -99,7 +101,7 @@ class FrameControl extends React.Component<Props> {
             </div>
             <HamburgerControl/>
           </Nav>
-          <div id='bar' style={{flexGrow: 1, overflow: 'hidden'}}>
+          <div style={{flexGrow: 1, overflow: 'hidden'}}>
             <Tab.Content className={styles.frameTab}>
               <Tab.Pane eventKey="info" style={{height: '100%'}}>
                 <InfoControl />

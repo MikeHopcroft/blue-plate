@@ -1,6 +1,8 @@
 # TODO List
 
 * Top
+  * Empty graph should not render
+  * MasterDetail - default item selection
   * MasterDetail - scroll detail pane to home position on navigate
     * Repro: make window small.
     * Scroll to show legal options.
@@ -8,7 +10,7 @@
     * Expect to scroll back to upper left corner
   * Publish and take short-order and token-flow
   * Master/detail/drilldown control
-    * Products, Product Details, Option Details
+    * x Products, Product Details, Option Details
     * x Tokens, Aliases, Expansions
     * Words, Tokens, Token Details
     * Test Cases, Steps

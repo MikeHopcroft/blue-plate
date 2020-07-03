@@ -13,8 +13,6 @@ export enum ActionType {
   RESET = 'RESET',
   SET_CART = 'SET_CART',
   SET_MODE = 'SET_MODE',
-  SET_OPTION_PID = 'SET_OPTION_PID',
-  SET_PID = 'SET_PID',
   SET_SPEECH_SUPPORT = 'SET_SPEECH_SUPPORT',
   SET_WORLD = 'SET_WORLD',
   UPDATE_HISTORY_ITEM = 'UPDATE_HISTORY'
@@ -115,24 +113,6 @@ export function setMode(mode: ApplicationMode): SetModeAction {
   return { type: ActionType.SET_MODE, mode };
 }
 
-export interface SetOptionPIDAction {
-  type: ActionType.SET_OPTION_PID;
-  pid?: PID;
-};
-
-export function setOptionPID(pid?: PID): SetOptionPIDAction {
-  return { type: ActionType.SET_OPTION_PID, pid };
-}
-
-export interface SetPIDAction {
-  type: ActionType.SET_PID;
-  pid: PID;
-};
-
-export function setPID(pid: PID): SetPIDAction {
-  return { type: ActionType.SET_PID, pid };
-}
-
 export interface SetWorldAction {
   type: ActionType.SET_WORLD;
   world: World;
@@ -188,8 +168,6 @@ export type AnyAction =
   ResetAction |
   SetCartAction |
   SetModeAction |
-  SetOptionPIDAction |
-  SetPIDAction |
   SetWorldAction |
   SetSpeechSupportAction |
   UpdateHistoryItemAction;

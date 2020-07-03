@@ -2,23 +2,17 @@ import { GenericTypedEntity, MENUITEM, PID } from 'prix-fixe';
 import React from 'react';
 import Nav from 'react-bootstrap/Nav';
 import { connect } from 'react-redux'
-import { Dispatch } from 'redux'
 
-import { AnyAction, ApplicationState, setPID } from "../actions";
+import { ApplicationState } from "../actions";
 
 import styles from './controls.module.css';
 
 interface Props {
   application: ApplicationState;
-  // selectionChanged: (pid: PID) => void;
   selected? : string;
 };
 
 class ProductListControl extends React.Component<Props> {
-  // onSelect = (eventKey: string) => {
-  //   this.props.selectionChanged(Number(eventKey));
-  // }
-
   render() {
     return (
       <div>
@@ -29,7 +23,6 @@ class ProductListControl extends React.Component<Props> {
 
   renderCatalog() {
     const catalog = this.props.application.world!.catalog;
-    const currentPID = this.props.application.currentPID;
     const products: GenericTypedEntity[] = [];
     const options: GenericTypedEntity[] = [];
     for (const item of catalog.genericEntities()) {
@@ -43,12 +36,20 @@ class ProductListControl extends React.Component<Props> {
     products.sort((a,b) => (a.name.localeCompare(b.name)));
     options.sort((a,b) => (a.name.localeCompare(b.name)));
 
+    let currentPID = Number(this.props.selected);
+    if (isNaN(currentPID)) {
+      if (products.length > 0) {
+        currentPID = products[0].pid;
+      } else if (options.length > 0) {
+        currentPID = options[0].pid;
+      }
+    }
+
     return (
       <div style={{ width: '100%', height: '100%', overflow: 'auto'}}>
         <Nav
           className="flex-column"
-          // activeKey={currentPID}
-          // onSelect={this.onSelect}
+          activeKey={currentPID}
           variant="pills"
         >
           <div style={{fontWeight: 'bold'}}>Products:</div>
@@ -75,12 +76,4 @@ function mapStateToProps(application: ApplicationState) {
   return { application };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
-  return {
-    selectionChanged: (pid: PID) => {
-      dispatch(setPID(pid));
-    },
-  };
-}
-
-export default connect(mapStateToProps,mapDispatchToProps)(ProductListControl);
+export default connect(mapStateToProps)(ProductListControl);

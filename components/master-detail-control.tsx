@@ -18,7 +18,6 @@ export function createMasterDetail(
       this.onDetail = this.onDetail.bind(this);
       this.onDrilldown = this.onDrilldown.bind(this);
       this.state = {
-        // detailKey: 'one'
       }
     }
 
@@ -53,11 +52,8 @@ export function createMasterDetail(
               <Master selected={this.state.detailKey} />
             </Nav>
           </div>
-          <div id='baz' style={{flexGrow: 1, overflow: 'auto'}}>
-            <Nav
-              onSelect={this.onDrilldown}
-              // style={{ overflow: 'auto'}}
-            >
+          <div style={{flexGrow: 1, overflow: 'auto'}}>
+            <Nav onSelect={this.onDrilldown}>
               {
                 (this.state.drilldownKey === undefined) ?
                   <Detail isDrilldown={false} selected={this.state.detailKey} /> :
