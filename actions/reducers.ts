@@ -173,7 +173,7 @@ function applySetSpeechSupport(
 
 function applySetWorld(
   appState: ApplicationState,
-  { world, shortOrderWorld, lexiconSpec }: SetWorldAction
+  { world, shortOrderWorld, lexiconSpec, expected, scored }: SetWorldAction
 ): ApplicationState {
   return {
     ...appState,
@@ -181,6 +181,8 @@ function applySetWorld(
     shortOrderWorld,
     lexiconSpec,
     cart: { items: [] },
+    expected,
+    scored,
   };
 }
 

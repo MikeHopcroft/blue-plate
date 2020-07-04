@@ -16,7 +16,9 @@ module.exports = {
 
     // https://github.com/3rd-Eden/useragent/pull/117
     config.node = {
+      "better-ajv-errors": "empty",
       fs: "empty",
+      repl: "empty",
     };
 
     return config;

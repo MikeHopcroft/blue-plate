@@ -1,6 +1,8 @@
 # TODO List
 
 * Top
+  * https://www.npmjs.com/package/source-map-explorer
+  * prix-fixe function scoreSuite() should be templated by TURN type.
   * Empty graph should not render
   * MasterDetail - default item selection
   * MasterDetail - scroll detail pane to home position on navigate

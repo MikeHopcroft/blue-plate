@@ -17,6 +17,7 @@ import LexiconControl from './lexicon-control';
 import LoadingControl from './loading-control';
 import MenuControl from './menu-control';
 import RecorderControl from './recorder-control';
+import TestsControl from './tests-control';
 
 import styles from './controls.module.css';
 
@@ -97,6 +98,9 @@ class FrameControl extends React.Component<Props> {
             <Nav.Item>
               <Nav.Link eventKey="history">History</Nav.Link>
             </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="tests">Tests</Nav.Link>
+            </Nav.Item>
             <div style={{flexGrow: 1}}>
             </div>
             <HamburgerControl/>
@@ -117,6 +121,9 @@ class FrameControl extends React.Component<Props> {
               </Tab.Pane>
               <Tab.Pane eventKey="history" style={{height: '100%', overflow: 'auto'}}>
                 <HistoryControl history={this.props.application.history}/>
+              </Tab.Pane>
+              <Tab.Pane eventKey="tests" style={{height: '100%', overflow: 'auto'}}>
+                <TestsControl/>
               </Tab.Pane>
             </Tab.Content>
           </div>
