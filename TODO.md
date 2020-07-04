@@ -1,8 +1,18 @@
 # TODO List
 
 * Top
-  * react-dom.development.js:88 Warning: Expected server HTML to contain a matching <div> in <div>.
-  * Load test suite separately from world.
+  * TestsControl
+    * x graph drilldown
+    * react-dom.development.js:88 Warning: Expected server HTML to contain a matching <div> in <div>.
+    * Load test suite separately from world - or have a button to load test suite.
+    * onDetail performance - switching tests
+    * Reduce short-order console spew - debug mode?
+    * Filter to only show failing tests
+    * Filter tests by suite
+    * Test suite summary - aggregated metrics
+    * Default active test
+    * Keep active test across tab changes
+  * Detail and Drilldown Panes should have titles fixed and scroll below (so back button and title don't scroll off of screen)
   * BluePlateWorld
   * https://www.npmjs.com/package/source-map-explorer
   * prix-fixe function scoreSuite() should be templated by TURN type.
@@ -19,7 +29,7 @@
     * x Tokens, Aliases, Expansions
     * Words, Tokens, Token Details
     * Test Cases, Steps
-  * React hooks for world, ect that are now in ApplicationState
+  * React hooks for world, etc. that are now in ApplicationState
   * Stem the words in the lexicon
   * Demo keys - CTRL-1, CTRL-2, etc.
   * Azure static website

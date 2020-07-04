@@ -105,7 +105,7 @@ class GraphControl extends React.Component<Props, State> {
 }
 
 function mapStateToProps({ shortOrderWorld, transcription}: ApplicationState) {
-  return { shortOrderWorld, transcription };
+  return { shortOrderWorld };
 }
 
 export default connect(mapStateToProps)(GraphControl);

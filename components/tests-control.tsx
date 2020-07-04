@@ -1,14 +1,15 @@
 import { cartFromlogicalCart, ICatalog, Measures } from 'prix-fixe';
 import React from 'react';
 import Nav from 'react-bootstrap/Nav';
-import { FaCheck, FaKeyboard, FaTimes } from 'react-icons/fa';
+import { FaCheck, FaKeyboard, FaProjectDiagram,  FaTimes } from 'react-icons/fa';
 import { connect } from 'react-redux'
 
 import { ApplicationState } from '../actions';
 import { AllTestResults, TestResult } from '../logic';
 
+import GraphControl from './graph-control';
 import { renderItemList } from './item-list';
-import { createMasterDetail } from './master-detail-control';
+import { BackButton, createMasterDetail } from './master-detail-control';
 
 import styles from './controls.module.css';
 
@@ -76,10 +77,10 @@ class Detail extends React.Component<{
     return steps;
   }
 
-  renderOneStep(test: TestResult, index: number) {
-    const step = test.scored.steps[index];
+  renderOneStep(test: TestResult, stepIndex: number) {
+    const step = test.scored.steps[stepIndex];
     const expected = cartFromlogicalCart(
-      test.expected.steps[index].cart,
+      test.expected.steps[stepIndex].cart,
       this.props.catalog
     );
     const observed = cartFromlogicalCart(
@@ -89,17 +90,18 @@ class Detail extends React.Component<{
     const measures = step.measures;
 
     return (
-      <div key={index}>
+      <div key={stepIndex}>
         <div style={{marginTop: '2ex'}}>
-          <b>Step {index}:</b> &nbsp;
+          <b>Step {stepIndex}:</b> &nbsp;
           {step.measures.repairs.cost > 0 ? 
             <span style={{backgroundColor: 'red', color: 'yellow'}}>Failed</span> : 
             <span style={{backgroundColor: 'forestgreen', color: 'yellow'}}>Passed</span>}
         </div>
-        { step.turns.map((x, index) => 
-          <div key={index}>
+        { step.turns.map((x, turnIndex) => 
+          <div key={turnIndex}>
             <b>{x.speaker}:</b> <i>"{x.transcription}"</i>
-            <FaKeyboard style={{color: 'blue', marginLeft: '4px'}}/>
+            {/* <FaProjectDiagram style={{color: 'blue', marginLeft: '4px'}}/> */}
+            { this.renderDrilldownButton(stepIndex, turnIndex) }
           </div>
         )}
         <div style={{display: 'flex', flexDirection: 'row'}}>
@@ -125,6 +127,19 @@ class Detail extends React.Component<{
     )
   }
 
+  renderDrilldownButton(id: number, step: number) {
+    return (
+      <Nav.Item style={{display: 'inline', paddingTop: '0', paddingBottom: '0'}}>
+        <Nav.Link
+          style={{display: 'inline', whiteSpace: 'nowrap', padding: '0px 4px'}}
+          eventKey={this.props.selected + '/' + id + '/' + step}
+        >
+          <FaProjectDiagram style={{color: 'blue', marginLeft: '4px'}}/>
+        </Nav.Link>
+      </Nav.Item>
+    );
+  }
+
   renderRepairs(measures: Measures) {
     if (measures.repairs.cost === 0) {
       return null;
@@ -147,18 +162,47 @@ class Detail extends React.Component<{
 }
 
 class Drilldown extends React.Component<{
-  selected: string
+  selected: string,
+  testResults: AllTestResults,
 }> {
   render() {
-    console.log('Drilldown render');
-    return <h1>Drilldown</h1>
+    if (!this.props.selected) {
+      return null;
+    }
+
+    const parts = this.props.selected.split('/');
+    const id = Number(parts[0]);
+    const stepIndex = Number(parts[1]);
+    const turnIndex = Number(parts[2]);
+    console.log(this.props.testResults);
+    const test = this.props.testResults.get(id);
+    const text = test.expected.steps[stepIndex].turns[turnIndex].transcription;
+    // const text = 'hello';
+
+    // console.log('Drilldown render ' + this.props.selected);
+    return (
+      <div style={{display: 'flex', flexDirection: 'column', width: '100%', height: '100%'}}>
+        <div>
+          <BackButton/>
+        </div>
+        <div style={{flexGrow: 1, overflow: 'auto', width: '100%', height: '100%' }}>
+          <GraphControl transcription={text}/>
+        </div>
+      </div>
+    );
+  }
+
+  static connect() {
+    return connect((application: ApplicationState) => ({
+      testResults: application.testResults,
+    }))(Drilldown);
   }
 }
 
 const MasterDetail = createMasterDetail(
   Master.connect(),
   Detail.connect(),
-  Drilldown
+  Drilldown.connect()
 );
 
 export default MasterDetail;

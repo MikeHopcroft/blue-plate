@@ -53,7 +53,7 @@ export function createMasterDetail(
             </Nav>
           </div>
           <div style={{flexGrow: 1, overflow: 'auto'}}>
-            <Nav onSelect={this.onDrilldown}>
+            <Nav onSelect={this.onDrilldown} style={{width: '100%', height: '100%'}}>
               {
                 (this.state.drilldownKey === undefined) ?
                   <Detail isDrilldown={false} selected={this.state.detailKey} /> :
