@@ -1,11 +1,13 @@
+import { cartFromlogicalCart, ICatalog, Measures } from 'prix-fixe';
 import React from 'react';
 import Nav from 'react-bootstrap/Nav';
-import { FaCheck, FaTimes } from 'react-icons/fa';
+import { FaCheck, FaKeyboard, FaTimes } from 'react-icons/fa';
 import { connect } from 'react-redux'
 
 import { ApplicationState } from '../actions';
-import { AllTestResults } from '../logic';
+import { AllTestResults, TestResult } from '../logic';
 
+import { renderItemList } from './item-list';
 import { createMasterDetail } from './master-detail-control';
 
 import styles from './controls.module.css';
@@ -15,8 +17,6 @@ class Master extends React.Component<{
   selected?: string
 }> {
   render() {
-    console.log('TestsControl Master render');
-    console.log(this.props);
     if (!this.props.testResults) {
       return null;
     } else {
@@ -49,6 +49,7 @@ class Master extends React.Component<{
 }
 
 class Detail extends React.Component<{
+  catalog: ICatalog,
   testResults: AllTestResults,
   selected?: string
 }> {
@@ -56,25 +57,90 @@ class Detail extends React.Component<{
     if (this.props.selected === undefined) {
       return null;
     }
-    console.log('Detail render');
-    console.log(this.props);
     const test = this.props.testResults.get(Number(this.props.selected));
-    console.log(test);
     return (
       <div>
-        <h1>Detail {this.props.selected}</h1>
-        Test commments, pass/fail summary here
-        <div style={{display: 'flex', flexDirection: 'row'}}>
-          <div style={{width: '200px', height: '200px', backgroundColor: 'red'}}>Expected</div>
-          <div style={{width: '200px', height: '200px', backgroundColor: 'green'}}>Observed</div>
-          <div style={{width: '200px', height: '200px', backgroundColor: 'blue'}}>Repairs: {test.repairs}</div>
-        </div>
+        <h1>Test {this.props.selected}</h1>
+        <div>{ test.expected.comment }</div>
+        <div><b>Suites:</b> {test.expected.suites}</div>
+        { this.renderSteps(test) }
       </div>
     )
   }
 
+  renderSteps(test: TestResult) {
+    const steps = [];
+    for (let i = 0; i < test.expected.steps.length; ++i) {
+      steps.push(this.renderOneStep(test, i));
+    }
+    return steps;
+  }
+
+  renderOneStep(test: TestResult, index: number) {
+    const step = test.scored.steps[index];
+    const expected = cartFromlogicalCart(
+      test.expected.steps[index].cart,
+      this.props.catalog
+    );
+    const observed = cartFromlogicalCart(
+      step.cart,
+      this.props.catalog
+    );
+    const measures = step.measures;
+
+    return (
+      <div key={index}>
+        <div style={{marginTop: '2ex'}}>
+          <b>Step {index}:</b> &nbsp;
+          {step.measures.repairs.cost > 0 ? 
+            <span style={{backgroundColor: 'red', color: 'yellow'}}>Failed</span> : 
+            <span style={{backgroundColor: 'forestgreen', color: 'yellow'}}>Passed</span>}
+        </div>
+        { step.turns.map((x, index) => 
+          <div key={index}>
+            <b>{x.speaker}:</b> <i>"{x.transcription}"</i>
+            <FaKeyboard style={{color: 'blue', marginLeft: '4px'}}/>
+          </div>
+        )}
+        <div style={{display: 'flex', flexDirection: 'row'}}>
+          <div style={{backgroundColor: 'lightblue', marginRight: '1em'}}>
+            <b>Expected</b>
+            { renderItemList(
+                this.props.catalog,
+                expected.items
+              )
+            }
+          </div>
+          <div style={{backgroundColor: 'lightblue', marginRight: '1em'}}>
+            <b>Observed</b>
+            { renderItemList(
+                this.props.catalog,
+                observed.items
+              )
+            }
+          </div>
+          { this.renderRepairs(measures)}
+        </div>  
+      </div>
+    )
+  }
+
+  renderRepairs(measures: Measures) {
+    if (measures.repairs.cost === 0) {
+      return null;
+    } else {
+      return (
+        <div style={{backgroundColor: 'lightblue'}}>
+          <b>Repairs</b>
+          { measures.repairs.steps.map((x,i) => <div key={i}>{x}</div>) }
+        </div>
+      );
+    }
+  }
+
   static connect() {
     return connect((application: ApplicationState) => ({
+      catalog: application.world.catalog,
       testResults: application.testResults,
     }))(Detail);
   }

@@ -1,6 +1,9 @@
 # TODO List
 
 * Top
+  * react-dom.development.js:88 Warning: Expected server HTML to contain a matching <div> in <div>.
+  * Load test suite separately from world.
+  * BluePlateWorld
   * https://www.npmjs.com/package/source-map-explorer
   * prix-fixe function scoreSuite() should be templated by TURN type.
   * Empty graph should not render
