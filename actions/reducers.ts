@@ -173,7 +173,7 @@ function applySetSpeechSupport(
 
 function applySetWorld(
   appState: ApplicationState,
-  { world, shortOrderWorld, lexiconSpec, expected, scored }: SetWorldAction
+  { world, shortOrderWorld, lexiconSpec, testResults }: SetWorldAction
 ): ApplicationState {
   return {
     ...appState,
@@ -181,8 +181,7 @@ function applySetWorld(
     shortOrderWorld,
     lexiconSpec,
     cart: { items: [] },
-    expected,
-    scored,
+    testResults,
   };
 }
 
@@ -193,9 +192,6 @@ function applyUpdateHistoryItem(
   const history = appState.history.map(item =>
     (id === item.id) ? {...item, ...changes} : item
   );
-
-  // console.log(`applyUpdateHistoryItem(${id},${JSON.stringify(changes)}`);
-  // console.log(history);
 
   return {
     ...appState,

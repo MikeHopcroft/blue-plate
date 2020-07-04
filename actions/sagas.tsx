@@ -1,17 +1,12 @@
 import {
   CatalogSpec,
-  createMenuBasedRepairFunction,
   createWorld3,
   loadCatalogSpec,
-  logicalCartFromCart,
-  LogicalScoredSuite,
+  LogicalValidationSuite,
   ObjectLoader,
-  scoreSuite,
   speechToTextFilter,
   State,
   TextTurn,
-  enumerateTestCases,
-  LogicalValidationSuite,
 } from 'prix-fixe';
 
 import { put, select } from 'redux-saga/effects';
@@ -24,6 +19,8 @@ import {
   setCart,
   setWorld
 } from '../actions';
+
+import { runTests } from '../logic';
 
 import { ApplicationState } from './application-state';
 
@@ -63,40 +60,9 @@ export function* loadWorldSaga(action: LoadWorldAction) {
   // const expected = logicalValidationSuite<TextTurn>(regressionSuite);
   const expected = regressionSuite as LogicalValidationSuite<TextTurn>
 
-  //
-  // Run each test case.
-  //
-  console.log('before test run');
-  const observed: LogicalValidationSuite<TextTurn> = { tests: [] };
-  for (const test of enumerateTestCases(expected)) {
-    let state: State = { cart: { items: [] } };
-    const steps: typeof test.steps = [];
-    for (const step of test.steps) {
-      for (const turn of step.turns) {
-        try {
-          const filtered = speechToTextFilter(turn.transcription);
-          state = yield shortOrderWorld.processor(filtered, state);
-        } catch (e) {
-          // TODO: record the error here, somehow.
-        }
-      }
-      const cart = logicalCartFromCart(state.cart, world.catalog);
-      steps.push({ ...step, cart });
-    }
-    observed.tests.push({ ...test, steps });
-  };
+  const testResults = yield runTests(world, shortOrderWorld, expected);
 
-  //
-  // Score the results
-  //
-  const repairFunction = createMenuBasedRepairFunction(
-    world.attributeInfo,
-    world.catalog
-  );
-  const scored = scoreSuite(observed, expected, repairFunction, 'menu-based') as LogicalScoredSuite<TextTurn>;
-  console.log(scored);
-
-  yield(put(setWorld(world, shortOrderWorld, lexiconSpec, expected, scored)));
+  yield(put(setWorld(world, shortOrderWorld, lexiconSpec, testResults)));
 }
 
 // TODO: clean this up.

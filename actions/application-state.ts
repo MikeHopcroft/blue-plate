@@ -1,5 +1,7 @@
-import { Cart, PID, World, LogicalScoredSuite, LogicalValidationSuite, TextTurn } from 'prix-fixe';
+import { Cart, World } from 'prix-fixe';
 import { LexiconSpec, ShortOrderWorld } from 'short-order';
+
+import { AllTestResults } from '../logic';
 
 import { getSampleHistory } from './sample-history';
 
@@ -40,8 +42,7 @@ export interface ApplicationState {
   transcription: string;
   cart: Cart;
   history: HistoryItem[];
-  expected?: LogicalValidationSuite<TextTurn>;
-  scored?: LogicalScoredSuite<TextTurn>;
+  testResults?: AllTestResults;
 }
 
 export function initialState(): ApplicationState {

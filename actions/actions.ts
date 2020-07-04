@@ -1,5 +1,7 @@
-import { Cart, PID, LogicalScoredSuite, LogicalValidationSuite, TextTurn, World } from 'prix-fixe';
+import { Cart, World } from 'prix-fixe';
 import { LexiconSpec, ShortOrderWorld } from 'short-order';
+
+import { AllTestResults } from '../logic';
 
 import { ApplicationMode, TextSource, HistoryItem } from "./application-state";
 
@@ -118,27 +120,22 @@ export interface SetWorldAction {
   world: World;
   shortOrderWorld: ShortOrderWorld;
   lexiconSpec: LexiconSpec;
-  expected: LogicalValidationSuite<TextTurn>,
-  scored: LogicalScoredSuite<TextTurn>
+  testResults: AllTestResults;
 };
 
 export function setWorld(
   world: World,
   shortOrderWorld: ShortOrderWorld,
   lexiconSpec: LexiconSpec,
-  expected: LogicalValidationSuite<TextTurn>,
-  scored: LogicalScoredSuite<TextTurn>
+  testResults: AllTestResults
 ): SetWorldAction {
   console.log('setWorld');
-  console.log(expected);
-  console.log(scored);
   return {
     type: ActionType.SET_WORLD,
     world,
     shortOrderWorld,
     lexiconSpec,
-    expected,
-    scored,
+    testResults
   };
 }
 
