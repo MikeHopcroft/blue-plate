@@ -49,6 +49,7 @@ export interface ApplicationState {
   cart: Cart;
   history: HistoryItem[];
   bluePlateWorld?: BluePlateWorld;
+  language: string;
 }
 
 export function initialState(): ApplicationState {
@@ -61,5 +62,6 @@ export function initialState(): ApplicationState {
       items: []
     },
     history: getSampleHistory(),
+    language: 'en-US',
   }
 }

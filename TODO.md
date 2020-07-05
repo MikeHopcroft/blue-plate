@@ -1,35 +1,52 @@
 # TODO List
 
 * Top
-  * Left arrow, ESC key closes drilldown panel
+  * Publish and take short-order and token-flow
+  * English/Spanish
+    * x Mode switcher
+    * Stemmer
+    * x Speech config
+    * x Menu and lexicon switch
+    * x Regression suite switch
+    * Spanish regression suite
+  * Empty graph should not render
+  * History fit and finish
+    * Thumbs icon hits keyboard icon
+    * Dismiss note editor control on enter
+    * Dismiss note editor on loss of focus
+  * MasterDetail
+    * Default item
+    * Maintain current item across tabs
+    * Detail and Drilldown Panes should have titles fixed and scroll below (so back button and title don't scroll off of screen)
+    * Left arrow, ESC key closes drilldown panel
   * TestsControl
-    * x graph drilldown
+    * Better master item visuals
+      * Red/Green background colors and highlight colors
+      * Comment ...
     * react-dom.development.js:88 Warning: Expected server HTML to contain a matching <div> in <div>.
-    * Load test suite separately from world - or have a button to load test suite.
-    * onDetail performance - switching tests
-    * Reduce short-order console spew - debug mode?
-    * Filter to only show failing tests
-    * Filter tests by suite
     * Test suite summary - aggregated metrics
     * Default active test
     * Keep active test across tab changes
-  * Detail and Drilldown Panes should have titles fixed and scroll below (so back button and title don't scroll off of screen)
+    * Load test suite separately from world - or have a button to load test suite.
+    * onDetail performance - switching tests
+    * Filter to only show failing tests
+    * Filter tests by suite
+    * x graph drilldown
+    * x Reduce short-order console spew - debug mode?
   * x BluePlateWorld
   * https://www.npmjs.com/package/source-map-explorer
   * prix-fixe function scoreSuite() should be templated by TURN type.
-  * Empty graph should not render
   * MasterDetail - default item selection
   * MasterDetail - scroll detail pane to home position on navigate
     * Repro: make window small.
     * Scroll to show legal options.
     * Click on one.
     * Expect to scroll back to upper left corner
-  * Publish and take short-order and token-flow
-  * Master/detail/drilldown control
+  * x Master/detail/drilldown control
     * x Products, Product Details, Option Details
     * x Tokens, Aliases, Expansions
-    * Words, Tokens, Token Details
-    * Test Cases, Steps
+    * x Words, Tokens, Token Details
+    * x Test Cases, Steps
   * React hooks for world, etc. that are now in ApplicationState
   * Stem the words in the lexicon
   * Demo keys - CTRL-1, CTRL-2, etc.
@@ -38,19 +55,10 @@
     * x Highlighting best path
     * Highlighting other paths
     * Aliases popup
-  * English/Spanish
-    * Mode switcher
-    * Stemmer
-    * Speech config
-    * Menu and lexicon switch
-  * History fit and finish
-    * Dismiss note editor control on enter
-    * Dismiss note editor on loss of focus
-  * Word Frequencies/Collisions
-    * Word, Uses, Details of Use
-  * Test Suite
-    * Case, Expected/Observed/Edits
-* Thumbs icon hits keyboard icon
+  * x Word Frequencies/Collisions
+    * x Word, Uses, Details of Use
+  * x Test Suite
+    * x Case, Expected/Observed/Edits
 * x Better graph visuals
   * x Space around boxes
   * x Highlight best path

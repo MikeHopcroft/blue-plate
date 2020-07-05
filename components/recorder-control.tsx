@@ -42,9 +42,13 @@ class RecorderControl extends React.Component<Props> {
       (window as any).webkitSpeechRecognition;
 
     this.recognition = new SpeechRecognition();
-    this.recognition.lang = 'en-US';
+    this.recognition.lang = this.props.application.language;
     this.recognition.interimResults = true;
     this.recognition.maxAlternatives = 1;
+  }
+
+  componentDidUpdate() {
+    this.recognition.lang = this.props.application.language;
   }
 
   public startRecognition = () => {

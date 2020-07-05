@@ -59,10 +59,11 @@ export function clearHistory(): ClearHistoryAction {
 
 export interface LoadWorldAction {
   type: ActionType.LOAD_WORLD;
+  language: string;
 };
 
-export function loadWorld(): LoadWorldAction {
-  return { type: ActionType.LOAD_WORLD };
+export function loadWorld(language: string): LoadWorldAction {
+  return { type: ActionType.LOAD_WORLD, language };
 }
 
 export interface ProcessAction {
@@ -72,7 +73,11 @@ export interface ProcessAction {
   final: boolean;
 };
 
-export function process(source: TextSource, text: string, final: boolean): ProcessAction {
+export function process(
+  source: TextSource,
+  text: string,
+  final: boolean
+): ProcessAction {
   return {
     source,
     type: ActionType.PROCESS,
@@ -118,16 +123,19 @@ export function setMode(mode: ApplicationMode): SetModeAction {
 
 export interface SetWorldAction {
   type: ActionType.SET_WORLD;
-  bluePlateWorld: BluePlateWorld,
+  bluePlateWorld: BluePlateWorld;
+  language: string;
 };
 
 export function setWorld(
-  bluePlateWorld: BluePlateWorld
+  bluePlateWorld: BluePlateWorld,
+  language: string
 ): SetWorldAction {
   console.log('setWorld');
   return {
     type: ActionType.SET_WORLD,
     bluePlateWorld,
+    language,
   };
 }
 

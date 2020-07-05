@@ -24,23 +24,58 @@ import { runTests } from '../logic';
 
 import { ApplicationState, BluePlateWorld } from './application-state';
 
-const bakery= require('../data/bakery.yaml');
-const coffee= require('../data/coffee.yaml');
-const menu = require('../data/menu.yaml');
-const lexiconSpec = require('../data/lexicon.yaml');
-const regressionSuite = require('../data/regression.yaml');
+const bakeryEN = require('../data/bakery.yaml');
+const coffeeEN = require('../data/coffee.yaml');
+const menuEN = require('../data/menu.yaml');
+const lexiconSpecEN = require('../data/lexicon.yaml');
+const regressionSuiteEN = require('../data/regression.yaml');
 
+const bakeryES = require('../data/bakery-es.yaml');
+const coffeeES = require('../data/coffee-es.yaml');
+const menuES = require('../data/menu-es.yaml');
+const lexiconSpecES = require('../data/lexicon-es.yaml');
+const regressionSuiteES = require('../data/regression-es.yaml');
+
+function getLoader(language: string) {
+  if (language === 'es-US') {
+    return new ObjectLoader([
+      ['/samples/menu/menu.yaml', menuES],
+      ['/samples/menu/bakery-es.yaml', bakeryES],
+      ['/samples/menu/coffee-es.yaml', coffeeES],
+    ]);
+  } else {
+    return new ObjectLoader([
+      ['/samples/menu/menu.yaml', menuEN],
+      ['/samples/menu/bakery.yaml', bakeryEN],
+      ['/samples/menu/coffee.yaml', coffeeEN],
+    ]);
+  }
+}
+
+function getLexicon(language: string) {
+  if (language === 'es-US') {
+    return lexiconSpecES;
+  } else {
+    return lexiconSpecEN;
+  }
+}
+
+function getRegressionSuite(language: string) {
+  if (language === 'es-US') {
+    return regressionSuiteES;
+  } else {
+    return regressionSuiteEN;
+  }
+}
 export function* loadWorldSaga(action: LoadWorldAction) {
-  const loader = new ObjectLoader([
-    ['/samples/menu/menu.yaml', menu],
-    ['/samples/menu/bakery.yaml', bakery],
-    ['/samples/menu/coffee.yaml', coffee],
-  ]);
+  const loader = getLoader(action.language);
+  const lexiconSpec = getLexicon(action.language);
 
   const spec: CatalogSpec = yield loadCatalogSpec(
     loader,
     '/samples/menu/menu.yaml'
   );
+
   const prixFixeWorld = createWorld3(spec);
   const shortOrderWorld = createShortOrderWorld2(
     prixFixeWorld,
@@ -58,7 +93,7 @@ export function* loadWorldSaga(action: LoadWorldAction) {
   console.log('before validation');
   // logicalValidationSuite is not in core because of better-ajv-erros.
   // const expected = logicalValidationSuite<TextTurn>(regressionSuite);
-  const expected = regressionSuite as LogicalValidationSuite<TextTurn>
+  const expected = getRegressionSuite(action.language) as LogicalValidationSuite<TextTurn>
 
   const testResults = yield runTests(prixFixeWorld, shortOrderWorld, expected);
 
@@ -67,13 +102,13 @@ export function* loadWorldSaga(action: LoadWorldAction) {
 
   const bluePlateWorld: BluePlateWorld = {
     prixFixeWorld,
-    lexiconSpec,
+    lexiconSpec: lexiconSpec,
     postings,
     shortOrderWorld,
     testResults,
   }
 
-  yield(put(setWorld(bluePlateWorld)));
+  yield(put(setWorld(bluePlateWorld, action.language)));
 }
 
 // TODO: clean this up.

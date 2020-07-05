@@ -173,11 +173,12 @@ function applySetSpeechSupport(
 
 function applySetWorld(
   appState: ApplicationState,
-  { bluePlateWorld}: SetWorldAction
+  { bluePlateWorld, language }: SetWorldAction
 ): ApplicationState {
   return {
     ...appState,
     bluePlateWorld,
+    language,
     cart: { items: [] },
   };
 }
@@ -187,7 +188,7 @@ function applyUpdateHistoryItem(
   { id, changes }: UpdateHistoryItemAction
 ): ApplicationState {
   const history = appState.history.map(item =>
-    (id === item.id) ? {...item, ...changes} : item
+    (id === item.id) ? { ...item, ...changes } : item
   );
 
   return {

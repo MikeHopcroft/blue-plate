@@ -24,7 +24,7 @@ const store = createStore(
 );
 
 sagaMiddleware.run(initSagas)
-store.dispatch(loadWorld());
+store.dispatch(loadWorld('en-US'));
 
 function* initSagas() {
   // console.log('initSagas()');

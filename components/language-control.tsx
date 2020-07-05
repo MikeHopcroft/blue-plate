@@ -7,27 +7,32 @@ import { Dispatch } from 'redux'
 import {
   ApplicationState,
   AnyAction,
+  loadWorld,
 } from "../actions";
 
 import styles from './controls.module.css';
 
 interface Props {
   application: ApplicationState;
-  setLanguage: (language: string) => void;
+  setEnglish: () => void;
+  setSpanish: () => void;
 };
 
 class LanguageControl extends React.Component<Props> {
   render() {
+    const language = this.props.application.language === 'es-US' ? 
+      'Español (es-US)' : 'English (en-US)';
+
     return (
       <Dropdown>
         <Dropdown.Toggle variant="light" id="dropdown-basic">
           <FaGlobe style={{width: '1.2em', height: '1.2em', paddingRight: '4px'}}/>
-          English
+          { language }
         </Dropdown.Toggle>
 
         <Dropdown.Menu>
-          <Dropdown.Item>English (EN)</Dropdown.Item>
-          <Dropdown.Item disabled>Español (ES)</Dropdown.Item>
+          <Dropdown.Item onSelect={this.props.setEnglish}>English (en-US)</Dropdown.Item>
+          <Dropdown.Item onSelect={this.props.setSpanish}>Español (es-US)</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     )
@@ -40,7 +45,11 @@ function mapStateToProps(application: ApplicationState) {
 
 function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
   return {
-    setLanguage: (language: string) => {
+    setEnglish: () => {
+      dispatch(loadWorld('en-US'));
+    },
+    setSpanish: () => {
+      dispatch(loadWorld('es-US'));
     },
   };
 }
