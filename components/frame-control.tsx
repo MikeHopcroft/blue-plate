@@ -13,6 +13,7 @@ import GraphPanelControl from './graph-panel-control';
 import HamburgerControl from './hamburger-control';
 import HistoryControl from './history-control';
 import InfoControl from './info-control';
+import LanguageControl from './language-control';
 import LexiconControl from './lexicon-control';
 import LoadingControl from './loading-control';
 import MenuControl from './menu-control';
@@ -103,6 +104,7 @@ class FrameControl extends React.Component<Props> {
             </Nav.Item>
             <div style={{flexGrow: 1}}>
             </div>
+            <LanguageControl/>
             <HamburgerControl/>
           </Nav>
           <div style={{flexGrow: 1, overflow: 'hidden'}}>
