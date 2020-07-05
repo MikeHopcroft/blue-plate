@@ -29,8 +29,8 @@
   * MasterDetail
     * Default item
     * Maintain current item across tabs
-    * Detail and Drilldown Panes should have titles fixed and scroll below (so back button and title don't scroll off of screen)
     * Left arrow, ESC key closes drilldown panel
+    * x Detail and Drilldown Panes should have titles fixed and scroll below (so back button and title don't scroll off of screen)
   * TestsControl
     * Better master item visuals
       * Red/Green background colors and highlight colors

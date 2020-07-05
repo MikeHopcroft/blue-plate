@@ -177,9 +177,7 @@ class Drilldown extends React.Component<{
     console.log(this.props.testResults);
     const test = this.props.testResults.get(id);
     const text = test.expected.steps[stepIndex].turns[turnIndex].transcription;
-    // const text = 'hello';
 
-    // console.log('Drilldown render ' + this.props.selected);
     return (
       <div style={{display: 'flex', flexDirection: 'column', width: '100%', height: '100%'}}>
         <div>

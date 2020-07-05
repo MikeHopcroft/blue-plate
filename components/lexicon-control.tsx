@@ -54,18 +54,25 @@ class Detail extends React.Component<{
       if (tokenSpec) {
         const name = formatTokenName(tokenSpec);
         return (
-          <div>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            height: '100%'  
+          }}>
             <h1>{name}</h1>
-            { tokenSpec.aliases.map((alias, index) =>
-              <Nav.Item key={index} style={{paddingTop: '0', paddingBottom: '0'}}>
-                <Nav.Link
-                  style={{whiteSpace: 'nowrap', paddingTop: '0', paddingBottom: '0'}}
-                  eventKey={alias}
-                >
-                  {alias}
-                </Nav.Link>
-              </Nav.Item>
-            )}
+            <div style={{flexGrow: 1, overflow: 'auto'}}>
+              { tokenSpec.aliases.map((alias, index) =>
+                <Nav.Item key={index} style={{paddingTop: '0', paddingBottom: '0'}}>
+                  <Nav.Link
+                    style={{whiteSpace: 'nowrap', paddingTop: '0', paddingBottom: '0'}}
+                    eventKey={alias}
+                  >
+                    {alias}
+                  </Nav.Link>
+                </Nav.Item>
+              )}
+            </div>
           </div>
         );
       } else {
@@ -90,15 +97,28 @@ class Drilldown extends React.Component<{
     console.log(pattern);
     console.log(aliases);
     return (
-      <div>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        height: '100%'  
+      }}>
         <div style={{display: 'flex', flexDirection: 'row'}}>
           <BackButton/>
-          <h1 style={{flexGrow: 1}}>{aliases.length} variant{aliases.length===1?'':'s'}</h1>
+          <h1 style={{flexGrow: 1, whiteSpace: 'nowrap'}}>
+            {aliases.length} variant{aliases.length===1?'':'s'}
+          </h1>
         </div>
-        <b>{this.props.selected}</b>
-        {aliases.map((alias, index) => (
-          <div className={styles.nested} key={index}>{alias}</div>
-        ))}
+        <div style={{flexGrow: 1, overflow: 'auto'}}>
+          <div style={{fontWeight: 'bold', whiteSpace: 'nowrap'}}>
+            {this.props.selected}
+          </div>
+          {aliases.map((alias, index) => (
+            <div className={styles.nested} key={index} style={{whiteSpace: 'nowrap'}}>
+              {alias}
+            </div>
+          ))}
+        </div>
       </div>
     );
   }

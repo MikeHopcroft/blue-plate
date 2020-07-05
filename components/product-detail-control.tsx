@@ -58,13 +58,21 @@ class ProductDetailControl extends React.Component<Props> {
       const item = catalog.getGeneric(pid);
       return (
         <div style={{
+          display: 'flex',
+          flexDirection: 'column',
           width: '100%',
+          height: '100%'
         }}>
-          <div style={{display: 'flex', flexDirection: 'row'}}>
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
             { this.props.isDrilldown ? <BackButton/> : null }
             <h1>{item.name} ({item.pid})</h1>
           </div>
-          <div style={{display: 'flex', flexDirection: 'row'}}>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            flexGrow: 1,
+            overflow: 'auto'
+          }}>
             {renderProductAliases(item)}
             {renderProductAttributes(world, item)}
             {renderLegalSpecifics(world, item)}

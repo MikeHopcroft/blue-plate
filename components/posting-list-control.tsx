@@ -72,32 +72,27 @@ class Detail extends React.Component<{
     }
 
     return (
-      <div>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        height: '100%'
+      }}>
         <h1>{posting.term}</h1>
-        <div style={{display: 'flex', flexDirection: 'row'}}>
-        {
-          [...typeToTokens.entries()].map((entry, index) => {
-            const symbol = entry[0].toString();
-            const name = `${symbol.slice(7, symbol.length - 1)}`;
-            return this.renderTokenTypes(posting, entry[0], entry[1]);
-          })
-        }
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row',
+          flexGrow: 1,
+          overflow: 'auto'
+        }}>
+          {
+            [...typeToTokens.entries()].map((entry, index) => {
+              const symbol = entry[0].toString();
+              const name = `${symbol.slice(7, symbol.length - 1)}`;
+              return this.renderTokenTypes(posting, entry[0], entry[1]);
+            })
+          }
         </div>
-        {
-          // [...posting.tokenToAliases.entries()].map((entry, index) => {
-          //   const token = formatToken(entry[0], 0);
-          //   return (
-          //     <Nav.Item key={index} style={{paddingTop: '0', paddingBottom: '0'}}>
-          //       <Nav.Link
-          //         style={{whiteSpace: 'nowrap', paddingTop: '0', paddingBottom: '0'}}
-          //         eventKey={hash + '/' + this.props.invertedIndex.tokenToId.get(entry[0])}
-          //       >
-          //         {token.type} {token.name}
-          //       </Nav.Link>
-          //     </Nav.Item>
-          //   );
-          // })
-        }
       </div>
     );
   }
