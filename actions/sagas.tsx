@@ -80,7 +80,7 @@ export function* loadWorldSaga(action: LoadWorldAction) {
   const shortOrderWorld = createShortOrderWorld2(
     prixFixeWorld,
     lexiconSpec,
-    undefined,
+    action.language === 'es-US' ? 'snowball-es' : 'snowball',
     false
   );
 

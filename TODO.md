@@ -3,12 +3,19 @@
 * Top
   * Publish and take short-order and token-flow
   * English/Spanish
+    * Demo script and/or sample history
+    * Recursive aliasesFromPattern
+    * Ensure all packages are using aliasesFromPattern from prix-fixe
+    * Remove aliasesFromPattern from token-flow?
+    * Spanish regression suite
+      * OPTION: use English with chocolate syrup removed
+      * OPTION: write new one
+      * OPTION: rebase English for chocolate syrup
+    * x Stemmer
     * x Mode switcher
-    * Stemmer
     * x Speech config
     * x Menu and lexicon switch
     * x Regression suite switch
-    * Spanish regression suite
   * Empty graph should not render
   * History fit and finish
     * Thumbs icon hits keyboard icon
