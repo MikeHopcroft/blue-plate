@@ -13,8 +13,6 @@ class Master extends React.Component<{
   selected?: string
 }> {
   render() {
-    console.log('Master render');
-    console.log(this.props);
     if (!this.props.lexiconSpec) {
       return null;
     } else {
@@ -46,8 +44,6 @@ class Detail extends React.Component<{
   selected?: string
 }> {
   render() {
-    console.log('Detail render');
-    console.log(this.props);
     if (!this.props.lexiconSpec) {
       return null;
     } else {

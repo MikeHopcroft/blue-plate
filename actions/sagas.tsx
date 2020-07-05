@@ -62,10 +62,14 @@ export function* loadWorldSaga(action: LoadWorldAction) {
 
   const testResults = yield runTests(prixFixeWorld, shortOrderWorld, expected);
 
+  const tokenizer = shortOrderWorld.lexer.tokenizer;
+  const postings = tokenizer.getPostings();
+
   const bluePlateWorld: BluePlateWorld = {
     prixFixeWorld,
-    shortOrderWorld,
     lexiconSpec,
+    postings,
+    shortOrderWorld,
     testResults,
   }
 

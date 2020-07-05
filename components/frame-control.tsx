@@ -17,6 +17,7 @@ import LanguageControl from './language-control';
 import LexiconControl from './lexicon-control';
 import LoadingControl from './loading-control';
 import MenuControl from './menu-control';
+import PostingListControl from './posting-list-control';
 import RecorderControl from './recorder-control';
 import TestsControl from './tests-control';
 
@@ -94,6 +95,9 @@ class FrameControl extends React.Component<Props> {
               <Nav.Link eventKey="lexicon">Lexicon</Nav.Link>
             </Nav.Item>
             <Nav.Item>
+              <Nav.Link eventKey="postings">Postings</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
               <Nav.Link eventKey="graph">Graph</Nav.Link>
             </Nav.Item>
             <Nav.Item>
@@ -117,6 +121,9 @@ class FrameControl extends React.Component<Props> {
               </Tab.Pane>
               <Tab.Pane eventKey="lexicon" style={{height: '100%', overflow: 'auto'}}>
                 <LexiconControl />
+              </Tab.Pane>
+              <Tab.Pane eventKey="postings" style={{height: '100%', overflow: 'auto'}}>
+                <PostingListControl />
               </Tab.Pane>
               <Tab.Pane eventKey="graph" style={{height: '100%', overflow: 'auto'}}>
                 <GraphPanelControl />

@@ -1,5 +1,6 @@
 import { Cart, World } from 'prix-fixe';
 import { LexiconSpec, ShortOrderWorld } from 'short-order';
+import { PostingList } from 'token-flow';
 
 import { AllTestResults } from '../logic';
 
@@ -34,8 +35,9 @@ export interface HistoryItem {
 
 export interface BluePlateWorld {
   prixFixeWorld: World;
-  shortOrderWorld: ShortOrderWorld;
   lexiconSpec: LexiconSpec;
+  postings: PostingList;
+  shortOrderWorld: ShortOrderWorld;
   testResults: AllTestResults;
 }
 
