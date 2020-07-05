@@ -1,0 +1,160 @@
+lexicon:
+  #############################################################################
+  #
+  # Intents
+  #
+  #############################################################################
+  # TODO: is PROLOGUE even needed?
+  - name: PROLOGUE
+    aliases:
+    - hola
+    - bueno
+    - em
+    # Following collide with SEPERATOR, causing excess tokenizations
+    # - ah
+    # - um
+
+  # TODO: are these EPILOGUE or END_OF_ORDER
+  - name: EPILOGUE
+    aliases:
+      - es todo
+      - gracias
+      - nada mas
+      - adiós
+
+  # Introduce concept of catcher for "junk"
+  - name: JUNK
+    aliases: []
+
+  - name: PREPOSITION 
+    aliases:
+      - "(en,para) [el,la]"
+      - del
+      - de [la]
+      # - with
+
+      # - into
+      # - "(to) (a,the,that,your,be)"
+
+      # 959/1000
+      # - into
+      # - "(to) (that,your,be)"
+
+      # - modify that to be
+      # What about those, them, them thar?
+      # What about in? e.g. in a to go cup?
+
+  - name: ADD_TO_ORDER
+    aliases:
+      # IDEA: might move "also" to stopwords. Same with "please", "ah", "um"
+      #      - "[además,también] ([yo] (quiero,deseo),(me,nos) (gustaría,quisiera,pones,traes),pónga[me],ponme,dame,sirveme,añade)"
+      - "[además,también] [yo] (quiero,deseo)"
+      - podria tener
+      - queremos
+      - deseamos
+      - tomar
+      - dáme
+      - quiero
+      - por favor
+
+
+  - name: REMOVE_ITEM
+    aliases:
+      # NOTE: added "removed" here for use with hybrid-metaphone. Could, instead, add it to singularize.csv.
+      - "[podemos,queremos,puedo,quiero,puedes,quisiera,podría] (eliminar,deshacernos de)"
+      - no [quiero,queremos]
+
+
+  - name: MODIFY_ITEM
+    aliases:
+      # TODO: match future tenses
+      - "[podemos,queremos,puedo,quiero,puedes,quisiera,podría] (modificar,cambiar,reemplazar) [the]"
+
+  - name: CONJUNCTION
+    aliases:
+      - (también,además)
+      - "y"
+      - con
+
+  # ISSUE: "yeah" is a separator and also an affirmative answer.
+  # ISSUE: not sure about "I don't know" and "one more".
+  - name: SEPERATOR
+    aliases:
+      # - yeah
+      - ah
+      - oh
+      - uh
+      - um
+      - eh
+      - por favor
+      - no sé
+      - uno mad
+
+  #############################################################################
+  #
+  # Units
+  #
+  #############################################################################
+  - name: UNIT
+    aliases:
+      - chorro [de]
+      - carga [de]
+      - bomba [de]
+      - batido [de]
+      - pizca [de]
+      - poco [de]
+      - gota [de]
+      - cucharada [de]
+      - (bolsita) [de]
+      - orden [de]
+      - taza [de]
+
+  #############################################################################
+  #
+  # Stopwords
+  #
+  #############################################################################
+  - name: UNKNOWNTOKEN
+    aliases:
+      - para
+      - que
+      - yo
+      - nosotros
+
+  #############################################################################
+  #
+  # Quantifiers
+  #
+  #############################################################################
+  - name: QUANTITY
+    value: 1
+    aliases:
+      # NOTE: following line may rely on stemmer to handle "a"
+      - uno
+      - un
+      - una
+
+  - name: QUANTITY
+    value: 2
+    aliases:
+      # ISSUE: double as quantifer vs double as product name,
+      # e.g. "double shot" vs "double espresso"
+      # PLAN: use cookbook for double shot
+      # - double
+
+      # ISSUE: The term "of" is a partial match for "couple of".
+      # Potential error in "Make one of them large".
+      # What about "pair", "few", "some"?
+      - dos
+      - par de
+replacers:
+  - name: metaphone
+    replacements:
+      - [to,T-0]
+      - [two,T-0]
+      - [white,WT]
+  - name: singularize
+    replacements: []
+  - name: snowball
+    replacements:
+      - [iced,iced]

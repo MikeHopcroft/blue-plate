@@ -1,0 +1,45 @@
+catalog:
+  - tags: [bakery_products]
+    pid: 2000
+    sku: 10000
+    items:
+      - name: apple bran muffin
+        aliases:
+          - '(muffin,mollete,magdalena) [de salvado] de manzana'
+          - '(muffin,mollete,magdalena) de salvado'
+      - name: blueberry muffin
+        aliases:
+          - (muffin,mollete,magdalena) de arándana
+      - name: lemon poppyseed muffin
+        aliases:
+          - (muffin,mollete,magdalena) de semillas de amapolo [y limón]
+          - (muffin,mollete,magdalena) de limón
+  - tags: [bakery_options]
+    type: option
+    items:
+      - tensor: options
+        default: [regular]
+        items:
+          - name: butter
+            aliases:
+              - mantequilla
+          - name: strawberry jam
+            aliases:
+              - '[mermelada] fresa'
+      - tags: [bakery_preparations]
+        tensor: none
+        items:
+          - name: warmed
+            role: applied
+            aliases:
+              - cálido
+              - caliente
+              - tostado
+          - name: cut in half
+            role: applied
+            aliases:
+              - cortado [por la mitad,en dos pedazos]
+              - rebanada
+rules:
+  - parents: [bakery_products]
+    children: [bakery_options]

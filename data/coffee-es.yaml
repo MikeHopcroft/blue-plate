@@ -1,0 +1,407 @@
+dimensions:
+  - name: coffee_temperature
+    attributes:
+      - name: hot
+        hidden: true
+        aliases:
+          - caliente
+          - cálido
+      - name: iced
+        aliases:
+          - frío
+  - name: coffee_size
+    attributes:
+      - name: short
+        aliases:
+          - pequeñito
+          - chico
+      - name: tall
+        aliases:
+          - tall
+          - pequeño
+      - name: grande
+        aliases:
+          - grande
+          - mediano
+      - name: venti
+        aliases:
+          - venti
+  - name: espresso_size
+    attributes:
+      - name: solo
+        aliases:
+          - (solo,pequeño)
+      - name: doppio
+        aliases:
+          - doble
+      - name: triple
+        aliases:
+          - triple [shot]
+          - three shot
+      - name: quad
+        aliases:
+          - "(quad,quadruple) [shot]"
+          - four shot
+  - name: option_quantity
+    attributes:
+      - name: "no"
+        aliases: 
+          - 'no'
+          - sin
+      - name: light
+        aliases:
+          - menos
+          - "[solo] (un poquito,un poco) [de]"
+      - name: regular
+        hidden: true
+        aliases:
+          - normal
+          - regular
+      - name: extra
+        aliases:
+          - extra
+          - adicional
+          - más
+          - mucho
+          - muchísimo
+tensors:
+  - name: latte_drinks
+    dimensions: [coffee_temperature, coffee_size]
+  - name: espresso_drinks
+    dimensions: [coffee_temperature, espresso_size]
+  - name: options
+    dimensions: [option_quantity]
+catalog:
+  - tags: [latte_drinks]
+    tensor: latte_drinks
+    default: [hot,grande]
+    forms:
+      - include: ['*', '*']
+      - exclude: [hot, venti]
+      - exclude: [iced, short]
+    items:
+      - name: cappuccino
+        aliases:
+          - cappuccino
+      - name: flat white
+        aliases:
+          - blanco plano
+      - name: latte
+        aliases:
+          - café [con] leche
+      - name: latte macchiato
+        aliases:
+          - "[café] latte macchiato"
+      - name: mocha
+        aliases:
+          - "[café] mocha"
+      - name: chai latte
+        aliases:
+          - "chai [latte]"
+  - tags: [espresso_drinks]
+    tensor: espresso_drinks
+    default: [hot, doppio]
+    items:
+      - name: espresso
+        aliases:
+          - "[café] espresso"
+          - "[café] solo"
+      - name: lungo
+        aliases:
+          - "[café] lungo"
+      - name: ristretto
+        aliases:
+          - "[café] ristretto"
+      - name: macchiato
+        aliases:
+          - "[café] macchiato"
+  - tags: [coffee_drinks]
+    tensor: latte_drinks
+    default: [hot, grande]
+    forms:
+      - include: ['*', '*']
+      - exclude: [hot, venti]
+      - exclude: [iced, short]
+    items:
+      - name: americano
+        aliases:
+          - "[café] americano"
+      - name: dark roast coffee
+        aliases:
+          # TODO: "cup of" should be a unit
+          - "[taza de] café [de filtro] [tostaso oscura]"
+  - type: option
+    items:
+    - tags: [syrups]
+      units: bomba
+      role: measured
+      tensor: options
+      default: [regular]
+      items:
+        - name: almond syrup
+          aliases:
+            - "[almíbar [de],jarabe [de]] almendra"
+        - name: buttered rum syrup
+          aliases:
+            - "[almíbar [de],jarabe [de]] ron [con mantequilla]"
+        - name: caramel syrup
+          aliases:
+            - "[almíbar [de],jarabe [de]] caramelo"
+        - name: cinnamon syrup
+          aliases:
+            - "[almíbar [de],jarabe [de]] canela"
+        - name: chocolate syrup
+          aliases:
+            - "[almíbar [de],jarabe [de]] chocolate"
+        - name: hazelnut syrup
+          aliases:
+            - "[almíbar [de],jarabe [de]] avellana"
+        - name: orange syrup
+          aliases:
+            - "[almíbar [de],jarabe [de]] naranja"
+        - name: peppermint syrup
+          aliases:
+            - "[almíbar [de],jarabe [de]] menta"
+        - name: raspberry syrup
+          aliases:
+            - "[almíbar [de],jarabe [de]] frambuesa"
+        #toffee and caramel are the same thing? 
+        - name: toffee syrup
+          aliases:
+            - "[almíbar [de],jarabe [de]] toffee"
+        - name: vanilla syrup
+          aliases:
+            - "[almíbar [de],jarabe [de]] vainilla"
+    - tags: [caffeines]
+      tensor: none
+      role: applied
+      items:
+        - name: regular
+          aliases:
+            - "[totalmente] (con cafeína,cafeinado)"
+        - name: two thirds caf
+          aliases:
+            - dos tercios (con cafeína,cafeinado)
+        - name: half caf
+          aliases:
+            - (medio,mitad) (con cafeína,cafeinado)
+        - name: one third caf
+          aliases:
+            - un tercio (con cafeína,cafeinado)
+        - name: decaf
+          aliases:
+            - descafeinada
+            - sin cafeína
+    - tags: [milks]
+      tensor: none
+      items:
+        - name: whole milk
+          aliases:
+            - "leche [entera]"
+        - name: two percent milk
+          aliases:
+            - "[leche] [con] dos por ciento [de grasa]"
+        - name: one percent milk
+          aliases:
+            - "[leche] [con] uno por ciento [de grasa]"
+        - name: nonfat milk
+          aliases:
+            - "[leche] (descremada,sin grasa)"
+        - name: coconut milk
+          aliases:
+            - "[leche] [de] coco"
+        - name: soy milk
+          aliases:
+            - "[leche] [de] soja"
+        - name: almond milk 
+          aliases:
+            - "[leche] [de] almendra"
+        - name: oat milk
+          aliases:
+            - "[leche] [de] avena"
+        - name: eggnog
+          aliases:
+            - "eggnog"
+    - tags: [creamers]
+      units: poco
+      tensor: none
+      items:
+        - name: whole milk creamer
+          aliases:
+            - "leche [entera]"
+        - name: two percent milk creamer
+          aliases:
+            - "[leche] [con] dos por ciento [de grasa]"
+        - name: one percent milk creamer
+          aliases:
+            - "[leche] [con] uno por ciento [de grasa]"
+        - name: nonfat milk creamer
+          aliases:
+            - "[leche] [descremada,sin grasa]"
+        - name: coconut milk creamer
+          aliases:
+            - "[leche] [de] coco"
+        - name: soy milk creamer
+          aliases:
+            - "[leche] [de] soja"
+        - name: almond milk creamer
+          aliases:
+            - "[leche] [de] almendra"
+        - name: oat milk creamer
+          aliases:
+            - "[leche] [de] avena"
+        - name: eggnog creamer
+          aliases:
+            - "ponche de huevo"
+            #Don't know the difference between half and half and heavy cream in spanish
+        - name: half and half
+          aliases:
+            - crema
+        - name: heavy cream
+          aliases:
+            - crema espesa
+    - tags: [toppings]
+      tensor: options
+      default: [regular]
+      items:
+        - name: cinnamon
+          units: poco
+          aliases:
+            - canela
+        - name: foam
+          aliases:
+            - espuma
+        - name: ice
+          aliases:
+            - hielo
+        - name: nutmeg
+          units: poco
+          aliases:
+            - nuez moscada [molida]
+        - name: whipped cream
+          aliases:
+            - "(crema,nata) (batida,montada)"
+        - name: water
+          aliases:
+            - agua
+    - tags: [latte_preparations]
+      tensor: none
+      items:
+        - name: for here cup
+          role: applied
+          tags: [here-or-to-go]
+          aliases:
+            - for here [cup]
+        - name: lid
+          aliases:
+            - tapa
+        - name: with room
+          aliases:
+            - espacio
+        - name: to go
+          role: applied
+          tags: [here-or-to-go]
+          aliases:
+            - para llevar
+        - name: dry
+          role: applied
+          tags: [wet-or-dry]
+          aliases:
+            - seco
+        - name: wet
+          role: applied
+          tags: [wet-or-dry]
+          aliases:
+            - mojado
+    - tags: [sweeteners]
+      tensor: options
+      default: [regular]
+      items:
+        - name: equal
+          units: bolsita
+          aliases:
+            - igual
+            - "[edulcorante] azúl"
+        - name: honey
+          aliases:
+            - miel
+        - name: splenda
+          units: bolsita
+          aliases:
+            - splenda
+            - "[edulcorante] amarillo"
+        - name: sugar
+          units: bolsita
+          aliases:
+            - azúcar
+        - name: sugar in the raw
+          units: bolsita
+          aliases:
+            - azúcar crudo
+            - "[edulcorante,azúcar] marrón"
+        - name: sweet n low
+          units: bolsita
+          aliases:
+            - sweet n low
+            - "[edulcorante] rosado"
+        #Unit-object reversal?
+        - name: espresso shot
+          units: extra
+          aliases:
+            - carga
+            - chorro
+rules:
+  - parents: [latte_drinks]
+    children: 
+      - milks
+      - sweeteners
+      - syrups
+      - toppings
+  - parents: [latte_drinks, coffee_drinks, espresso_drinks]
+    children:
+      - caffeines
+      - here-or-to-go
+      - latte_preparations
+      # - milks
+      - wet-or-dry
+    info:
+      minQty: 1
+      maxQty: 1
+      defaultQty: 1
+  - parents: [coffee_drinks, espresso_drinks]
+    children: 
+      - creamers
+      - sweeteners
+      - syrups
+      - toppings
+  - parents: [coffee_drinks, espresso_drinks, latte_drinks]
+    exclusive: [milks, caffeines, here-or-to-go, wet-or-dry]
+recipes:
+  - name: double double
+    aliases: [doble doble]
+    items:
+      - name: grande dark roast coffee
+        quantity: 2
+        children:
+          - name: half and half
+            quantity: 2
+            children: []
+  - name: one and one
+    aliases: [uno y uno]
+    items:
+      - name: half and half
+        quantity: 1
+        children: []
+      - name: sugar
+        quantity: 1
+        children: []
+  - name: double shot
+    aliases:
+      - "doble"
+    items:
+      - name: espresso shot
+        quantity: 2
+        children: []
+# shaken, stirred
+# gin and tonic
+# rum and coke
