@@ -32,17 +32,21 @@ export interface HistoryItem {
   note?: string;
 };
 
+export interface BluePlateWorld {
+  prixFixeWorld: World;
+  shortOrderWorld: ShortOrderWorld;
+  lexiconSpec: LexiconSpec;
+  testResults: AllTestResults;
+}
+
 export interface ApplicationState {
-  world?: World;
   speechSupport: boolean;
-  shortOrderWorld?: ShortOrderWorld;
-  lexiconSpec?: LexiconSpec;
   mode: ApplicationMode;
   isRecording: boolean;
   transcription: string;
   cart: Cart;
   history: HistoryItem[];
-  testResults?: AllTestResults;
+  bluePlateWorld?: BluePlateWorld;
 }
 
 export function initialState(): ApplicationState {

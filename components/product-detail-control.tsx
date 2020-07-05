@@ -231,11 +231,7 @@ function renderLegalSpecifics(world: World, item: GenericTypedEntity) {
 }
 
 function mapStateToProps(application: ApplicationState) {
-  return {
-    world: application.world,
-    currentPID: application.currentPID,
-    optionPID: application.optionPID,
-  };
+  return { world: application.bluePlateWorld.prixFixeWorld };
 }
 
 export default connect(mapStateToProps)(ProductDetailControl);

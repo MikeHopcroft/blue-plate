@@ -22,7 +22,7 @@ class ProductListControl extends React.Component<Props> {
   }
 
   renderCatalog() {
-    const catalog = this.props.application.world!.catalog;
+    const catalog = this.props.application.bluePlateWorld.prixFixeWorld.catalog;
     const products: GenericTypedEntity[] = [];
     const options: GenericTypedEntity[] = [];
     for (const item of catalog.genericEntities()) {

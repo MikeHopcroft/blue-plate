@@ -44,7 +44,7 @@ class Master extends React.Component<{
 
   static connect() {
     return connect((application: ApplicationState) => ({
-      testResults: application.testResults,
+      testResults: application.bluePlateWorld.testResults,
     }))(Master);
   }
 }
@@ -155,8 +155,8 @@ class Detail extends React.Component<{
 
   static connect() {
     return connect((application: ApplicationState) => ({
-      catalog: application.world.catalog,
-      testResults: application.testResults,
+      catalog: application.bluePlateWorld.prixFixeWorld.catalog,
+      testResults: application.bluePlateWorld.testResults,
     }))(Detail);
   }
 }
@@ -194,7 +194,7 @@ class Drilldown extends React.Component<{
 
   static connect() {
     return connect((application: ApplicationState) => ({
-      testResults: application.testResults,
+      testResults: application.bluePlateWorld.testResults,
     }))(Drilldown);
   }
 }

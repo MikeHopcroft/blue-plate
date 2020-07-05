@@ -22,7 +22,7 @@ import {
 
 import { runTests } from '../logic';
 
-import { ApplicationState } from './application-state';
+import { ApplicationState, BluePlateWorld } from './application-state';
 
 const bakery= require('../data/bakery.yaml');
 const coffee= require('../data/coffee.yaml');
@@ -41,9 +41,9 @@ export function* loadWorldSaga(action: LoadWorldAction) {
     loader,
     '/samples/menu/menu.yaml'
   );
-  const world = createWorld3(spec);
+  const prixFixeWorld = createWorld3(spec);
   const shortOrderWorld = createShortOrderWorld2(
-    world,
+    prixFixeWorld,
     lexiconSpec,
     undefined,
     true
@@ -60,9 +60,16 @@ export function* loadWorldSaga(action: LoadWorldAction) {
   // const expected = logicalValidationSuite<TextTurn>(regressionSuite);
   const expected = regressionSuite as LogicalValidationSuite<TextTurn>
 
-  const testResults = yield runTests(world, shortOrderWorld, expected);
+  const testResults = yield runTests(prixFixeWorld, shortOrderWorld, expected);
 
-  yield(put(setWorld(world, shortOrderWorld, lexiconSpec, testResults)));
+  const bluePlateWorld: BluePlateWorld = {
+    prixFixeWorld,
+    shortOrderWorld,
+    lexiconSpec,
+    testResults,
+  }
+
+  yield(put(setWorld(bluePlateWorld)));
 }
 
 // TODO: clean this up.
@@ -78,10 +85,11 @@ export function* processSaga({ source, text, final }: ProcessAction) {
     const appState: ApplicationState = yield(select(getAppState));
     const filtered = speechToTextFilter(text);
     const state0: State = { cart: appState.cart };
-    const state1: State = yield appState.shortOrderWorld.processor(
-      filtered,
-      state0
-    );
+    const state1: State = 
+      yield appState.bluePlateWorld.shortOrderWorld.processor(
+        filtered,
+        state0
+      );
     yield(put(setCart(state1.cart)));
     yield(put(appendHistory(state1.cart, source, text)));
   }

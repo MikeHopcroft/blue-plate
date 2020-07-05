@@ -1,6 +1,7 @@
 # TODO List
 
 * Top
+  * Left arrow, ESC key closes drilldown panel
   * TestsControl
     * x graph drilldown
     * react-dom.development.js:88 Warning: Expected server HTML to contain a matching <div> in <div>.
@@ -13,7 +14,7 @@
     * Default active test
     * Keep active test across tab changes
   * Detail and Drilldown Panes should have titles fixed and scroll below (so back button and title don't scroll off of screen)
-  * BluePlateWorld
+  * x BluePlateWorld
   * https://www.npmjs.com/package/source-map-explorer
   * prix-fixe function scoreSuite() should be templated by TURN type.
   * Empty graph should not render

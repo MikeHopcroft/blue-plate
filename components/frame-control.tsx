@@ -28,7 +28,7 @@ interface Props {
 
 class FrameControl extends React.Component<Props> {
   render() {
-    if (this.props.application.world) {
+    if (this.props.application.bluePlateWorld) {
       return (
         <div className={styles.frame}>
           <div>

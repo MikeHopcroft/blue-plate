@@ -16,7 +16,7 @@ interface Props {
 
 class CartControl extends React.Component<Props> {
   render() {
-    const world = this.props.application.world!;
+    const world = this.props.application.bluePlateWorld.prixFixeWorld;
     const cart = this.props.application.cart;
     if (cart.items.length === 0) {
       return (

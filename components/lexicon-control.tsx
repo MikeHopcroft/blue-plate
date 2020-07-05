@@ -36,7 +36,7 @@ class Master extends React.Component<{
 
   static connect() {
     return connect((application: ApplicationState) => ({
-      lexiconSpec: application.lexiconSpec 
+      lexiconSpec: application.bluePlateWorld.lexiconSpec 
     }))(Master);
   }
 }
@@ -80,7 +80,7 @@ class Detail extends React.Component<{
 
   static connect() {
     return connect((application: ApplicationState) => ({
-      lexiconSpec: application.lexiconSpec 
+      lexiconSpec: application.bluePlateWorld.lexiconSpec 
     }))(Detail);
   }
 }

@@ -245,7 +245,7 @@ function renderNote(
 }
 
 function mapStateToProps(application: ApplicationState) {
-  return { world: application.world };
+  return { world: application.bluePlateWorld.prixFixeWorld };
 }
 
 function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {

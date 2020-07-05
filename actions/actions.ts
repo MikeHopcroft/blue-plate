@@ -1,9 +1,10 @@
-import { Cart, World } from 'prix-fixe';
-import { LexiconSpec, ShortOrderWorld } from 'short-order';
-
-import { AllTestResults } from '../logic';
-
-import { ApplicationMode, TextSource, HistoryItem } from "./application-state";
+import { Cart } from 'prix-fixe';
+import {
+ ApplicationMode,
+ BluePlateWorld,
+ TextSource,
+ HistoryItem
+} from "./application-state";
 
 export enum ActionType {
   APPEND_HISTORY = 'APPEND_HISTORY',
@@ -117,25 +118,16 @@ export function setMode(mode: ApplicationMode): SetModeAction {
 
 export interface SetWorldAction {
   type: ActionType.SET_WORLD;
-  world: World;
-  shortOrderWorld: ShortOrderWorld;
-  lexiconSpec: LexiconSpec;
-  testResults: AllTestResults;
+  bluePlateWorld: BluePlateWorld,
 };
 
 export function setWorld(
-  world: World,
-  shortOrderWorld: ShortOrderWorld,
-  lexiconSpec: LexiconSpec,
-  testResults: AllTestResults
+  bluePlateWorld: BluePlateWorld
 ): SetWorldAction {
   console.log('setWorld');
   return {
     type: ActionType.SET_WORLD,
-    world,
-    shortOrderWorld,
-    lexiconSpec,
-    testResults
+    bluePlateWorld,
   };
 }
 

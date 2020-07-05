@@ -96,7 +96,7 @@ function* groupHistoryItems(
 }
 
 function mapStateToProps(application: ApplicationState) {
-  return { world: application.world };
+  return { world: application.bluePlateWorld.prixFixeWorld };
 }
 
 export default connect(mapStateToProps)(HistoryControl);
