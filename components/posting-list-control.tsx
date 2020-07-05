@@ -1,9 +1,8 @@
-import { aliasesFromPattern, patternFromExpression } from 'prix-fixe';
 import React from 'react';
 import Nav from 'react-bootstrap/Nav';
 import { connect } from 'react-redux'
-import { LexiconSpec, TokenSpec } from 'short-order';
-import { PostingList } from 'token-flow';
+import { TokenSpec } from 'short-order';
+import { InvertedIndex, PostingListForHash, Token, TokenizerAlias } from 'token-flow';
 
 import { ApplicationState } from "../actions";
 
@@ -13,23 +12,23 @@ import { BackButton, createMasterDetail } from './master-detail-control';
 import styles from './controls.module.css';
 
 class Master extends React.Component<{
-  postings: PostingList,
+  invertedIndex: InvertedIndex,
   selected?: string
 }> {
   render() {
     console.log('Master render');
     console.log(this.props);
-    if (!this.props.postings) {
+    if (!this.props.invertedIndex) {
       return null;
     } else {
-      return this.props.postings.map((posting, index) => {
+      return this.props.invertedIndex.terms.map((posting, index) => {
         return (
           <Nav.Item key={posting.hash} style={{paddingTop: '0', paddingBottom: '0'}}>
             <Nav.Link
               style={{whiteSpace: 'nowrap', paddingTop: '0', paddingBottom: '0'}}
               eventKey={posting.hash}
             >
-              {posting.term} ({posting.postings.size})
+              {posting.term} ({posting.tokenToAliases.size})
             </Nav.Link>
           </Nav.Item>
         );
@@ -39,59 +38,99 @@ class Master extends React.Component<{
 
   static connect() {
     return connect((application: ApplicationState) => ({
-      postings: application.bluePlateWorld.postings 
+      invertedIndex: application.bluePlateWorld.postings 
     }))(Master);
   }
 }
 
 class Detail extends React.Component<{
-  postings: PostingList,
+  invertedIndex: InvertedIndex,
   selected?: string
 }> {
   render() {
-    if (!this.props.postings) {
+    if (!this.props.invertedIndex) {
       return null;
-    } else {
-      const hash = Number(this.props.selected);
-      const posting = this.props.postings.find(
-        x => x.hash === hash
-      );
+    }
 
-      if (posting) {
-        return (
-          <div>
-            <h1>{posting.term}</h1>
-            { [...posting.postings.entries()].map((entry, index) => {
-              const token = formatToken(entry[0], 0);
-              return (
-                <Nav.Item key={index} style={{paddingTop: '0', paddingBottom: '0'}}>
-                  <Nav.Link
-                    style={{whiteSpace: 'nowrap', paddingTop: '0', paddingBottom: '0'}}
-                    eventKey={hash + '/' + index}
-                  >
-                    {token.type} {token.name}
-                  </Nav.Link>
-              </Nav.Item>
+    const hash = Number(this.props.selected);
+    const posting = this.props.invertedIndex.terms.find(
+      x => x.hash === hash
+    );
 
-              );
-            })}
-          </div>
-        );
+    if (!posting) {
+      return null;
+    }
+
+    const typeToTokens = new Map<Symbol, Token[]>();
+    for (const token of posting.tokenToAliases.keys()) {
+      const t = typeToTokens.get(token.type);
+      if (t) {
+        t.push(token);
       } else {
-        return null;
+        typeToTokens.set(token.type, [token]);
       }
     }
+
+    return (
+      <div>
+        <h1>{posting.term}</h1>
+        <div style={{display: 'flex', flexDirection: 'row'}}>
+        {
+          [...typeToTokens.entries()].map((entry, index) => {
+            const symbol = entry[0].toString();
+            const name = `${symbol.slice(7, symbol.length - 1)}`;
+            return this.renderTokenTypes(posting, entry[0], entry[1]);
+          })
+        }
+        </div>
+        {
+          // [...posting.tokenToAliases.entries()].map((entry, index) => {
+          //   const token = formatToken(entry[0], 0);
+          //   return (
+          //     <Nav.Item key={index} style={{paddingTop: '0', paddingBottom: '0'}}>
+          //       <Nav.Link
+          //         style={{whiteSpace: 'nowrap', paddingTop: '0', paddingBottom: '0'}}
+          //         eventKey={hash + '/' + this.props.invertedIndex.tokenToId.get(entry[0])}
+          //       >
+          //         {token.type} {token.name}
+          //       </Nav.Link>
+          //     </Nav.Item>
+          //   );
+          // })
+        }
+      </div>
+    );
+  }
+
+  renderTokenTypes(posting: PostingListForHash, type: Symbol, tokens: Token[]) {
+    const symbol = type.toString();
+    const name = `${symbol.slice(7, symbol.length - 1)}`;
+    return (
+      <div style={{borderRight: 'solid black 1px', paddingRight: '1em', marginRight: '1em'}}>
+        <b>{name}</b>
+        { tokens.map( token => {
+          const formatted = formatToken(token, 0);
+          const aliases = posting.tokenToAliases.get(token);
+          return (
+            <div>
+              <div style={{fontWeight: 'bold', paddingLeft: '1em'}}>{formatted.name}</div>
+              { aliases.map(a => <div style={{paddingLeft: '2em', whiteSpace: 'nowrap'}}>{a.text}</div>) }
+            </div>
+          )
+        })}
+      </div>
+    )
   }
 
   static connect() {
     return connect((application: ApplicationState) => ({
-      postings: application.bluePlateWorld.postings 
+      invertedIndex: application.bluePlateWorld.postings 
     }))(Detail);
   }
 }
 
 class Drilldown extends React.Component<{
-  postings: PostingList,
+  invertedIndex: InvertedIndex,
   selected: string
 }> {
   render() {
@@ -101,37 +140,30 @@ class Drilldown extends React.Component<{
 
     const parts = this.props.selected.split('/');
     const hash = Number(parts[0]);
-    const tokenIndex = Number(parts[1]);
-    // const posting = this.props.postings.find(
-    //   x => x.hash === hash
-    // );
-    // const aliases = posting.postings[tokenIndex];
+    const tokenId = Number(parts[1]);
+    const token = this.props.invertedIndex.idToToken.get(tokenId);
+    const posting = this.props.invertedIndex.terms.find(
+      x => x.hash === hash
+    );
+    const aliases = posting.tokenToAliases.get(token);
 
-    // const turnIndex = Number(parts[2]);
-    // console.log(this.props.testResults);
-
-
-    // const pattern = patternFromExpression(this.props.selected);
-    // const aliases = [...aliasesFromPattern(pattern)];
-    // console.log(pattern);
-    // console.log(aliases);
     return (
       <div>
         <div style={{display: 'flex', flexDirection: 'row'}}>
           <BackButton/>
-    <h1 style={{flexGrow: 1}}>Detail {this.props.selected}</h1>
+          <h1 style={{flexGrow: 1}}>Detail {this.props.selected}</h1>
         </div>
         <b>{this.props.selected}</b>
-        {/* {aliases.map((alias, index) => (
-          <div className={styles.nested} key={index}>{alias}</div>
-        ))} */}
+        {aliases.map((alias, index) => (
+          <div className={styles.nested} key={index}>{alias.text}</div>
+        ))}
       </div>
     );
   }
 
   static connect() {
     return connect((application: ApplicationState) => ({
-      postings: application.bluePlateWorld.postings 
+      invertedIndex: application.bluePlateWorld.postings 
     }))(Drilldown);
   }
 }
@@ -145,7 +177,7 @@ function formatTokenName(spec: TokenSpec) {
 const MasterDetail = createMasterDetail(
   Master.connect(),
   Detail.connect(),
-  Drilldown
+  Drilldown.connect()
 );
 
 export default MasterDetail;

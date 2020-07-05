@@ -46,7 +46,7 @@ export function* loadWorldSaga(action: LoadWorldAction) {
     prixFixeWorld,
     lexiconSpec,
     undefined,
-    true
+    false
   );
 
   // Sort for display by LexiconControl.
