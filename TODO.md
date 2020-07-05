@@ -1,7 +1,7 @@
 # TODO List
 
 * Top
-  * Publish and take short-order and token-flow
+  * Publish and take prix-fixe, short-order and token-flow
   * English/Spanish
     * Demo script and/or sample history
     * Recursive aliasesFromPattern
@@ -18,9 +18,14 @@
     * x Regression suite switch
   * Empty graph should not render
   * History fit and finish
-    * Thumbs icon hits keyboard icon
-    * Dismiss note editor control on enter
-    * Dismiss note editor on loss of focus
+    * Dismiss note editor control on Enter key
+      * Not sure why this won't work - it works with ESC - form submit issue?
+    * BUG: Popover moves to 0,0 after dismissing with Escape key
+    * x Thumbs icon hits keyboard icon
+    * x Focus set in note when it opens
+    * x Caret moves to end of note when it opens
+    * x Dismiss note editor control on Escape key
+    * x Dismiss note editor on click outside
   * MasterDetail
     * Default item
     * Maintain current item across tabs

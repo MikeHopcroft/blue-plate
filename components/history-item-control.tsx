@@ -27,6 +27,8 @@ import {
   updateHistoryItem,
 } from "../actions";
 
+import HistoryNoteControl from './history-note-control';
+
 import styles from './controls.module.css';
 
 interface Props {
@@ -51,24 +53,17 @@ class HistoryItemControl extends React.Component<Props, State> {
     this.state = {
       hover: false
     }
-    // this.state = {
-    //   isHovering: false,
-    // };
   }
 
   onMouseEnter(x: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    // console.log(`enter`);
-    // console.log(this);
     this.setState({ hover: true });
   }
 
   onMouseLeave() {
-    // console.log(`leave`);
     this.setState({ hover: false });
   }
 
   setCorrectness = (id, key: string) => {
-    // console.log(`setCorrectness(${key})`);
     if (
       key === Correctness.CORRECT ||
       key === Correctness.INCORRECT ||
@@ -96,8 +91,6 @@ class HistoryItemControl extends React.Component<Props, State> {
           {renderSource(item.source)}
           <b>{`${item.timestamp.toLocaleTimeString()}: `}</b>
           <span style={{ paddingLeft: '6px' }}><i>{item.text}</i></span>
-          {/* <div style={{flexGrow: 1}}></div> */}
-          {/* {this.state.hover || item.note ? renderNote(item.note) : null} */}
           { renderNote(this.state.hover, item, this.setNote) }
         </div>
         {this.renderCart(item.cart)}
@@ -200,11 +193,13 @@ function renderCorrectness(
 function renderCorrectnessIcon(hover: boolean, correctness: Correctness) {
   switch (correctness) {
     case Correctness.CORRECT:
-      return <FaThumbsUp style={{ color: 'green' }} />;
+      return <FaThumbsUp style={{ color: 'green', paddingRight: '4px' }} />;
     case Correctness.INCORRECT:
-      return <FaThumbsDown style={{ color: 'red' }} />;
+      return <FaThumbsDown style={{ color: 'red', paddingRight: '4px' }} />;
     default:
-      return <FaQuestionCircle style={hover ? { color: 'lightgray' } : { color: 'white' }} />;
+      return <FaQuestionCircle style={
+        hover ? { color: 'lightgray', paddingRight: '4px' } : 
+        { color: 'white', paddingRight: '4px' }} />;
   }
 }
 
@@ -217,23 +212,24 @@ function renderNote(
   const style = note ? { color: '#ffd699' } : { color: 'lightgray'};
   const icon = note ? <FaComment style={style}/> : <FaRegComment style={style}/>;
 
+  // https://stackoverflow.com/questions/38467848/react-bootstrap-how-to-manually-close-overlaytrigger
   if (hover) {
     const popover = (
       <Popover id="popover-basic" style={{maxWidth: 'unset'}}>
         <Popover.Content>
-          <textarea
-            onInput = {(e) => setNote(item.id, e.currentTarget.value)}
-            rows={5}
-            cols={20}
-            style={{resize: 'both'}}
-            defaultValue={note}
-          />
+          <HistoryNoteControl id={item.id} note={note}/>
         </Popover.Content>
       </Popover>
     );
 
     return (
-      <OverlayTrigger trigger="click" placement="right" overlay={popover}>
+      <OverlayTrigger
+        trigger="click"
+        placement="right"
+        overlay={popover}
+        rootClose
+        rootCloseEvent = 'mousedown'
+      >
         {icon}
       </OverlayTrigger>
     )
