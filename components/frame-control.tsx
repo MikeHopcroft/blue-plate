@@ -80,7 +80,7 @@ class FrameControl extends React.Component<Props> {
       }}>
         <Tab.Container 
           id="left-tabs-example"
-          defaultActiveKey="lexicon"
+          defaultActiveKey="info"
           mountOnEnter={true}
           unmountOnExit={true}
         >

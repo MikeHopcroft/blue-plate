@@ -10,9 +10,10 @@ import {
   FaMicrophone,
   FaQuestionCircle,
   FaRegComment,
-  FaStickyNote,
+  // FaStickyNote,
   FaThumbsDown,
-  FaThumbsUp
+  FaThumbsUp,
+  FaUndo
 } from 'react-icons/fa';
 
 import { connect } from 'react-redux'
@@ -133,6 +134,8 @@ function renderSource(source: TextSource) {
 
 function renderSourceIcon(source: TextSource) {
   switch (source) {
+    case TextSource.COMMAND:
+      return <FaUndo/>
     case TextSource.KEYBOARD:
       return <FaKeyboard />;
     case TextSource.MICROPHONE:

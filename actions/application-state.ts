@@ -13,6 +13,7 @@ export enum ApplicationMode {
 };
 
 export enum TextSource {
+  COMMAND = 'COMMAND',
   KEYBOARD = 'KEYBOARD',
   MICROPHONE = 'MICROPHONE',
 }
@@ -48,6 +49,7 @@ export interface ApplicationState {
   transcription: string;
   cart: Cart;
   history: HistoryItem[];
+  undoStack: Cart[];
   bluePlateWorld?: BluePlateWorld;
   language: string;
 }
@@ -62,6 +64,7 @@ export function initialState(): ApplicationState {
       items: []
     },
     history: getSampleHistory(),
+    undoStack: [ { items: [] }],
     language: 'en-US',
   }
 }

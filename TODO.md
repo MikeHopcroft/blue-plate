@@ -2,6 +2,7 @@
 
 * Top
   * Publish and take prix-fixe, short-order and token-flow
+  * x Undo button
   * English/Spanish
     * Demo script and/or sample history
     * Recursive aliasesFromPattern
@@ -18,7 +19,7 @@
     * x Regression suite switch
   * Empty graph should not render
   * History fit and finish
-    * Note balloon too close to transcription
+    * x Note balloon too close to transcription
     * Dismiss note editor control on Enter key
       * Not sure why this won't work - it works with ESC - form submit issue?
     * BUG: Popover moves to 0,0 after dismissing with Escape key

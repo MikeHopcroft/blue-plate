@@ -5,13 +5,14 @@ import { FaRegTrashAlt, FaUndo } from 'react-icons/fa';
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 
-import { AnyAction, ApplicationState, clearCart } from "../actions";
+import { AnyAction, ApplicationState, clearCart, undo } from "../actions";
 
 import styles from './controls.module.css';
 
 interface Props {
   application: ApplicationState;
   onClearCart: () => void;
+  onUndo: () => void;
 };
 
 class CartControl extends React.Component<Props> {
@@ -36,6 +37,7 @@ class CartControl extends React.Component<Props> {
             <Button
               variant='outline-primary'
               style={{border: 'none'}}
+              onClick={this.props.onUndo}
             >
               <FaUndo/>
             </Button>
@@ -77,6 +79,9 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
   return {
     onClearCart: () => {
       dispatch(clearCart());
+    },
+    onUndo: () => {
+      dispatch(undo());
     },
   };
 }

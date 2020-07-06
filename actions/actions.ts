@@ -18,6 +18,7 @@ export enum ActionType {
   SET_MODE = 'SET_MODE',
   SET_SPEECH_SUPPORT = 'SET_SPEECH_SUPPORT',
   SET_WORLD = 'SET_WORLD',
+  UNDO = 'UNDO',
   UPDATE_HISTORY_ITEM = 'UPDATE_HISTORY'
 };
 
@@ -148,6 +149,16 @@ export function setSpeechSupport(speechSupport: boolean): SetSpeechSupportAction
   return { type: ActionType.SET_SPEECH_SUPPORT, speechSupport };
 }
 
+export interface UndoAction {
+  type: ActionType.UNDO;
+};
+
+export function undo(id: number): UndoAction {
+  return {
+    type: ActionType.UNDO,
+  };
+}
+
 export interface UpdateHistoryItemAction {
   type: ActionType.UPDATE_HISTORY_ITEM;
   id: number;
@@ -156,7 +167,8 @@ export interface UpdateHistoryItemAction {
 
 export function updateHistoryItem(
   id: number,
-  changes: Partial<HistoryItem>): UpdateHistoryItemAction {
+  changes: Partial<HistoryItem>
+): UpdateHistoryItemAction {
   return {
     type: ActionType.UPDATE_HISTORY_ITEM,
     id,
@@ -176,4 +188,5 @@ export type AnyAction =
   SetModeAction |
   SetWorldAction |
   SetSpeechSupportAction |
+  UndoAction |
   UpdateHistoryItemAction;

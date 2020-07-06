@@ -14,6 +14,7 @@ import {
   SetModeAction,
   SetWorldAction,
   SetSpeechSupportAction,
+  UndoAction,
   UpdateHistoryItemAction,
 } from './actions';
 
@@ -22,6 +23,7 @@ import {
   initialState,
   HistoryItem,
   Correctness,
+  TextSource,
 } from './application-state';
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -52,6 +54,8 @@ export const ApplicationStateReducer: Reducer<ApplicationState, AnyAction> =
         return applySetSpeechSupport(state, action);
       case ActionType.SET_WORLD:
         return applySetWorld(state, action);
+      case ActionType.UNDO:
+        return applyUndo(state, action);
       case ActionType.UPDATE_HISTORY_ITEM:
         return applyUpdateHistoryItem(state, action);
       default:
@@ -76,10 +80,13 @@ function applyAppendHistory(
   }
 
   const history = [...appState.history, item];
+  const undoStack = appState.undoStack.slice(-20);
+  undoStack.push(cart);
 
   return {
     ...appState,
-    history
+    history,
+    undoStack,
   }
 }
 
@@ -181,6 +188,38 @@ function applySetWorld(
     language,
     cart: { items: [] },
   };
+}
+
+function applyUndo(
+  appState: ApplicationState,
+  action: UndoAction
+): ApplicationState {
+  let undoStack = appState.undoStack;
+  if (undoStack.length > 1) {
+    const cart = undoStack[undoStack.length - 2];
+    undoStack = undoStack.slice(0,-1);
+
+    const item: HistoryItem =
+    {
+      cart,
+      correctness: Correctness.UNKNOWN,
+      id: historyIds.next(),
+      source: TextSource.COMMAND,
+      timestamp: new Date(),
+      text: 'undo'
+    }
+  
+    const history = [...appState.history, item];
+
+    return {
+      ...appState,
+      cart,
+      history,
+      undoStack
+    }
+  }
+
+  return appState;
 }
 
 function applyUpdateHistoryItem(
