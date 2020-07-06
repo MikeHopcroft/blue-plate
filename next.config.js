@@ -23,5 +23,5 @@ module.exports = {
 
     return config;
   },
-  assetPrefix: !debug ? '/blue-plate' : '',
+  // assetPrefix: !debug ? '/blue-plate' : '',
 };
