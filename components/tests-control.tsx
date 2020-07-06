@@ -31,6 +31,7 @@ class Master extends React.Component<{
         return (
           <Nav.Item key={name} style={{paddingTop: '0', paddingBottom: '0'}}>
             <Nav.Link
+              className = {test.passed?'green':'red'}
               style={{whiteSpace: 'nowrap', paddingTop: '0', paddingBottom: '0'}}
               eventKey={name}
             >
@@ -60,11 +61,18 @@ class Detail extends React.Component<{
     }
     const test = this.props.testResults.get(Number(this.props.selected));
     return (
-      <div>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        height: '100%'
+      }}>
         <h1>Test {this.props.selected}</h1>
-        <div>{ test.expected.comment }</div>
-        <div><b>Suites:</b> {test.expected.suites}</div>
-        { this.renderSteps(test) }
+        <div style={{flexGrow: 1, overflow: 'auto'}}>
+          <div>{ test.expected.comment }</div>
+          <div><b>Suites:</b> {test.expected.suites}</div>
+          { this.renderSteps(test) }
+        </div>
       </div>
     )
   }
@@ -147,7 +155,9 @@ class Detail extends React.Component<{
       return (
         <div style={{backgroundColor: 'lightblue'}}>
           <b>Repairs</b>
-          { measures.repairs.steps.map((x,i) => <div key={i}>{x}</div>) }
+          { measures.repairs.steps.map((x,i) => 
+            <div key={i} style={{whiteSpace: 'nowrap'}}>{x}</div>
+          )}
         </div>
       );
     }

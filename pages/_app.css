@@ -60,3 +60,19 @@ html, body, .viewport {
 .Resizer.disabled:hover {
   border-color: transparent;
 }
+
+.red {
+  background-color: pink;
+}
+
+.red.active.nav-link {
+  background-color: red;
+}
+
+.green {
+  background-color: lightgreen;
+}
+
+.green.active.nav-link {
+  background-color: green;
+}

@@ -18,6 +18,7 @@
     * x Regression suite switch
   * Empty graph should not render
   * History fit and finish
+    * Note balloon too close to transcription
     * Dismiss note editor control on Enter key
       * Not sure why this won't work - it works with ESC - form submit issue?
     * BUG: Popover moves to 0,0 after dismissing with Escape key
@@ -33,7 +34,7 @@
     * x Detail and Drilldown Panes should have titles fixed and scroll below (so back button and title don't scroll off of screen)
   * TestsControl
     * Better master item visuals
-      * Red/Green background colors and highlight colors
+      * x Red/Green background colors and highlight colors
       * Comment ...
     * react-dom.development.js:88 Warning: Expected server HTML to contain a matching <div> in <div>.
     * Test suite summary - aggregated metrics

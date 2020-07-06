@@ -209,7 +209,9 @@ function renderNote(
   setNote: (id: number, text: string) => void,
 ) {
   const note = item.note;
-  const style = note ? { color: '#ffd699' } : { color: 'lightgray'};
+  const style = note ? 
+    { color: '#ffd699', marginLeft: '6px' } : 
+    { color: 'lightgray', marginLeft: '6px' };
   const icon = note ? <FaComment style={style}/> : <FaRegComment style={style}/>;
 
   // https://stackoverflow.com/questions/38467848/react-bootstrap-how-to-manually-close-overlaytrigger

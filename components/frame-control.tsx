@@ -101,10 +101,10 @@ class FrameControl extends React.Component<Props> {
               <Nav.Link eventKey="graph">Graph</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="history">History</Nav.Link>
+              <Nav.Link eventKey="tests">Tests</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="tests">Tests</Nav.Link>
+              <Nav.Link eventKey="history">History</Nav.Link>
             </Nav.Item>
             <div style={{flexGrow: 1}}>
             </div>
