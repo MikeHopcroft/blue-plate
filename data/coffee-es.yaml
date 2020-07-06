@@ -140,38 +140,39 @@ catalog:
       items:
         - name: almond syrup
           aliases:
-            - "[almíbar [de],jarabe [de]] almendra"
+            - "[almíbar,almíbar de,jarabe,jarabe de] almendra"
+            # - "[almíbar [de],jarabe [de]] almendra"
         - name: buttered rum syrup
           aliases:
-            - "[almíbar [de],jarabe [de]] ron [con mantequilla]"
+            - "[almíbar,almíbar de,jarabe,jarabe de] ron [con mantequilla]"
         - name: caramel syrup
           aliases:
-            - "[almíbar [de],jarabe [de]] caramelo"
+            - "[almíbar,almíbar de,jarabe,jarabe de] caramelo"
         - name: cinnamon syrup
           aliases:
-            - "[almíbar [de],jarabe [de]] canela"
+            - "[almíbar,almíbar de,jarabe,jarabe de] canela"
         - name: chocolate syrup
           aliases:
-            - "[almíbar [de],jarabe [de]] chocolate"
+            - "[almíbar,almíbar de,jarabe,jarabe de] chocolate"
         - name: hazelnut syrup
           aliases:
-            - "[almíbar [de],jarabe [de]] avellana"
+            - "[almíbar,almíbar de,jarabe,jarabe de] avellana"
         - name: orange syrup
           aliases:
-            - "[almíbar [de],jarabe [de]] naranja"
+            - "[almíbar,almíbar de,jarabe,jarabe de] naranja"
         - name: peppermint syrup
           aliases:
-            - "[almíbar [de],jarabe [de]] menta"
+            - "[almíbar,almíbar de,jarabe,jarabe de] menta"
         - name: raspberry syrup
           aliases:
-            - "[almíbar [de],jarabe [de]] frambuesa"
+            - "[almíbar,almíbar de,jarabe,jarabe de] frambuesa"
         #toffee and caramel are the same thing? 
         - name: toffee syrup
           aliases:
-            - "[almíbar [de],jarabe [de]] toffee"
+            - "[almíbar,almíbar de,jarabe,jarabe de] toffee"
         - name: vanilla syrup
           aliases:
-            - "[almíbar [de],jarabe [de]] vainilla"
+            - "[almíbar,almíbar de,jarabe,jarabe de] vainilla"
     - tags: [caffeines]
       tensor: none
       role: applied

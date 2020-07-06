@@ -19,7 +19,7 @@ class Master extends React.Component<{
   onDetail: (detailKey: string | undefined) => void
 }> {
   render() {
-    if (!this.props.testResults) {
+    if (!this.props.testResults || this.props.testResults.size === 0) {
       return null;
     } else {
       const tests = [...this.props.testResults.values()];
@@ -61,9 +61,12 @@ class Detail extends React.Component<{
 }> {
   render() {
     if (this.props.selected === undefined) {
-      return null;
+      return <h1>No tests available</h1>
     }
     const test = this.props.testResults.get(Number(this.props.selected));
+    if (!test) {
+      return <h1>No tests available</h1>
+    }
     return (
       <div style={{
         display: 'flex',

@@ -23,6 +23,8 @@ import {
 import { runTests } from '../logic';
 
 import { ApplicationState, BluePlateWorld } from './application-state';
+import { getSampleHistory } from './sample-history';
+import { getSampleHistoryES } from './sample-history-es';
 
 const bakeryEN = require('../data/bakery.yaml');
 const coffeeEN = require('../data/coffee.yaml');
@@ -108,7 +110,11 @@ export function* loadWorldSaga(action: LoadWorldAction) {
     testResults,
   }
 
-  yield(put(setWorld(bluePlateWorld, action.language)));
+  const history = action.language === 'es-US' ?
+    getSampleHistoryES() : 
+    getSampleHistory();
+
+  yield(put(setWorld(bluePlateWorld, history, action.language)));
 }
 
 // TODO: clean this up.

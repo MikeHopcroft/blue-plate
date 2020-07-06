@@ -180,12 +180,14 @@ function applySetSpeechSupport(
 
 function applySetWorld(
   appState: ApplicationState,
-  { bluePlateWorld, language }: SetWorldAction
+  { bluePlateWorld, history, language }: SetWorldAction
 ): ApplicationState {
   return {
     ...appState,
     bluePlateWorld,
+    history,
     language,
+    undoStack: [{ items: [] }],
     cart: { items: [] },
   };
 }

@@ -125,17 +125,20 @@ export function setMode(mode: ApplicationMode): SetModeAction {
 export interface SetWorldAction {
   type: ActionType.SET_WORLD;
   bluePlateWorld: BluePlateWorld;
+  history: HistoryItem[];
   language: string;
 };
 
 export function setWorld(
   bluePlateWorld: BluePlateWorld,
+  history: HistoryItem[],
   language: string
 ): SetWorldAction {
   console.log('setWorld');
   return {
     type: ActionType.SET_WORLD,
     bluePlateWorld,
+    history,
     language,
   };
 }
