@@ -10,6 +10,7 @@ import styles from './controls.module.css';
 interface Props {
   application: ApplicationState;
   selected? : string;
+  onDetail: (detailKey: string | undefined) => null;
 };
 
 class ProductListControl extends React.Component<Props> {
@@ -43,6 +44,7 @@ class ProductListControl extends React.Component<Props> {
       } else if (options.length > 0) {
         currentPID = options[0].pid;
       }
+      this.props.onDetail(currentPID.toString());
     }
 
     return (
@@ -62,8 +64,18 @@ class ProductListControl extends React.Component<Props> {
 
     function renderItem(item: GenericTypedEntity) {
       return (
-        <Nav.Item key={item.pid} style={{paddingTop: '0', paddingBottom: '0'}}>
-          <Nav.Link style={{whiteSpace: 'nowrap', paddingTop: '0', paddingBottom: '0'}} eventKey={item.pid}>
+        <Nav.Item
+          key={item.pid}
+          style={{paddingTop: '0', paddingBottom: '0'}}
+        >
+          <Nav.Link
+            style={{
+              whiteSpace: 'nowrap',
+              paddingTop: '0',
+              paddingBottom: '0'
+            }}
+            eventKey={item.pid}
+          >
             {item.name} ({item.pid})
           </Nav.Link>
         </Nav.Item>

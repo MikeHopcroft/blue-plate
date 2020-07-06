@@ -10,25 +10,50 @@ import styles from './controls.module.css';
 
 class Master extends React.Component<{
   lexiconSpec?: LexiconSpec,
-  selected?: string
+  selected?: string,
+  onDetail: (detailKey: string | undefined) => null;
 }> {
   render() {
     if (!this.props.lexiconSpec) {
       return null;
     } else {
-      return this.props.lexiconSpec.lexicon.map((spec, index) => {
-        const name = formatTokenName(spec);
-        return (
-          <Nav.Item key={name} style={{paddingTop: '0', paddingBottom: '0'}}>
-            <Nav.Link
-              style={{whiteSpace: 'nowrap', paddingTop: '0', paddingBottom: '0'}}
-              eventKey={name}
-            >
-              {name}
-            </Nav.Link>
-          </Nav.Item>
-        );
-      });
+      let selected = this.props.selected;
+      if (!selected) {
+        selected = formatTokenName(this.props.lexiconSpec.lexicon[0]);
+        this.props.onDetail(selected);
+      }
+      return (
+        <div style={{ width: '100%', height: '100%', overflow: 'auto'}}>
+          <Nav
+            className="flex-column"
+            activeKey={this.props.selected}
+            variant="pills"
+          >
+            {
+              this.props.lexiconSpec.lexicon.map((spec, index) => {
+                const name = formatTokenName(spec);
+                return (
+                  <Nav.Item
+                    key={name}
+                    style={{paddingTop: '0', paddingBottom: '0'}}
+                  >
+                    <Nav.Link
+                      style={{
+                        whiteSpace: 'nowrap',
+                        paddingTop: '0',
+                        paddingBottom: '0'
+                      }}
+                      eventKey={name}
+                    >
+                      {name}
+                    </Nav.Link>
+                  </Nav.Item>
+                );
+              })
+            }
+          </Nav>
+        </div>
+      )
     }
   }
 

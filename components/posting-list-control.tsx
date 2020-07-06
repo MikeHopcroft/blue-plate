@@ -13,7 +13,8 @@ import styles from './controls.module.css';
 
 class Master extends React.Component<{
   invertedIndex: InvertedIndex,
-  selected?: string
+  selected?: string,
+  onDetail: (detailKey: string | undefined) => null
 }> {
   render() {
     console.log('Master render');
@@ -21,6 +22,11 @@ class Master extends React.Component<{
     if (!this.props.invertedIndex) {
       return null;
     } else {
+      if (!this.props.selected) {
+        this.props.onDetail(
+          this.props.invertedIndex.terms[0].hash.toString()
+        );
+      }
       return this.props.invertedIndex.terms.map((posting, index) => {
         return (
           <Nav.Item key={posting.hash} style={{paddingTop: '0', paddingBottom: '0'}}>

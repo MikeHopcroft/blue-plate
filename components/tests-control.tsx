@@ -15,13 +15,17 @@ import styles from './controls.module.css';
 
 class Master extends React.Component<{
   testResults: AllTestResults,
-  selected?: string
+  selected?: string,
+  onDetail: (detailKey: string | undefined) => null
 }> {
   render() {
     if (!this.props.testResults) {
       return null;
     } else {
       const tests = [...this.props.testResults.values()];
+      if (!this.props.selected) {
+        this.props.onDetail(tests[0].id.toString());
+      }
       return tests.map((test, index) => {
         const name = test.id.toString();
         const repairs = test.repairs;

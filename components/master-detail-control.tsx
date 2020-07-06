@@ -8,7 +8,10 @@ interface State {
 }
 
 export function createMasterDetail(
-  Master: React.ComponentType<{ selected?: string }>,
+  Master: React.ComponentType<{
+    selected?: string,
+    onDetail: (detailKey: string | undefined) => null
+  }>,
   Detail: React.ComponentType<{ isDrilldown?: boolean, selected?: string }>,
   Drilldown: React.ComponentType<{ isDrilldown?: boolean, selected: string }>
 ) {
@@ -49,7 +52,7 @@ export function createMasterDetail(
                 backgroundColor: 'white',
               }}
             >
-              <Master selected={this.state.detailKey} />
+              <Master selected={this.state.detailKey} onDetail={this.onDetail}/>
             </Nav>
           </div>
           <div style={{flexGrow: 1, overflow: 'auto'}}>

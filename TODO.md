@@ -1,7 +1,8 @@
 # TODO List
 
 * Top
-  * Publish and take prix-fixe, short-order and token-flow
+  * Clean up extra <Nav> tags in master-detail for menu and lexicon.
+  * x Publish and take prix-fixe, short-order and token-flow
   * x Undo button
   * English/Spanish
     * Demo script and/or sample history
