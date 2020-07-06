@@ -153,7 +153,7 @@ export interface UndoAction {
   type: ActionType.UNDO;
 };
 
-export function undo(id: number): UndoAction {
+export function undo(): UndoAction {
   return {
     type: ActionType.UNDO,
   };
