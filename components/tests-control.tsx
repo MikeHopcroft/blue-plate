@@ -16,7 +16,7 @@ import styles from './controls.module.css';
 class Master extends React.Component<{
   testResults: AllTestResults,
   selected?: string,
-  onDetail: (detailKey: string | undefined) => null
+  onDetail: (detailKey: string | undefined) => void
 }> {
   render() {
     if (!this.props.testResults) {

@@ -14,7 +14,7 @@ import styles from './controls.module.css';
 class Master extends React.Component<{
   invertedIndex: InvertedIndex,
   selected?: string,
-  onDetail: (detailKey: string | undefined) => null
+  onDetail: (detailKey: string | undefined) => void
 }> {
   render() {
     console.log('Master render');

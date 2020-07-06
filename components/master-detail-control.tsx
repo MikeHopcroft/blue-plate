@@ -10,7 +10,7 @@ interface State {
 export function createMasterDetail(
   Master: React.ComponentType<{
     selected?: string,
-    onDetail: (detailKey: string | undefined) => null
+    onDetail: (detailKey: string | undefined) => void
   }>,
   Detail: React.ComponentType<{ isDrilldown?: boolean, selected?: string }>,
   Drilldown: React.ComponentType<{ isDrilldown?: boolean, selected: string }>

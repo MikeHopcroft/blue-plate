@@ -10,7 +10,7 @@ import styles from './controls.module.css';
 interface Props {
   application: ApplicationState;
   selected? : string;
-  onDetail: (detailKey: string | undefined) => null;
+  onDetail: (detailKey: string | undefined) => void;
 };
 
 class ProductListControl extends React.Component<Props> {
