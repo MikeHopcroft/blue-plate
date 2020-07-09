@@ -1,5 +1,6 @@
 import { OPTION } from 'prix-fixe';
 import React from 'react';
+import { Token } from 'token-flow';
 
 import {
   AnyToken,
@@ -17,7 +18,14 @@ import { NUMBERTOKEN } from 'token-flow';
 import { Edge, EdgeTreatment } from './layout';
 
 import styles from './controls.module.css';
-import { Token } from 'token-flow';
+
+const shapeWord = styles.graphShapeWord;
+const shapeToken = styles.graphShapeToken;
+const shapeSelected = styles.graphShapeSelected;
+const shapeText = styles.graphText;
+const shapeTextSelected = styles.graphTextSelected;
+const pathOrdinary = styles.graphPath;
+const pathSelected = styles.graphPathSelected;
 
 interface EdgeProps {
   edge: Edge;
@@ -28,13 +36,13 @@ const BOX_PADDING = 2;
 
 export class EdgeLabel extends React.Component<EdgeProps> {
   render() {
-    console.log('EdgeControl.render()');
+    // console.log('EdgeControl.render()');
     const e = this.props.edge;
 
-    const treatment = (e.treatment === EdgeTreatment.SELECTED) ?
-      styles.graphShapeSelected : (e.treatment === EdgeTreatment.WORD) ?
-        styles.graphShapeWord : styles.graphShapeToken;
-    const className = `${styles.graphShape} ${treatment}`;
+    const shapeClassName = e.selectedPath ?
+      shapeSelected : e.treatment === EdgeTreatment.WORD ?
+      shapeWord : shapeToken;
+    const textClassName = e.selectedPath ? shapeTextSelected : shapeText;
 
     const padding = this.props.padding;
 
@@ -57,14 +65,13 @@ export class EdgeLabel extends React.Component<EdgeProps> {
 
     return (
       <g transform={`translate(${position.x} ${position.y})`}>
-        <rect {...dimensionsBox} className={className} />
-        <text {...dimensionsText} ref={e.control} className={styles.graphText}>
+        <rect {...dimensionsBox} className={shapeClassName} />
+        <text {...dimensionsText} ref={e.control} className={textClassName}>
           <tspan style={{ fontWeight: 'bold' }}>{e.info.type}</tspan>
           {e.info.name}
           <tspan x={2 * padding} dy="1em">
             score={e.info.score.toFixed(1)}{e.info.info}
           </tspan>
-          {/* <title>{e.title}</title> */}
         </text>
       </g>
     );
@@ -74,12 +81,9 @@ export class EdgeLabel extends React.Component<EdgeProps> {
 
 export class EdgePath extends React.Component<EdgeProps> {
   render() {
-    console.log('EdgePath.render()');
+    // console.log('EdgePath.render()');
     const e = this.props.edge;
-    const className =
-      (e.treatment === EdgeTreatment.SELECTED) ?
-        styles.graphPathSelected :
-        styles.graphPath;
+    const className = e.selectedPath ? pathSelected : pathOrdinary;
 
     return (
       <path
@@ -208,4 +212,3 @@ export function formatToken(t: Token, score: number): TokenFormat {
     score
   }
 }
-

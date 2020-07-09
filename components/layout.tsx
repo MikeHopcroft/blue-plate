@@ -1,6 +1,7 @@
 import React from 'react';
-import { ShortOrderWorld, tokenToString } from 'short-order';
+import { ShortOrderWorld } from 'short-order';
 import { coalesceGraph, filterGraph, Graph } from 'token-flow';
+import { Edge as TFEdge } from 'token-flow';
 
 import { formatToken, TokenFormat } from './edge-controls';
 
@@ -30,6 +31,7 @@ export class Edge {
 
   row: Row;
 
+  selectedPath: boolean;
   treatment: EdgeTreatment;
 
   constructor(
@@ -42,6 +44,8 @@ export class Edge {
     this.endCol = endCol;
     this.info = info;
     this.treatment = treatment;
+
+    this.selectedPath = false;
 
     this.length = endCol - startCol;
     this.control = React.createRef<SVGTextElement>();
@@ -103,7 +107,10 @@ export class Layout {
   xPadding = 20;
   yPadding = 15;
 
-  edges: Edge[];
+  edges: Edge[]; 
+  paths: Set<Edge>[];
+  selectedPathIndex: number;
+
   columns: Column[] = [];
   rows: Row[] = [];
 
@@ -111,7 +118,12 @@ export class Layout {
 
   measurePassId: Symbol = Symbol('measure');
 
-  constructor(columnCount: number, edges: Edge[]) {
+  constructor(
+    columnCount: number,
+    edges: Edge[],
+    paths: Set<Edge>[],
+    selectedPathIndex: number
+  ) {
     edges.sort((a, b) => {
       let d = a.length - b.length;
       if (d) {
@@ -130,13 +142,38 @@ export class Layout {
         return 1;
       }
     })
+
     this.edges = edges;
+    this.paths = paths;
+    this.selectedPathIndex = selectedPathIndex;
+
+    this.select(0);
+
     for (let i = 0; i <= columnCount; ++i) {
       this.columns.push({ x1: 0, x2: 0, in: [], out: [] })
     }
     for (const e of edges) {
       this.columns[e.startCol].out.push(e);
       this.columns[e.endCol].in.push(e);
+    }
+  }
+
+  getPathCount(): number {
+    return this.paths.length;
+  }
+
+  select(pathIndex: number) {
+    console.log(`select path ${pathIndex}`);
+    console.log(this);
+    this.selectedPathIndex = pathIndex;
+    const path = this.paths[pathIndex];
+
+    console.log(this.paths);
+    console.log(path);
+
+    for (const e of this.edges) {
+      console.log(`${e.info.name}: ${e.selectedPath}`);
+      e.selectedPath = path.has(e);
     }
   }
 
@@ -226,7 +263,7 @@ export class Layout {
       return acc;
     }, {}) as MinMax;
 
-    console.log(this);
+    // console.log(this);
   }
 
   assign(e: Edge) {
@@ -251,29 +288,38 @@ export function createLayout(world: ShortOrderWorld, text: string): Layout {
   const scoreThreshold = 0.35;
   const filteredGraph: Graph = filterGraph(coalescedGraph, scoreThreshold);
 
-  const paths = [
+  const tfPaths = [
     ...world.lexer.pathsFromGraph2(filteredGraph)
   ].map(x => new Set(x));
 
+  const tfEdgeToEdge = new Map<TFEdge, Edge>();
   const edges: Edge[] = [];
 
   for (const [i, edgeList] of filteredGraph.edgeLists.entries()) {
     for (const edge of edgeList) {
       const info = formatToken(edge.token, edge.score);
       if (info.type === 'UNKNOWNTOKEN' && edge.score === 0 && edge.length === 1) {
-        const treatment = paths[0].has(edge) ? EdgeTreatment.SELECTED : EdgeTreatment.WORD;
         const info: TokenFormat = {
           type: 'WORD: ',
           name: terms[i],
           info: '',
           score: 0
         }
-        edges.push(new Edge(i, i + 1, info, treatment));
+        const e = new Edge(i, i + 1, info, EdgeTreatment.WORD);
+        tfEdgeToEdge.set(edge, e);
+        edges.push(e);
       } else {
-        const treatment = paths[0].has(edge) ? EdgeTreatment.SELECTED : EdgeTreatment.TOKEN;
-        edges.push(new Edge(i, i + edge.length, info, treatment));
+        const e = new Edge(i, i + edge.length, info, EdgeTreatment.TOKEN);
+        tfEdgeToEdge.set(edge, e);
+        edges.push(e);
       }
     }
   }
-  return new Layout(coalescedGraph.edgeLists.length, edges);
+
+  // console.log(tfEdgeToEdge);
+  const paths: Set<Edge>[] = tfPaths.map(path => 
+    new Set([...path.values()].map(e => tfEdgeToEdge.get(e)))
+  );
+
+  return new Layout(coalescedGraph.edgeLists.length, edges, paths, 0);
 }

@@ -45,35 +45,43 @@
 }
 
 .graphShapeSelected {
-  fill: pink;
-  stroke: red;
-}
-
-.graphShapeToken {
-  fill: lightcyan;
-  stroke: blue;
-}
-
-.graphShapeWord {
   fill: lightgreen;
   stroke: blue;
 }
 
+.graphShapeToken {
+  fill: #f0f0f0;
+  stroke: gray;
+}
+
+.graphShapeWord {
+  fill: #f0f0f0;
+  stroke: gray;
+}
+
 .graphPath {
   fill: none;
-  stroke: black;
-  stroke-width: 3px;
+  stroke: gray;
+  stroke-width: 1px;
+  stroke-dasharray: 4;
 }
 
 .graphPathSelected {
   fill: none;
-  stroke: red;
+  stroke: blue;
   stroke-width: 3px;
 }
 
 .graphText {
   font: italic 16px sans-serif;
-  line-height: 0.65
+  line-height: 0.65;
+  fill: gray;
+}
+
+.graphTextSelected {
+  font: italic 16px sans-serif;
+  line-height: 0.65;
+  fill: black;
 }
 
 .graphVertex {

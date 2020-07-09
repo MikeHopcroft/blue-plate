@@ -1,6 +1,12 @@
 # TODO List
 
 * Top
+  * Graph
+    * . Rework CSS
+    * .Flow layout for graph and controls
+    * Cart filter
+    * x Path selector
+    * . New color scheme
   * Clean up extra <Nav> tags in master-detail for menu and lexicon.
   * x Publish and take prix-fixe, short-order and token-flow
   * x Undo button
