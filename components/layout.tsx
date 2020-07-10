@@ -1,6 +1,7 @@
+import { Cart } from 'prix-fixe';
 import React from 'react';
-import { ShortOrderWorld } from 'short-order';
-import { coalesceGraph, filterGraph, Graph } from 'token-flow';
+import { ShortOrderWorld, Span, subgraphFromItems } from 'short-order';
+import { allPaths, coalesceGraph, filterGraph, Graph } from 'token-flow';
 import { Edge as TFEdge } from 'token-flow';
 
 import { formatToken, TokenFormat } from './edge-controls';
@@ -109,7 +110,10 @@ export class Layout {
 
   edges: Edge[]; 
   paths: Set<Edge>[];
+  subgraphPaths: Set<Edge>[];
+
   selectedPathIndex: number;
+  cartFilter: boolean;
 
   columns: Column[] = [];
   rows: Row[] = [];
@@ -122,6 +126,7 @@ export class Layout {
     columnCount: number,
     edges: Edge[],
     paths: Set<Edge>[],
+    subgraphPaths: Set<Edge>[],
     selectedPathIndex: number
   ) {
     edges.sort((a, b) => {
@@ -145,9 +150,11 @@ export class Layout {
 
     this.edges = edges;
     this.paths = paths;
+    this.subgraphPaths = subgraphPaths;
     this.selectedPathIndex = selectedPathIndex;
+    this.cartFilter = false;
 
-    this.select(0);
+    this.select(0, false);
 
     for (let i = 0; i <= columnCount; ++i) {
       this.columns.push({ x1: 0, x2: 0, in: [], out: [] })
@@ -159,14 +166,17 @@ export class Layout {
   }
 
   getPathCount(): number {
-    return this.paths.length;
+    return this.cartFilter ? this.subgraphPaths.length : this.paths.length;
   }
 
-  select(pathIndex: number) {
-    console.log(`select path ${pathIndex}`);
+  select(pathIndex: number, cartFilter) {
+    console.log(`select path index=${pathIndex}, cartFilter=${cartFilter}`);
     console.log(this);
     this.selectedPathIndex = pathIndex;
-    const path = this.paths[pathIndex];
+    this.cartFilter = cartFilter;
+    const path = cartFilter ?
+      this.subgraphPaths[pathIndex] :
+      this.paths[pathIndex];
 
     console.log(this.paths);
     console.log(path);
@@ -278,7 +288,11 @@ export class Layout {
   }
 }
 
-export function createLayout(world: ShortOrderWorld, text: string): Layout {
+export function createLayout(
+  world: ShortOrderWorld,
+  text: string,
+  cart: Cart
+): Layout {
   const terms = world.lexer.lexicon.termModel.breakWords(text);
   const rawGraph: Graph = world.lexer.createGraph(text);
   const coalescedGraph = coalesceGraph(world.lexer.tokenizer, rawGraph);
@@ -321,5 +335,31 @@ export function createLayout(world: ShortOrderWorld, text: string): Layout {
     new Set([...path.values()].map(e => tfEdgeToEdge.get(e)))
   );
 
-  return new Layout(coalescedGraph.edgeLists.length, edges, paths, 0);
+  const attributes = world.attributeInfo;
+  const lexer = world.lexer;
+  const graph = filteredGraph;
+  const span: Span = { start: 0, length: filteredGraph.edgeLists.length };
+  const subgraph = subgraphFromItems(
+    attributes,
+    lexer,
+    cart,
+    graph,
+    span,
+    true
+  );
+
+  const tfSubgraphPaths = [
+    ...allPaths(subgraph.edgeLists)
+  ].map(x => new Set(x));
+  const subgraphPaths: Set<Edge>[] = tfSubgraphPaths.map(path => 
+    new Set([...path.values()].map(e => tfEdgeToEdge.get(e)))
+  );
+
+  return new Layout(
+    coalescedGraph.edgeLists.length,
+    edges,
+    paths,
+    subgraphPaths,
+    0
+  );
 }

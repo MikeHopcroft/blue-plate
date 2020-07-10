@@ -3,8 +3,21 @@
 * Top
   * Graph
     * . Rework CSS
-    * .Flow layout for graph and controls
+    * . Flow layout for graph and controls
     * Cart filter
+      * Graph control will need cart as input
+      * const subgraph = subgraphFromItems(
+          attributes,
+          lexer,
+          cart,
+          graph,
+          span,
+          true
+        );
+    * Crash bug
+      * Set pathIndex to zero when changing cartFilter.
+      * Missing edges in cartFilter mode.
+      * UI to select span
     * x Path selector
     * . New color scheme
   * Clean up extra <Nav> tags in master-detail for menu and lexicon.

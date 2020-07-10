@@ -12,7 +12,10 @@ interface Props {
 class GraphPanelControl extends React.Component<Props> {
   render() {
     return (
-      <GraphControl transcription={this.props.application.transcription}/>
+      <GraphControl
+        cart={this.props.application.cart}
+        transcription={this.props.application.transcription}
+      />
     );
   }
 }

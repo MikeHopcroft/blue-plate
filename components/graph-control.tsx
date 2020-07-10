@@ -10,10 +10,12 @@ import { EdgeLabel, EdgePath } from './edge-controls';
 import { createLayout, Layout, EdgeTreatment } from './layout';
 
 import styles from './controls.module.css';
+import { Cart } from 'prix-fixe';
 
 interface Props {
+  cart: Cart;
   transcription: string;
-  shortOrderWorld?: ShortOrderWorld
+  shortOrderWorld?: ShortOrderWorld;
 };
 
 interface State {
@@ -28,21 +30,19 @@ class GraphControl extends React.Component<Props, State> {
   layout: Layout;
   measurePassId: Symbol;
   pathIndex: number;
+  cartFilter: boolean;
 
   constructor(props) {
     super(props);
     this.state = {
-      cartFilter: false,
       measurePassId: Symbol(),
-      pathIndex: 0
+      pathIndex: 0,
+      cartFilter: false,
     };
 
     this.pathIndex = 0;
     this.onPathSelected = this.onPathSelected.bind(this);
-  }
-
-  setChecked(checked: boolean) {
-    this.setState({cartFilter: checked});
+    this.onSetCartFilter = this.onSetCartFilter.bind(this);
   }
 
   render() {
@@ -53,13 +53,25 @@ class GraphControl extends React.Component<Props, State> {
       this.transcription = this.props.transcription;
       this.layout = createLayout(
         this.props.shortOrderWorld,
-        this.transcription
+        this.transcription,
+        this.props.cart
       );
+
+      this.cartFilter = false;
+      this.pathIndex = 0;
+      this.setState({ pathIndex: 0, cartFilter: false });
     }
 
-    if (this.pathIndex !== this.state.pathIndex) {
-      this.pathIndex = this.state.pathIndex;
-      this.layout.select(this.pathIndex);
+    // If checked state changes, we need to change state.pathIndex
+
+    if (this.pathIndex !== this.state.pathIndex || this.cartFilter !== this.state.cartFilter) {
+      if (this.cartFilter !== this.state.cartFilter) {
+        this.pathIndex = 0;
+        this.cartFilter = this.state.cartFilter;
+      } else {
+        this.pathIndex = this.state.pathIndex;
+      }
+      this.layout.select(this.pathIndex, this.state.cartFilter);
     }
 
     const selected = this.layout.edges.filter(e => e.treatment === EdgeTreatment.SELECTED);
@@ -100,13 +112,21 @@ class GraphControl extends React.Component<Props, State> {
           </svg>
         </div>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', backgroundColor: 'lightgreen' }}>
-          <ToggleButtonGroup type="checkbox" name="options">
-            <ToggleButton value={0} variant="primary" onChange={(e) => this.setChecked(e.currentTarget.checked)}>Cart Filter</ToggleButton>
-          </ToggleButtonGroup>
           <div style={{fontWeight: 'bold', marginLeft: '1em', marginRight: '1em'}}>
-              {this.layout.getPathCount()} Top scoring paths:
+              Paths:
           </div>
           { this.renderPathSelectionControls()}
+          <div style={{flexGrow: 1}}/>
+          <div>{this.state.cartFilter?'filtered':'not'}</div>
+          <ToggleButtonGroup type="checkbox" name="options">
+            <ToggleButton
+              value={0}
+              variant="primary"
+              onChange={(e) => this.onSetCartFilter(e.currentTarget.checked)}
+            >
+              Cart Filter
+            </ToggleButton>
+          </ToggleButtonGroup>
         </div>
       </div>
     );
@@ -116,6 +136,10 @@ class GraphControl extends React.Component<Props, State> {
     // console.log(`*************************** onPathSelected(${pathIndex})`);
     // console.log(pathIndex);
     this.setState({pathIndex});
+  }
+
+  onSetCartFilter(cartFilter: boolean) {
+    this.setState({cartFilter});
   }
 
   renderPathSelectionControls() {

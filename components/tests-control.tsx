@@ -179,6 +179,7 @@ class Detail extends React.Component<{
 }
 
 class Drilldown extends React.Component<{
+  catalog: ICatalog,
   selected: string,
   testResults: AllTestResults,
 }> {
@@ -193,7 +194,9 @@ class Drilldown extends React.Component<{
     const turnIndex = Number(parts[2]);
     console.log(this.props.testResults);
     const test = this.props.testResults.get(id);
-    const text = test.expected.steps[stepIndex].turns[turnIndex].transcription;
+    const transcription = test.expected.steps[stepIndex].turns[turnIndex].transcription;
+    const logicalCart = stepIndex > 0 ? test.expected.steps[stepIndex-1].cart : { items: []};
+    const cart = cartFromlogicalCart(logicalCart, this.props.catalog);
 
     return (
       <div style={{display: 'flex', flexDirection: 'column', width: '100%', height: '100%'}}>
@@ -201,7 +204,7 @@ class Drilldown extends React.Component<{
           <BackButton/>
         </div>
         <div style={{flexGrow: 1, overflow: 'auto', width: '100%', height: '100%' }}>
-          <GraphControl transcription={text}/>
+          <GraphControl cart={cart} transcription={transcription}/>
         </div>
       </div>
     );
@@ -209,6 +212,7 @@ class Drilldown extends React.Component<{
 
   static connect() {
     return connect((application: ApplicationState) => ({
+      catalog: application.bluePlateWorld.prixFixeWorld.catalog,
       testResults: application.bluePlateWorld.testResults,
     }))(Drilldown);
   }
