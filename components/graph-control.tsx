@@ -7,7 +7,8 @@ import { ShortOrderWorld, Span } from 'short-order';
 import { ApplicationState } from "../actions";
 
 import { EdgeLabel, EdgePath } from './edge-controls';
-import { createLayout, Layout, EdgeTreatment } from './layout';
+import { GraphBuilder } from './graph-builder';
+import { Layout, EdgeTreatment } from './layout';
 
 import styles from './controls.module.css';
 import { Cart } from 'prix-fixe';
@@ -33,14 +34,11 @@ interface State {
 class GraphControl extends React.Component<Props, State> {
   transcription: string;
 
+  graphBuilder: GraphBuilder;
   layout: Layout;
   measurePassId: Symbol;
-  // pathIndex: number;
-  // cartFilter: boolean;
 
-  // selecting = false;
-  // x1 = 0;
-  // x2 = 0;
+  span?: Span = undefined;
 
   constructor(props) {
     super(props);
@@ -53,13 +51,14 @@ class GraphControl extends React.Component<Props, State> {
       x2: 0,
     };
 
-    this.layout = createLayout(
+    this.graphBuilder = new GraphBuilder(
       this.props.shortOrderWorld,
       this.props.transcription,
       this.props.cart
     );
 
-    // this.pathIndex = 0;
+    this.layout = this.graphBuilder.layout;
+
     this.onPathSelected = this.onPathSelected.bind(this);
     this.onSetCartFilter = this.onSetCartFilter.bind(this);
 
@@ -109,41 +108,22 @@ class GraphControl extends React.Component<Props, State> {
       console.log('span undefined');
     }
     // this.state.selecting = false;
-    this.setState({ selecting: false, span });
+    this.setState({ selecting: false, span, pathIndex: 0 });
     event.preventDefault();
   }
 
   render() {
     console.log('GraphControl.render()');
-    // if (this.transcription !== this.props.transcription) {
-    //   // Props changed. Render structure in order to gather text box measures.
-    //   console.log('  create layout');
-    //   this.transcription = this.props.transcription;
-    //   this.layout = createLayout(
-    //     this.props.shortOrderWorld,
-    //     this.transcription,
-    //     this.props.cart
-    //   );
 
-    //   this.cartFilter = false;
-    //   this.pathIndex = 0;
-    //   this.setState({ pathIndex: 0, cartFilter: false });
-    // }
-
-    // If checked state changes, we need to change state.pathIndex
-
-    // if (this.pathIndex !== this.state.pathIndex || this.cartFilter !== this.state.cartFilter) {
-    //   if (this.cartFilter !== this.state.cartFilter) {
-    //     this.pathIndex = 0;
-    //     this.cartFilter = this.state.cartFilter;
-    //   } else {
-    //     this.pathIndex = this.state.pathIndex;
-    //   }
-    //   this.layout.select(this.pathIndex, this.state.cartFilter);
-    // }
+    if (this.span !== this.state.span) {
+      console.log(`Old span: ${JSON.stringify(this.span)}`);
+      console.log(`New span: ${JSON.stringify(this.state.span)}`);
+      this.span = this.state.span;
+      this.graphBuilder.setSpan(this.state.span);
+    }
 
     console.log(`this.layout.select(${this.state.pathIndex}, ${this.state.cartFilter})`);
-    this.layout.select(this.state.pathIndex, this.state.cartFilter, this.state.span);
+    this.layout.select(this.state.pathIndex, this.span);
 
     const selected = this.layout.edges.filter(e => e.treatment === EdgeTreatment.SELECTED);
     const other = this.layout.edges.filter(e => e.treatment !== EdgeTreatment.SELECTED);
@@ -156,7 +136,7 @@ class GraphControl extends React.Component<Props, State> {
 
     const translate = `translate(${bb.x1 + 20},${-bb.y1 + 20})`;
     const w = `${bb.x2 - bb.x1 + 40}px`;
-    const h = `${bb.y2 - bb.y1 + 40}px`;
+    // const h = `${bb.y2 - bb.y1 + 40}px`;
 
     return (
       <div
@@ -190,12 +170,16 @@ class GraphControl extends React.Component<Props, State> {
         </div>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', backgroundColor: 'lightgreen' }}>
           <div style={{fontWeight: 'bold', marginLeft: '1em', marginRight: '1em'}}>
+              {this.state.span ? 'Filtered ': ''}
               Paths:
           </div>
           { this.renderPathSelectionControls()}
           <div style={{flexGrow: 1}}/>
-          <div>{this.state.cartFilter?'filtered':'not'}</div>
-          <ToggleButtonGroup type="checkbox" name="options">
+          <div style={{fontWeight: 'bold', marginLeft: '1em', marginRight: '1em'}}>
+            Score: 0
+          </div>
+          {/* <div>{this.state.cartFilter?'filtered':'not'}</div> */}
+          {/* <ToggleButtonGroup type="checkbox" name="options">
             <ToggleButton
               value={0}
               variant="primary"
@@ -203,7 +187,7 @@ class GraphControl extends React.Component<Props, State> {
             >
               Cart Filter
             </ToggleButton>
-          </ToggleButtonGroup>
+          </ToggleButtonGroup> */}
         </div>
       </div>
     );

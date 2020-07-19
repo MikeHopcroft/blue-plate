@@ -15,16 +15,19 @@ import {
 
 import { NUMBERTOKEN } from 'token-flow';
 
-import { Edge, EdgeTreatment } from './layout';
+import { Edge } from './layout';
 
 import styles from './controls.module.css';
 
+const shapeFiltered = styles.graphShapeFiltered;
 const shapeWord = styles.graphShapeWord;
 const shapeToken = styles.graphShapeToken;
 const shapeSelected = styles.graphShapeSelected;
 const shapeText = styles.graphText;
+const shapeTextFiltered = styles.graphTextFiltered;
 const shapeTextSelected = styles.graphTextSelected;
 const pathOrdinary = styles.graphPath;
+const pathOrdinaryFiltered = styles.graphPathFiltered;
 const pathSelected = styles.graphPathSelected;
 
 interface EdgeProps {
@@ -39,10 +42,15 @@ export class EdgeLabel extends React.Component<EdgeProps> {
     // console.log('EdgeControl.render()');
     const e = this.props.edge;
 
-    const shapeClassName = e.selectedPath ?
-      shapeSelected : e.treatment === EdgeTreatment.WORD ?
-      shapeWord : shapeToken;
-    const textClassName = e.selectedPath ? shapeTextSelected : shapeText;
+    const shapeClassName = e.selectedPath ? shapeSelected :
+      e.filtered ? shapeFiltered: shapeToken;
+    const textClassName = e.selectedPath ? shapeTextSelected :
+      e.filtered ? shapeTextFiltered: shapeText;
+
+    // const shapeClassName = e.selectedPath ?
+    //   shapeSelected : e.treatment === EdgeTreatment.WORD ?
+    //   shapeWord : shapeToken;
+    // const textClassName = e.selectedPath ? shapeTextSelected : shapeText;
 
     const padding = this.props.padding;
 
@@ -83,7 +91,9 @@ export class EdgePath extends React.Component<EdgeProps> {
   render() {
     // console.log('EdgePath.render()');
     const e = this.props.edge;
-    const className = e.selectedPath ? pathSelected : pathOrdinary;
+    const className = e.selectedPath ? pathSelected :
+      e.filtered ? pathOrdinaryFiltered: pathOrdinary;
+    // const className = e.selectedPath ? pathSelected : pathOrdinary;
 
     return (
       <path
