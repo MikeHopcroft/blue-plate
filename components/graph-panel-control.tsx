@@ -14,6 +14,7 @@ class GraphPanelControl extends React.Component<Props> {
     return (
       <GraphControl
         cart={this.props.application.cart}
+        key={this.props.application.transcription}
         transcription={this.props.application.transcription}
       />
     );

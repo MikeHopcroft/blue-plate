@@ -204,7 +204,11 @@ class Drilldown extends React.Component<{
           <BackButton/>
         </div>
         <div style={{flexGrow: 1, overflow: 'auto', width: '100%', height: '100%' }}>
-          <GraphControl cart={cart} transcription={transcription}/>
+          <GraphControl
+            cart={cart}
+            key={transcription}
+            transcription={transcription}
+          />
         </div>
       </div>
     );

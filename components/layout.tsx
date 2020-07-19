@@ -1,8 +1,15 @@
 import { Cart } from 'prix-fixe';
 import React from 'react';
 import { ShortOrderWorld, Span, subgraphFromItems } from 'short-order';
-import { allPaths, coalesceGraph, filterGraph, Graph } from 'token-flow';
-import { Edge as TFEdge } from 'token-flow';
+
+import {
+  allPaths,
+  coalesceGraph,
+  Edge as TFEdge,
+  filterGraph,
+  Graph,
+  maximalPaths
+} from 'token-flow';
 
 import { formatToken, TokenFormat } from './edge-controls';
 
@@ -154,7 +161,7 @@ export class Layout {
     this.selectedPathIndex = selectedPathIndex;
     this.cartFilter = false;
 
-    this.select(0, false);
+    // this.select(0, false);
 
     for (let i = 0; i <= columnCount; ++i) {
       this.columns.push({ x1: 0, x2: 0, in: [], out: [] })
@@ -169,20 +176,20 @@ export class Layout {
     return this.cartFilter ? this.subgraphPaths.length : this.paths.length;
   }
 
-  select(pathIndex: number, cartFilter) {
-    console.log(`select path index=${pathIndex}, cartFilter=${cartFilter}`);
-    console.log(this);
+  select(pathIndex: number, cartFilter: boolean, span: Span) {
+    // console.log(`select path index=${pathIndex}, cartFilter=${cartFilter}`);
+    // console.log(this);
     this.selectedPathIndex = pathIndex;
     this.cartFilter = cartFilter;
     const path = cartFilter ?
       this.subgraphPaths[pathIndex] :
       this.paths[pathIndex];
 
-    console.log(this.paths);
-    console.log(path);
+    // console.log(this.paths);
+    // console.log(path);
 
     for (const e of this.edges) {
-      console.log(`${e.info.name}: ${e.selectedPath}`);
+      // console.log(`${e.info.type}"${e.info.name}": ${e.startCol}-${e.endCol} => ${path.has(e)}`);
       e.selectedPath = path.has(e);
     }
   }
@@ -286,6 +293,29 @@ export class Layout {
     this.rows.push(r);
     r.tryAssign(e);
   }
+
+  getSpan(x1: number, x2: number): Span | undefined {
+    console.log(`getSpan(${x1},${x2})`);
+    const boundaries: number[] = [];
+    // for (const [i, c] of this.columns.entries()) {
+    for (let i = 0; i < this.columns.length - 1; ++i) {
+      const l = this.columns[i].x1;
+      const r = this.columns[i+1].x1;
+      console.log(`  column ${i}: ${l}-${r}`);
+      if (x1 >= l && x1 <= r || x2 >= l && x2 <= r) {
+        console.log('    keep');
+        boundaries.push(i);
+      }
+    }
+
+    if (boundaries.length === 0) {
+      return undefined;
+    } else if (boundaries.length === 1) {
+      return { start: boundaries[0], length: 1};
+    } else {
+      return { start: boundaries[0], length: boundaries[1] - boundaries[0] + 1 }
+    }
+  }
 }
 
 export function createLayout(
@@ -303,7 +333,7 @@ export function createLayout(
   const filteredGraph: Graph = filterGraph(coalescedGraph, scoreThreshold);
 
   const tfPaths = [
-    ...world.lexer.pathsFromGraph2(filteredGraph)
+    ...maximalPaths(filteredGraph.edgeLists)
   ].map(x => new Set(x));
 
   const tfEdgeToEdge = new Map<TFEdge, Edge>();
@@ -351,9 +381,19 @@ export function createLayout(
   const tfSubgraphPaths = [
     ...allPaths(subgraph.edgeLists)
   ].map(x => new Set(x));
+  console.log('tfSubgraphPaths:');
+  for (const [i, p] of tfSubgraphPaths.entries()) {
+    console.log(`  ${i}: size=${p.size}`);
+    console.log(p);
+  }
   const subgraphPaths: Set<Edge>[] = tfSubgraphPaths.map(path => 
     new Set([...path.values()].map(e => tfEdgeToEdge.get(e)))
   );
+  console.log('========================');
+  for (const [i, p] of subgraphPaths.entries()) {
+    console.log(`  ${i}: size=${p.size}`);
+    console.log(p);
+  }
 
   return new Layout(
     coalescedGraph.edgeLists.length,

@@ -72,6 +72,10 @@
   stroke-width: 3px;
 }
 
+.graphSelectionRectangle {
+  fill: lightskyblue;
+}
+
 .graphText {
   font: italic 16px sans-serif;
   line-height: 0.65;

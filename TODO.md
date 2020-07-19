@@ -5,6 +5,8 @@
     * . Rework CSS
     * . Flow layout for graph and controls
     * Cart filter
+      * New token type: INPUT
+      * Drag select path span for filter graph
       * Graph control will need cart as input
       * const subgraph = subgraphFromItems(
           attributes,
