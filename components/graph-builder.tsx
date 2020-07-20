@@ -81,10 +81,8 @@ export class GraphBuilder {
       new Set([...path.values()].map(e => this.tfEdgeToEdge.get(e)))
     );
 
-    this.layout = new Layout(
-      coalescedGraph.edgeLists.length,
-      edges);
-    this.layout.setPathList(this.maximalPaths);
+    this.layout = new Layout(coalescedGraph.edgeLists.length, edges);
+    this.layout.setPathList(this.maximalPaths, undefined);
   }
 
   setSpan(span?: Span) {
@@ -111,14 +109,22 @@ export class GraphBuilder {
       const subgraphPaths: Set<Edge>[] = tfSubgraphPaths.map(path => 
         new Set([...path.values()].map(e => this.tfEdgeToEdge.get(e)))
       );
-      this.layout.setPathList(subgraphPaths);
+
+      const subgraphEdges = new Set<Edge>();
+      for (const edges of subgraphPaths) {
+        for (const edge of edges) {
+          subgraphEdges.add(edge);
+        }
+      }
+
+      this.layout.setPathList(subgraphPaths, subgraphEdges);
       // console.log('========================');
       // for (const [i, p] of subgraphPaths.entries()) {
       //   console.log(`  ${i}: size=${p.size}`);
       //   console.log(p);
       // }
     } else {
-      this.layout.setPathList(this.maximalPaths);
+      this.layout.setPathList(this.maximalPaths, undefined);
     }
   }
 }

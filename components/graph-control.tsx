@@ -119,7 +119,7 @@ class GraphControl extends React.Component<Props, State> {
     } else {
       console.log('span undefined');
     }
-    // this.state.selecting = false;
+
     this.setState({ selecting: false, span, pathIndex: 0 });
     event.preventDefault();
   }
@@ -159,11 +159,7 @@ class GraphControl extends React.Component<Props, State> {
     return (
       <div
         style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
-        <div style={{ overflow: 'auto', flexGrow: 1 }}
-          // onMouseDown={this.onMouseDown}
-          // onMouseUp={this.onMouseUp}
-          // onMouseMove={this.onMouseMove}
-        >
+        <div style={{ overflow: 'auto', flexGrow: 1 }}>
           <div
             style={{ width: w , height: h }}
             onMouseDown={this.onMouseDown}
@@ -207,16 +203,6 @@ class GraphControl extends React.Component<Props, State> {
           <div style={{fontWeight: 'bold', marginLeft: '1em', marginRight: '1em'}}>
             Score: {score}
           </div>
-          {/* <div>{this.state.cartFilter?'filtered':'not'}</div> */}
-          {/* <ToggleButtonGroup type="checkbox" name="options">
-            <ToggleButton
-              value={0}
-              variant="primary"
-              onChange={(e) => this.onSetCartFilter(e.currentTarget.checked)}
-            >
-              Cart Filter
-            </ToggleButton>
-          </ToggleButtonGroup> */}
         </div>
       </div>
     );
@@ -250,14 +236,25 @@ class GraphControl extends React.Component<Props, State> {
     const buttons: JSX.Element[] = [];
     for (let i = 0; i < this.layout.getPathCount(); ++i) {
       buttons.push(
-        <ToggleButton value={i}>{i}</ToggleButton>
+        <ToggleButton
+          key={i}
+          value={i}
+          name="options"
+        >
+          {i}
+        </ToggleButton>
       );
     }
+
+    // DESIGN NOTE: Need key to force dismount when switching between modes.
+    // Otherwise, focus may remain on a button that is not active.
+    const key = this.state.span ? "subgraph" : "completegraph";
     return (
       <ToggleButtonGroup
         type="radio"
+        key={key}
         name="options"
-        defaultValue={0}
+        value={this.state.pathIndex}
         onChange={this.onPathSelected}
       >
         { buttons }

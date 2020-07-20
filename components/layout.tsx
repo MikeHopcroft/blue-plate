@@ -108,14 +108,10 @@ export class Layout {
   xPadding = 20;
   yPadding = 15;
 
-  // graph: Graph;
-  // span?: Span;
-
   edges: Edge[]; 
   paths: Set<Edge>[];
-  // subgraphPaths: Set<Edge>[];
+  subgraph?: Set<Edge>;
   selectedPathIndex: number;
-  // cartFilter: boolean;
 
   columns: Column[] = [];
   rows: Row[] = [];
@@ -127,9 +123,6 @@ export class Layout {
   constructor(
     columnCount: number,
     edges: Edge[]
-    // paths: Set<Edge>[],
-    // subgraphPaths: Set<Edge>[],
-    // selectedPathIndex: number
   ) {
     edges.sort((a, b) => {
       let d = a.length - b.length;
@@ -151,16 +144,11 @@ export class Layout {
     })
 
     this.edges = edges;
-    // this.paths = paths;
-    // this.subgraphPaths = subgraphPaths;
-    // this.selectedPathIndex = selectedPathIndex;
-    // this.cartFilter = false;
 
     // TODO: selectedPathIndex should always be valid.
     this.paths = [];
+    this.subgraph = undefined;
     this.selectedPathIndex = 0;
-
-    // this.select(0, false);
 
     for (let i = 0; i <= columnCount; ++i) {
       this.columns.push({ x1: 0, x2: 0, in: [], out: [] })
@@ -171,14 +159,14 @@ export class Layout {
     }
   }
 
-  setPathList(paths: Set<Edge>[]) {
+  setPathList(paths: Set<Edge>[], subgraph?: Set<Edge>) {
     // TODO: ensure there is at least one path.
     this.paths = paths;
+    this.subgraph = subgraph;
     this.selectedPathIndex = 0;
   }
 
   getPathCount(): number {
-    // return this.cartFilter ? this.subgraphPaths.length : this.paths.length;
     return this.paths.length;
   }
 
@@ -186,22 +174,12 @@ export class Layout {
     // console.log(`select path index=${pathIndex}, cartFilter=${cartFilter}`);
     // console.log(this);
     this.selectedPathIndex = pathIndex;
-    // this.cartFilter = cartFilter;
-    // const path = cartFilter ?
-    //   this.subgraphPaths[pathIndex] :
-    //   this.paths[pathIndex];
     const path = this.paths[pathIndex];
-
-    // console.log(this.paths);
-    // console.log(path);
 
     for (const e of this.edges) {
       // console.log(`${e.info.type}"${e.info.name}": ${e.startCol}-${e.endCol} => ${path.has(e)}`);
       e.selectedPath = path.has(e);
-      e.filtered = !(
-        spanContains(span, e.startCol) && 
-        spanContains(span, e.endCol)
-      );
+      e.filtered =  this.subgraph && !this.subgraph.has(e);
     }
   }
 
@@ -333,96 +311,10 @@ export class Layout {
   }
 }
 
-// export function createLayout(
-//   world: ShortOrderWorld,
-//   text: string,
-//   cart: Cart
-// ): Layout {
-//   const terms = world.lexer.lexicon.termModel.breakWords(text);
-//   const rawGraph: Graph = world.lexer.createGraph(text);
-//   const coalescedGraph = coalesceGraph(world.lexer.tokenizer, rawGraph);
-
-//   // TODO: REVIEW: MAGIC NUMBER
-//   // Magic number: 0.35 is the score cutoff for the filtered graph.
-//   const scoreThreshold = 0.35;
-//   const filteredGraph: Graph = filterGraph(coalescedGraph, scoreThreshold);
-
-//   const tfPaths = [
-//     ...maximalPaths(filteredGraph.edgeLists)
-//   ].map(x => new Set(x));
-
-//   const tfEdgeToEdge = new Map<TFEdge, Edge>();
-//   const edges: Edge[] = [];
-
-//   for (const [i, edgeList] of filteredGraph.edgeLists.entries()) {
-//     for (const edge of edgeList) {
-//       const info = formatToken(edge.token, edge.score);
-//       if (info.type === 'UNKNOWNTOKEN' && edge.score === 0 && edge.length === 1) {
-//         const info: TokenFormat = {
-//           type: 'WORD: ',
-//           name: terms[i],
-//           info: '',
-//           score: 0
-//         }
-//         const e = new Edge(i, i + 1, info, EdgeTreatment.WORD);
-//         tfEdgeToEdge.set(edge, e);
-//         edges.push(e);
-//       } else {
-//         const e = new Edge(i, i + edge.length, info, EdgeTreatment.TOKEN);
-//         tfEdgeToEdge.set(edge, e);
-//         edges.push(e);
-//       }
-//     }
+// function spanContains(span: Span | undefined, x: number): boolean {
+//   if (!span) {
+//     return true;
 //   }
 
-//   // console.log(tfEdgeToEdge);
-//   const paths: Set<Edge>[] = tfPaths.map(path => 
-//     new Set([...path.values()].map(e => tfEdgeToEdge.get(e)))
-//   );
-
-//   const attributes = world.attributeInfo;
-//   const lexer = world.lexer;
-//   const graph = filteredGraph;
-//   const span: Span = { start: 0, length: filteredGraph.edgeLists.length };
-//   const subgraph = subgraphFromItems(
-//     attributes,
-//     lexer,
-//     cart,
-//     graph,
-//     span,
-//     true
-//   );
-
-//   const tfSubgraphPaths = [
-//     ...allPaths(subgraph.edgeLists)
-//   ].map(x => new Set(x));
-//   console.log('tfSubgraphPaths:');
-//   for (const [i, p] of tfSubgraphPaths.entries()) {
-//     console.log(`  ${i}: size=${p.size}`);
-//     console.log(p);
-//   }
-//   const subgraphPaths: Set<Edge>[] = tfSubgraphPaths.map(path => 
-//     new Set([...path.values()].map(e => tfEdgeToEdge.get(e)))
-//   );
-//   console.log('========================');
-//   for (const [i, p] of subgraphPaths.entries()) {
-//     console.log(`  ${i}: size=${p.size}`);
-//     console.log(p);
-//   }
-
-//   return new Layout(
-//     coalescedGraph.edgeLists.length,
-//     edges,
-//     paths,
-//     subgraphPaths,
-//     0
-//   );
+//   return x >= span.start && x <= span.start + span.length;
 // }
-
-function spanContains(span: Span | undefined, x: number): boolean {
-  if (!span) {
-    return true;
-  }
-
-  return x >= span.start && x <= span.start + span.length;
-}

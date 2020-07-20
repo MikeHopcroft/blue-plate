@@ -5,18 +5,20 @@
     * . Rework CSS
     * . Flow layout for graph and controls
     * Cart filter
+      * Span drag region should go to bottom of div
       * Edge circles/dots should be gray when not selected.
-      * x Vertical scroll bar missing vs selection not tall enough
-      * Reassess whether EdgeTreatment is needed.
-      * x Manipulating scroll bars should not select span.
       * Mouse capture for span.
+      * Reassess whether EdgeTreatment is needed.
       * Sort paths by decreasing score.
-      * Gray out filtered items inside span
-      * Path score
       * Previous/current cart
+      * x Need to set/clear focus on path select buttons - done with key
+      * x Vertical scroll bar missing vs selection not tall enough
+      * x Manipulating scroll bars should not select span.
+      * x Gray out filtered items inside span
+      * x Path score
       * New token type: INPUT
-      * Drag select path span for filter graph
-      * Graph control will need cart as input
+      * x Drag select path span for filter graph
+      * . Graph control will need cart as input
       * const subgraph = subgraphFromItems(
           attributes,
           lexer,
