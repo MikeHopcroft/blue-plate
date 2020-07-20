@@ -289,13 +289,15 @@ export class Layout {
       return undefined;
     }
 
+    const a = Math.min(x1, x2);
+    const b = Math.max(x1, x2);
+
     const boundaries: number[] = [];
-    // for (const [i, c] of this.columns.entries()) {
     for (let i = 0; i < this.columns.length - 1; ++i) {
       const l = this.columns[i].x1;
       const r = this.columns[i+1].x1;
       // console.log(`  column ${i}: ${l}-${r}`);
-      if (x1 >= l && x1 <= r || x2 >= l && x2 <= r) {
+      if (a <= r && b >= l) {
         // console.log('    keep');
         boundaries.push(i);
       }
@@ -306,15 +308,11 @@ export class Layout {
     } else if (boundaries.length === 1) {
       return { start: boundaries[0], length: 1};
     } else {
-      return { start: boundaries[0], length: boundaries[1] - boundaries[0] + 1 }
+      // console.log(boundaries);
+      const start = boundaries[0];
+      const end = boundaries[boundaries.length - 1];
+      const length = end - start + 1;
+      return { start, length };
     }
   }
 }
-
-// function spanContains(span: Span | undefined, x: number): boolean {
-//   if (!span) {
-//     return true;
-//   }
-
-//   return x >= span.start && x <= span.start + span.length;
-// }

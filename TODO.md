@@ -1,13 +1,22 @@
 # TODO List
 
 * Top
+  * Azure custom speech
+    * Local storage for credentials
+    * Settings page
+    * Service integration
+    * Service abstraction
+  * Load menu data files
+  * Load test file
   * Graph
     * . Rework CSS
     * . Flow layout for graph and controls
     * Cart filter
       * Span drag region should go to bottom of div
+      * Drag select should end on focus lost.
+      * x Should not be able to select text in graph
+      * x Mouse capture for span.
       * Edge circles/dots should be gray when not selected.
-      * Mouse capture for span.
       * Reassess whether EdgeTreatment is needed.
       * Sort paths by decreasing score.
       * Previous/current cart
@@ -28,9 +37,9 @@
           true
         );
     * Crash bug
-      * Set pathIndex to zero when changing cartFilter.
-      * Missing edges in cartFilter mode.
-      * UI to select span
+      * x Set pathIndex to zero when changing cartFilter.
+      * x Missing edges in cartFilter mode.
+      * x UI to select span
     * x Path selector
     * . New color scheme
   * Clean up extra <Nav> tags in master-detail for menu and lexicon.

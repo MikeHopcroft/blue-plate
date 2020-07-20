@@ -67,7 +67,7 @@ class GraphControl extends React.Component<Props, State> {
     this.onMouseUp = this.onMouseUp.bind(this);
   }
 
-  onMouseDown(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+  onMouseDown(event: React.PointerEvent<HTMLDivElement>) {
     // console.log(`mouse down (${event.clientX},${event.clientY})`);
     // console.log(`mouse down (${event.screenX},${event.screenY})`);
     // console.log(`mouse down (${event.movementX},${event.movementY})`);
@@ -78,6 +78,8 @@ class GraphControl extends React.Component<Props, State> {
 
     // const x = event.pageX - event.currentTarget.offsetLeft + event.currentTarget.scrollLeft;
     // const x = event.pageX - event.currentTarget.offsetLeft - event.currentTarget.scrollLeft;
+    event.currentTarget.setPointerCapture(event.pointerId);
+
     const x = event.nativeEvent.offsetX;
     console.log(`mouse down (${x},--)`);
 
@@ -90,7 +92,7 @@ class GraphControl extends React.Component<Props, State> {
     event.preventDefault();
   }
 
-  onMouseMove(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+  onMouseMove(event: React.PointerEvent<HTMLDivElement>) {
     if (this.state.selecting) {
       // console.log(`mouse move (${event.clientX},${event.clientY})`);
       // const x = event.pageX - event.currentTarget.offsetLeft + event.currentTarget.scrollLeft;
@@ -105,10 +107,11 @@ class GraphControl extends React.Component<Props, State> {
     }
   }
 
-  onMouseUp(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+  onMouseUp(event: React.PointerEvent<HTMLDivElement>) {
     // console.log(`mouse up (${event.clientX},${event.clientY})`);
     // const x = event.pageX - event.currentTarget.offsetLeft + event.currentTarget.scrollLeft;
     // const x = event.pageX - event.currentTarget.offsetLeft - event.currentTarget.scrollLeft;
+    event.currentTarget.releasePointerCapture(event.pointerId);
     const x = event.nativeEvent.offsetX;
 
     console.log(`mouse up (${x},--)`);
@@ -158,13 +161,19 @@ class GraphControl extends React.Component<Props, State> {
 
     return (
       <div
-        style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+          height: '100%',
+          userSelect: 'none',
+        }}>
         <div style={{ overflow: 'auto', flexGrow: 1 }}>
           <div
             style={{ width: w , height: h }}
-            onMouseDown={this.onMouseDown}
-            onMouseUp={this.onMouseUp}
-            onMouseMove={this.onMouseMove}
+            onPointerDown={this.onMouseDown}
+            onPointerUp={this.onMouseUp}
+            onPointerMove={this.onMouseMove}
           >
             <svg style={{ width: w , height: h }}
             // onMouseDown={this.onMouseDown}
