@@ -1,6 +1,8 @@
 # TODO List
 
 * Top
+  * First nav to tests tab
+    * Warning: Cannot update during an existing state transition (such as within `render`). Render methods should be a pure function of props and state.
   * Azure custom speech
     * Local storage for credentials
     * Settings page
