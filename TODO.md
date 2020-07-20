@@ -5,6 +5,15 @@
     * . Rework CSS
     * . Flow layout for graph and controls
     * Cart filter
+      * Edge circles/dots should be gray when not selected.
+      * x Vertical scroll bar missing vs selection not tall enough
+      * Reassess whether EdgeTreatment is needed.
+      * x Manipulating scroll bars should not select span.
+      * Mouse capture for span.
+      * Sort paths by decreasing score.
+      * Gray out filtered items inside span
+      * Path score
+      * Previous/current cart
       * New token type: INPUT
       * Drag select path span for filter graph
       * Graph control will need cart as input

@@ -71,7 +71,14 @@ class GraphControl extends React.Component<Props, State> {
     // console.log(`mouse down (${event.clientX},${event.clientY})`);
     // console.log(`mouse down (${event.screenX},${event.screenY})`);
     // console.log(`mouse down (${event.movementX},${event.movementY})`);
-    const x = event.pageX - event.currentTarget.offsetLeft + event.currentTarget.scrollLeft;
+    // const y = event.pageY - event.currentTarget.offsetTop + event.currentTarget.scrollTop;
+    // if (y > event.currentTarget.offsetHeight) {
+    //   console.log('click on scrollbar');
+    // }
+
+    // const x = event.pageX - event.currentTarget.offsetLeft + event.currentTarget.scrollLeft;
+    // const x = event.pageX - event.currentTarget.offsetLeft - event.currentTarget.scrollLeft;
+    const x = event.nativeEvent.offsetX;
     console.log(`mouse down (${x},--)`);
 
     this.setState({
@@ -86,7 +93,9 @@ class GraphControl extends React.Component<Props, State> {
   onMouseMove(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     if (this.state.selecting) {
       // console.log(`mouse move (${event.clientX},${event.clientY})`);
-      const x = event.pageX - event.currentTarget.offsetLeft + event.currentTarget.scrollLeft;
+      // const x = event.pageX - event.currentTarget.offsetLeft + event.currentTarget.scrollLeft;
+      // const x = event.pageX - event.currentTarget.offsetLeft - event.currentTarget.scrollLeft;
+      const x = event.nativeEvent.offsetX;
       console.log(`mouse move (${x},--)`);
 
       this.setState({
@@ -98,7 +107,10 @@ class GraphControl extends React.Component<Props, State> {
 
   onMouseUp(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     // console.log(`mouse up (${event.clientX},${event.clientY})`);
-    const x = event.pageX - event.currentTarget.offsetLeft + event.currentTarget.scrollLeft;
+    // const x = event.pageX - event.currentTarget.offsetLeft + event.currentTarget.scrollLeft;
+    // const x = event.pageX - event.currentTarget.offsetLeft - event.currentTarget.scrollLeft;
+    const x = event.nativeEvent.offsetX;
+
     console.log(`mouse up (${x},--)`);
 
     const span = this.layout.getSpan(this.state.x1, x);
@@ -125,8 +137,12 @@ class GraphControl extends React.Component<Props, State> {
     console.log(`this.layout.select(${this.state.pathIndex}, ${this.state.cartFilter})`);
     this.layout.select(this.state.pathIndex, this.span);
 
-    const selected = this.layout.edges.filter(e => e.treatment === EdgeTreatment.SELECTED);
-    const other = this.layout.edges.filter(e => e.treatment !== EdgeTreatment.SELECTED);
+    // const selected = this.layout.edges.filter(e => e.treatment === EdgeTreatment.SELECTED);
+    // const other = this.layout.edges.filter(e => e.treatment !== EdgeTreatment.SELECTED);
+    const selected = this.layout.edges.filter(e => e.selectedPath);
+    const other = this.layout.edges.filter(e => !e.selectedPath);
+    // console.log('<<<<<<<<<<<<<<<<<<<<selected');
+    // console.log(selected);
 
     let r = null;
     const bb = this.layout.boundingBox;
@@ -136,17 +152,29 @@ class GraphControl extends React.Component<Props, State> {
 
     const translate = `translate(${bb.x1 + 20},${-bb.y1 + 20})`;
     const w = `${bb.x2 - bb.x1 + 40}px`;
-    // const h = `${bb.y2 - bb.y1 + 40}px`;
+    const h = `${bb.y2 - bb.y1 + 40}px`;
+
+    const score = this.layout.edges.reduce((p,c) => p + (c.selectedPath ? c.info.score : 0), 0);
 
     return (
       <div
         style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
         <div style={{ overflow: 'auto', flexGrow: 1 }}
-          onMouseDown={this.onMouseDown}
-          onMouseUp={this.onMouseUp}
-          onMouseMove={this.onMouseMove}
+          // onMouseDown={this.onMouseDown}
+          // onMouseUp={this.onMouseUp}
+          // onMouseMove={this.onMouseMove}
         >
-          <svg style={{ width: w , height: '100%' }}>
+          <div
+            style={{ width: w , height: h }}
+            onMouseDown={this.onMouseDown}
+            onMouseUp={this.onMouseUp}
+            onMouseMove={this.onMouseMove}
+          >
+            <svg style={{ width: w , height: h }}
+            // onMouseDown={this.onMouseDown}
+            // onMouseUp={this.onMouseUp}
+            // onMouseMove={this.onMouseMove}
+          >
             <g transform={translate}>
               { this.renderSelection(bb.y2 - bb.y1 + 40) }
               {this.layout.columns.map((c, i) => (
@@ -167,6 +195,7 @@ class GraphControl extends React.Component<Props, State> {
               ))}
             </g>
           </svg>
+          </div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', backgroundColor: 'lightgreen' }}>
           <div style={{fontWeight: 'bold', marginLeft: '1em', marginRight: '1em'}}>
@@ -176,7 +205,7 @@ class GraphControl extends React.Component<Props, State> {
           { this.renderPathSelectionControls()}
           <div style={{flexGrow: 1}}/>
           <div style={{fontWeight: 'bold', marginLeft: '1em', marginRight: '1em'}}>
-            Score: 0
+            Score: {score}
           </div>
           {/* <div>{this.state.cartFilter?'filtered':'not'}</div> */}
           {/* <ToggleButtonGroup type="checkbox" name="options">
@@ -197,10 +226,11 @@ class GraphControl extends React.Component<Props, State> {
     if (this.state.selecting) {
       const x = Math.min(this.state.x1, this.state.x2) - 20;
       const width = Math.max(this.state.x1, this.state.x2) - 20 - x;
-      const y = -1000;
-      height = 1000;
+      // const y = -1000;
+      // height = 1000;
       // const height = 100;
-      return <rect x={x} y={-100} width={width} height={500} className={selectionRectangle}/>
+      // TODO: replace hack that hard-codes y and height.
+      return <rect x={x} y={-1000} width={width} height={2000} className={selectionRectangle}/>
     } else {
       return null;
     }

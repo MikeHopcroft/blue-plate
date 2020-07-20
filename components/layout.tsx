@@ -1,17 +1,7 @@
-import { Cart } from 'prix-fixe';
 import React from 'react';
-import { ShortOrderWorld, Span, subgraphFromItems } from 'short-order';
+import { Span } from 'short-order';
 
-import {
-  allPaths,
-  coalesceGraph,
-  Edge as TFEdge,
-  filterGraph,
-  Graph,
-  maximalPaths
-} from 'token-flow';
-
-import { formatToken, TokenFormat } from './edge-controls';
+import { TokenFormat } from './edge-controls';
 
 export enum EdgeTreatment {
   WORD = 'WORD',

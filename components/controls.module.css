@@ -112,7 +112,7 @@
 }
 
 .graphVertexSelected {
-  fill: red;
+  fill: blue;
   stroke: none;
 }
 
