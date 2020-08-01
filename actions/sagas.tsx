@@ -128,7 +128,9 @@ export function* processSaga({ source, text, final }: ProcessAction) {
     // TODO: call to speechToTextFilter() should not be duplicated
     // in applyProcess().
     const appState: ApplicationState = yield(select(getAppState));
+    // console.log(`raw text: "${text}"`);
     const filtered = speechToTextFilter(text);
+    // console.log(`filtered text: "${filtered}"`);
     const state0: State = { cart: appState.cart };
     const state1: State = 
       yield appState.bluePlateWorld.shortOrderWorld.processor(

@@ -33,7 +33,6 @@ interface Props {
 class RecorderControl extends React.Component<Props> {
   private recognizer: IRecognizer;
 
-  // private recognition: any;
   private input: React.RefObject<HTMLInputElement>;
 
   private historyIndex = 0;
@@ -45,26 +44,27 @@ class RecorderControl extends React.Component<Props> {
   }
 
   async componentDidMount() {
-    // const SpeechRecognition =
-    //   (window as any).speechRecognition ||
-    //   (window as any).webkitSpeechRecognition;
-
-    // this.recognition = new SpeechRecognition();
-    // this.recognition.lang = this.props.application.language;
-    // this.recognition.interimResults = true;
-    // this.recognition.maxAlternatives = 1;
-
-    // this.recognizer = new WebSpeechRecognizer(window, this.props.application.language);
-    this.recognizer = new AzureSpeechRecognizer(
-      '',
-      'westus2',
-      this.props.application.language
-    );
+    if (this.props.application.speechConfig.useAzureSpeech) {
+      this.recognizer = new AzureSpeechRecognizer(
+        this.props.application.speechConfig.azureSubscriptionKey, //'',
+        this.props.application.speechConfig.azureRegion, //'westus2',
+        this.props.application.language
+      );
+    } else {
+      this.recognizer = new WebSpeechRecognizer(
+        window,
+        this.props.application.language
+      );
+    }
   }
 
   componentDidUpdate() {
-    // this.recognition.lang = this.props.application.language;
     this.recognizer = new WebSpeechRecognizer(window, this.props.application.language);
+    // this.recognizer = new AzureSpeechRecognizer(
+    //   'subscription key',
+    //   'westus2',
+    //   this.props.application.language
+    // );
   }
 
   public startRecognition = () => {
@@ -99,41 +99,6 @@ class RecorderControl extends React.Component<Props> {
     this.props.recording(false);
     this.recognizer.stop();
   }
-
-  // public startRecognition = () => {
-  //   if (!this.props.application.isRecording) {
-  //     console.log('startRecognition');
-  //     this.props.recording(true);
-
-  //     this.recognition.onresult = (event: any) => {
-  //       const speechResult = event.results[0][0].transcript as string;
-  //       console.log(event);
-  //       console.log(`Transcription: "${speechResult}"`);
-  //       this.props.transcriptionReady(
-  //         TextSource.MICROPHONE,
-  //         speechResult,
-  //         event.results[0].isFinal
-  //       );
-  //     }
-
-  //     this.recognition.onspeechend = () => {
-  //       this.props.recording(false);
-  //       this.recognition.stop();
-  //     }
-
-  //     this.recognition.onerror = (event: any) => {
-  //       this.props.recording(false);
-  //     }
-
-  //     this.recognition.start();
-  //   }
-  // }
-
-  // public endRecognition = () => {
-  //   console.log('endRecognition');
-  //   this.props.recording(false);
-  //   this.recognition.stop();
-  // }
 
   public onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const input = this.input.current;
@@ -190,7 +155,7 @@ class RecorderControl extends React.Component<Props> {
           <Button
             className="btn btn-success btn-sm"
             disabled={
-              !this.props.application.speechSupport ||
+              !this.props.application.speechConfig.speechSupport ||
               this.props.application.isRecording
             }
             onClick={this.startRecognition}
@@ -201,7 +166,7 @@ class RecorderControl extends React.Component<Props> {
           <Button
             className="btn btn-danger btn-sm"
             disabled={
-              !this.props.application.speechSupport ||
+              !this.props.application.speechConfig.speechSupport ||
               !this.props.application.isRecording
             }
             onClick={this.endRecognition}

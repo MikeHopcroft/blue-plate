@@ -13,6 +13,7 @@ import {
   SetCartAction,
   SetModeAction,
   SetWorldAction,
+  SetSpeechConfigAction,
   SetSpeechSupportAction,
   UndoAction,
   UpdateHistoryItemAction,
@@ -50,6 +51,8 @@ export const ApplicationStateReducer: Reducer<ApplicationState, AnyAction> =
         return applySetCart(state, action);
       case ActionType.SET_MODE:
         return applySetMode(state, action);
+      case ActionType.SET_SPEECH_CONFIG:
+        return applySetSpeechConfig(state, action);
       case ActionType.SET_SPEECH_SUPPORT:
         return applySetSpeechSupport(state, action);
       case ActionType.SET_WORLD:
@@ -168,13 +171,28 @@ function applySetMode(
   };
 }
 
+function applySetSpeechConfig(
+  appState: ApplicationState,
+  { speechConfig }: SetSpeechConfigAction
+): ApplicationState {
+  console.log('applySpeechConfig');
+  console.log(speechConfig);
+  return {
+    ...appState,
+    speechConfig: { ...appState.speechConfig, ...speechConfig },
+  };
+}
+
 function applySetSpeechSupport(
   appState: ApplicationState,
   { speechSupport }: SetSpeechSupportAction
 ): ApplicationState {
   return {
     ...appState,
-    speechSupport
+    speechConfig: {
+      ...appState.speechConfig,
+      speechSupport
+    }
   };
 }
 
@@ -199,7 +217,7 @@ function applyUndo(
   let undoStack = appState.undoStack;
   if (undoStack.length > 1) {
     const cart = undoStack[undoStack.length - 2];
-    undoStack = undoStack.slice(0,-1);
+    undoStack = undoStack.slice(0, -1);
 
     const item: HistoryItem =
     {
@@ -210,7 +228,7 @@ function applyUndo(
       timestamp: new Date(),
       text: 'undo'
     }
-  
+
     const history = [...appState.history, item];
 
     return {

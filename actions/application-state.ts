@@ -40,10 +40,16 @@ export interface BluePlateWorld {
   postings: InvertedIndex;
   shortOrderWorld: ShortOrderWorld;
   testResults: AllTestResults;
-}
+};
+
+export interface SpeechConfig {
+  speechSupport: boolean;
+  useAzureSpeech: boolean;
+  azureSubscriptionKey: string;
+  azureRegion: string;
+};
 
 export interface ApplicationState {
-  speechSupport: boolean;
   mode: ApplicationMode;
   isRecording: boolean;
   transcription: string;
@@ -52,11 +58,34 @@ export interface ApplicationState {
   undoStack: Cart[];
   bluePlateWorld?: BluePlateWorld;
   language: string;
+  speechConfig: SpeechConfig;
+}
+
+function loadAzureConfig(): {
+  useAzureSpeech: boolean;
+  azureSubscriptionKey: string;
+  azureRegion: string;
+} {
+  try {
+    const azureSpeech = localStorage.getItem('useAzureSpeech');
+    return {
+      useAzureSpeech: azureSpeech === 'true',
+      azureSubscriptionKey: localStorage.getItem('azureSubscriptionKey'),
+      azureRegion: localStorage.getItem('azureRegion'),
+    }
+  } catch (e) {
+    return {
+      useAzureSpeech: false,
+      azureSubscriptionKey: '',
+      azureRegion: '',
+    }
+  }
 }
 
 export function initialState(): ApplicationState {
+  const azureConfig = loadAzureConfig();
+
   return {
-    speechSupport: true,
     mode: ApplicationMode.INSTRUCTIONS,
     isRecording: false,
     transcription: '',
@@ -66,5 +95,9 @@ export function initialState(): ApplicationState {
     history: getSampleHistory(),
     undoStack: [ { items: [] }],
     language: 'en-US',
+    speechConfig: {
+      speechSupport: true,
+      ...azureConfig
+    }
   }
 }

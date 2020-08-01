@@ -4,8 +4,13 @@
   * First nav to tests tab
     * Warning: Cannot update during an existing state transition (such as within `render`). Render methods should be a pure function of props and state.
   * Azure custom speech
+    * Rework loadAzureConfig() - should load speech config
+    * Enum for disabled, web-speech, azure-speech
+    * Rework speechSupport and chrome detection
+    * . Settings page
     * Local storage for credentials
-    * Settings page
+    * Error handling
+    * Flash messages
     * Service integration
     * Service abstraction
   * Load menu data files

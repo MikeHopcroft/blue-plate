@@ -12,6 +12,8 @@ import {
   HistoryItem
 } from "../actions";
 
+import SpeechConfigControl from './speech-config-control';
+
 import styles from './controls.module.css';
 
 interface Props {
@@ -20,26 +22,48 @@ interface Props {
   downloadHistory: (history: HistoryItem[]) => void;
 };
 
-class HamburgerControl extends React.Component<Props> {
+interface State {
+  showSettings: boolean;
+}
+
+class HamburgerControl extends React.Component<Props, State> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showSettings: false,
+    }
+  }
+
   downloadHistory = () => {
     this.props.downloadHistory(this.props.application.history);
   }
 
+  cancelSettings = () => {
+    this.setState({ showSettings: false });
+  }
+
+  openSettings = () => {
+    this.setState({ showSettings: true });
+  }
+
   render() {
     return (
-      <Dropdown>
-        <Dropdown.Toggle variant="light" id="dropdown-basic">
-          <MdMenu/>
-        </Dropdown.Toggle>
+      <div>
+        <Dropdown>
+          <Dropdown.Toggle variant="light" id="dropdown-basic">
+            <MdMenu/>
+          </Dropdown.Toggle>
 
-        <Dropdown.Menu>
-          <Dropdown.Item onSelect={this.downloadHistory}>Download History</Dropdown.Item>
-          <Dropdown.Item onSelect={this.props.doClearHistory}>Clear History</Dropdown.Item>
-          <Dropdown.Divider/>
-          <Dropdown.Item disabled>Import Menu</Dropdown.Item>
-          <Dropdown.Item disabled>Settings</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+          <Dropdown.Menu>
+            <Dropdown.Item onSelect={this.downloadHistory}>Download History</Dropdown.Item>
+            <Dropdown.Item onSelect={this.props.doClearHistory}>Clear History</Dropdown.Item>
+            <Dropdown.Divider/>
+            <Dropdown.Item disabled>Import Menu</Dropdown.Item>
+            <Dropdown.Item onSelect={this.openSettings}>Settings</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+        <SpeechConfigControl show={this.state.showSettings} close={this.cancelSettings}/>
+      </div>
     )
   }
 }

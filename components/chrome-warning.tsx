@@ -26,7 +26,8 @@ class ChromeWarning extends React.Component<Props> {
   }
 }
 
-function mapStateToProps({speechSupport}: ApplicationState) {
+function mapStateToProps({speechConfig}: ApplicationState) {
+  const { speechSupport } = speechConfig;
   return { speechSupport };
 }
 

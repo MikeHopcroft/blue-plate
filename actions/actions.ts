@@ -1,9 +1,11 @@
 import { Cart } from 'prix-fixe';
+
 import {
  ApplicationMode,
  BluePlateWorld,
- TextSource,
- HistoryItem
+ HistoryItem,
+ SpeechConfig,
+ TextSource
 } from "./application-state";
 
 export enum ActionType {
@@ -16,6 +18,7 @@ export enum ActionType {
   RESET = 'RESET',
   SET_CART = 'SET_CART',
   SET_MODE = 'SET_MODE',
+  SET_SPEECH_CONFIG = 'SET_SPEECH_CONFIG',
   SET_SPEECH_SUPPORT = 'SET_SPEECH_SUPPORT',
   SET_WORLD = 'SET_WORLD',
   UNDO = 'UNDO',
@@ -143,6 +146,17 @@ export function setWorld(
   };
 }
 
+export interface SetSpeechConfigAction {
+  type: ActionType.SET_SPEECH_CONFIG;
+  speechConfig: Partial<SpeechConfig>;
+};
+
+export function setSpeechConfig(
+  speechConfig: Partial<SpeechConfig>
+): SetSpeechConfigAction {
+  return { type: ActionType.SET_SPEECH_CONFIG, speechConfig };
+}
+
 export interface SetSpeechSupportAction {
   type: ActionType.SET_SPEECH_SUPPORT;
   speechSupport: boolean;
@@ -190,6 +204,7 @@ export type AnyAction =
   SetCartAction |
   SetModeAction |
   SetWorldAction |
+  SetSpeechConfigAction |
   SetSpeechSupportAction |
   UndoAction |
   UpdateHistoryItemAction;
