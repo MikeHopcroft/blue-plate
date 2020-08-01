@@ -1,5 +1,7 @@
 import * as SpeechSDK from 'microsoft-cognitiveservices-speech-sdk';
 
+import { SpeechConfig } from '../actions';
+
 export interface IRecognizer {
   onerror: () => void;
   onresult: (transcription: string, isFinal: boolean) => void;
@@ -7,6 +9,31 @@ export interface IRecognizer {
 
   start(): void;
   stop(): void;
+
+  enabled(): boolean;
+}
+
+export function CreateRecognizer(
+  window: Window,
+  config: SpeechConfig,
+  language: string
+): IRecognizer {
+  try {
+    if (config.useAzureSpeech) {
+      console.log('AzureSpeechRecognizer');
+      return new AzureSpeechRecognizer(
+        config.azureSubscriptionKey,
+        config.azureRegion,
+        language
+      );
+    } else {
+      console.log('WebSpeechRecognizer');
+      return new WebSpeechRecognizer(window, language);
+    }
+  } catch (e) {
+    console.log('Error: using NopSpeechRecognizer');
+    return new NopSpeechRecognizer();
+  }
 }
 
 export class WebSpeechRecognizer implements IRecognizer {
@@ -52,6 +79,10 @@ export class WebSpeechRecognizer implements IRecognizer {
   stop(): void {
     this.recognition.stop();
   }
+
+  enabled(): boolean {
+    return true;
+  }
 }
 
 export class AzureSpeechRecognizer implements IRecognizer {
@@ -79,31 +110,62 @@ export class AzureSpeechRecognizer implements IRecognizer {
   start(): void {
     const onresult = this.onresult;
     const onerror = this.onerror;
+    const onspeechend = this.onspeechend;
 
-    this.recognizer.recognizeOnceAsync(
-      function (result) {
-        console.log('================ result =================');
-        onresult(result.text, true);
-        // startRecognizeOnceAsyncButton.disabled = false;
-        // phraseDiv.innerHTML += result.text;
-        // window.console.log(result);
+    const recognizer = this.recognizer;
 
-        this.recognizer.close();
-        // recognizer = undefined;
-      },
-      function (err) {
-        // startRecognizeOnceAsyncButton.disabled = false;
-        // phraseDiv.innerHTML += err;
-        // window.console.log(err);
-
-        console.log('================ error =================');
-        onerror();
-        this.recognizer.close();
-        // recognizer = undefined;
+    try {
+      recognizer.recognizeOnceAsync(
+        function (result) {
+          console.log('================ result =================');
+          if (result.text !== undefined) {
+            // Azure seems to return undefined when it encounters an error.
+            // Seems like it shouldn't invoke this callback on error.
+            onresult(result.text, true);
+          }
+          onspeechend();
+          recognizer.close();
+        },
+        function (err) {
+          console.log('================ error =================');
+          console.log(err);
+          onerror();
+          onspeechend();
+          recognizer.close();
+          // recognizer = undefined;
       });
+    } catch (e) {
+      console.log('caught exception in recognizer.recognizeOnceAsync()');
     }
+  }
 
   stop(): void {
     throw new Error("Method not implemented.");
+  }
+
+  enabled(): boolean {
+    return true;
+  }
+}
+
+export class NopSpeechRecognizer implements IRecognizer {
+  onerror: () => void;
+  onresult: (transcription: string, isFinal: boolean) => void;
+  onspeechend: () => void;
+
+  constructor() {
+    this.onerror = () => {};
+    this.onresult = () => {};
+    this.onspeechend = () => {};
+  }
+
+  start(): void {
+  }
+
+  stop(): void {
+  }
+
+  enabled(): boolean {
+    return false;
   }
 }

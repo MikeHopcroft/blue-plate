@@ -19,6 +19,7 @@ import LoadingControl from './loading-control';
 import MenuControl from './menu-control';
 import PostingListControl from './posting-list-control';
 import RecorderControl from './recorder-control';
+import SpeechControl from './speech-control';
 import TestsControl from './tests-control';
 
 import styles from './controls.module.css';
@@ -108,6 +109,7 @@ class FrameControl extends React.Component<Props> {
             </Nav.Item>
             <div style={{flexGrow: 1}}>
             </div>
+            <SpeechControl/>
             <LanguageControl/>
             <HamburgerControl/>
           </Nav>

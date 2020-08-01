@@ -12,8 +12,8 @@ catalog:
           - blueberry muffin
       - name: lemon poppyseed muffin
         aliases:
-          - lemon [poppyseed] muffin
-          - poppyseed muffin
+          - lemon [poppyseed,poppy seed] muffin
+          - (poppyseed,poppy seed) muffin
   - tags: [bakery_options]
     type: option
     items:

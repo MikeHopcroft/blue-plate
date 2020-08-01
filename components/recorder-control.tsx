@@ -12,11 +12,7 @@ import {
   TextSource
 } from "../actions";
 
-import {
-  AzureSpeechRecognizer,
-  IRecognizer,
-  WebSpeechRecognizer
-} from './recognizers';
+import { CreateRecognizer, IRecognizer } from './recognizers';
 
 import styles from './controls.module.css';
 
@@ -44,27 +40,21 @@ class RecorderControl extends React.Component<Props> {
   }
 
   async componentDidMount() {
-    if (this.props.application.speechConfig.useAzureSpeech) {
-      this.recognizer = new AzureSpeechRecognizer(
-        this.props.application.speechConfig.azureSubscriptionKey, //'',
-        this.props.application.speechConfig.azureRegion, //'westus2',
-        this.props.application.language
-      );
-    } else {
-      this.recognizer = new WebSpeechRecognizer(
-        window,
-        this.props.application.language
-      );
-    }
+    console.log('record-control: componentDidMount');
+    this.recognizer = CreateRecognizer(
+      window,
+      this.props.application.speechConfig,
+      this.props.application.language
+    );
   }
 
   componentDidUpdate() {
-    this.recognizer = new WebSpeechRecognizer(window, this.props.application.language);
-    // this.recognizer = new AzureSpeechRecognizer(
-    //   'subscription key',
-    //   'westus2',
-    //   this.props.application.language
-    // );
+    console.log('record-control: componentDidUpdate');
+    this.recognizer = CreateRecognizer(
+      window,
+      this.props.application.speechConfig,
+      this.props.application.language
+    );
   }
 
   public startRecognition = () => {

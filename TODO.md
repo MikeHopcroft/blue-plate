@@ -1,15 +1,21 @@
 # TODO List
 
 * Top
+  * Alias confusion matrix
   * First nav to tests tab
     * Warning: Cannot update during an existing state transition (such as within `render`). Render methods should be a pure function of props and state.
   * Azure custom speech
+    * Local storage for credentials
     * Rework loadAzureConfig() - should load speech config
+    * Move language to speechConfig
     * Enum for disabled, web-speech, azure-speech
+    * Error handling
+    * Azure vs Chrome icon for history
+    * x Azure vs Chrome indicator in status bar
+    * . Azure vs Chrome dropdown
+      * Disable rendering
     * Rework speechSupport and chrome detection
     * . Settings page
-    * Local storage for credentials
-    * Error handling
     * Flash messages
     * Service integration
     * Service abstraction
