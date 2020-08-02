@@ -10,6 +10,7 @@ import {
   loadWorld,
   loadWorldSaga,
   processSaga,
+  saveSpeechConfig,
 } from '../actions';
 
 import { ApplicationStateReducer } from '../actions/reducers'
@@ -17,11 +18,22 @@ import FrameControl from '../components/frame-control';
 
 const sagaMiddleware = createSagaMiddleware()
 
+const initial = initialState();
 const store = createStore(
   ApplicationStateReducer,
-  initialState(),
+  initial,
   applyMiddleware(sagaMiddleware)
 );
+
+// https://stackoverflow.com/questions/35305661/where-to-write-to-localstorage-in-a-redux-app
+let speechConfig = initial.speechConfig;
+store.subscribe(() => {
+  const config = store.getState().speechConfig;
+  if (config !== speechConfig) {
+    speechConfig = config;
+    saveSpeechConfig(speechConfig);
+  }
+});
 
 sagaMiddleware.run(initSagas)
 store.dispatch(loadWorld('en-US'));

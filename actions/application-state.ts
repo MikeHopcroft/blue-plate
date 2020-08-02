@@ -5,6 +5,7 @@ import { InvertedIndex } from 'token-flow';
 import { AllTestResults } from '../logic';
 
 import { getSampleHistory } from './sample-history';
+import { loadSpeechConfig } from './speech-config';
 
 export enum ApplicationMode {
   INSTRUCTIONS = 'INSTRUCTIONS',
@@ -61,29 +62,8 @@ export interface ApplicationState {
   speechConfig: SpeechConfig;
 }
 
-function loadAzureConfig(): {
-  useAzureSpeech: boolean;
-  azureSubscriptionKey: string;
-  azureRegion: string;
-} {
-  try {
-    const azureSpeech = localStorage.getItem('useAzureSpeech');
-    return {
-      useAzureSpeech: azureSpeech === 'true',
-      azureSubscriptionKey: localStorage.getItem('azureSubscriptionKey'),
-      azureRegion: localStorage.getItem('azureRegion'),
-    }
-  } catch (e) {
-    return {
-      useAzureSpeech: false,
-      azureSubscriptionKey: '',
-      azureRegion: '',
-    }
-  }
-}
-
 export function initialState(): ApplicationState {
-  const azureConfig = loadAzureConfig();
+  const azureConfig = loadSpeechConfig();
 
   return {
     mode: ApplicationMode.INSTRUCTIONS,
@@ -96,8 +76,8 @@ export function initialState(): ApplicationState {
     undoStack: [ { items: [] }],
     language: 'en-US',
     speechConfig: {
+      ...azureConfig,
       speechSupport: true,
-      ...azureConfig
     }
   }
 }

@@ -37,21 +37,15 @@ class SpeechConfigControl extends React.Component<Props, State> {
   }
 
   save = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log('saveSettings');
-    console.log(e);
-    console.log(e.currentTarget);
-    // console.log(e.target);
-    console.log(e.currentTarget.value);
-    console.log(this.useAzure.current.checked);
-    console.log(this.subscription.current.value);
-    console.log(this.region.current.value);
     e.preventDefault();
-    // this.setState({ showSettings: false });
-    this.props.save({
+
+    const config: Partial<SpeechConfig> = {
       useAzureSpeech: this.useAzure.current.checked,
       azureSubscriptionKey: this.subscription.current.value,
       azureRegion: this.region.current.value
-    });
+    }
+
+    this.props.save(config);
     this.props.close();
   }
 

@@ -1,6 +1,85 @@
 # TODO List
 
+~~~
+// the word "the" instead of "a" causes failure of vanilla syrup
+
+3:08:01 PM:
+I'd like the vanilla latte please
+1 grande latte (602)
+3:08:35 PM:
+like a vanilla latte please
+1 grande latte (602)
+1 grande latte (602)
+1 vanilla syrup (2502)
+~~~
+
+~~~
+// Converted espresso to latte instead of making half caf
+// Problem is ASR detected half-caff, instead of half caf
+
+3:10:07 PM:
+How about a doppio espresso?
+1 doppio espresso (1001)
+3:10:11 PM:
+Make that decaf.
+1 doppio espresso (1001)
+1 decaf (3000)
+3:10:18 PM:
+actually make that half-caff
+1 grande latte (602)
+1 decaf (3000)
+~~~
+
+~~~
+3:17:19 PM:
+can I get a lemon poppy seed muffin
+1 lemon poppyseed muffin (10200)
+3:17:25 PM:
+warm up
+1 lemon poppyseed muffin (10200)
+3:17:28 PM:
+warm.
+1 lemon poppyseed muffin (10200)
+3:17:37 PM:
+warm.
+1 lemon poppyseed muffin (10200)
+3:17:41 PM:
+warm the muffin
+1 lemon poppyseed muffin (10200)
+3:17:46 PM:
+make the muffin warmth
+1 lemon poppyseed muffin (10200)
+3:17:51 PM:
+make the muffin warrant
+1 lemon poppyseed muffin (10200)
+3:17:56 PM:
+make the muffin formed
+1 lemon poppyseed muffin (10200)
+3:18:01 PM:
+make the muffin warmed
+1 lemon poppyseed muffin (10200)
+1 warmed (200)
+3:18:15 PM:
+undo
+1 lemon poppyseed muffin (10200)
+8/2/2020
+3:18:20 PM:
+Wonder muffin
+1 lemon poppyseed muffin (10200)
+3:18:29 PM:
+please warm the muffin
+1 lemon poppyseed muffin (10200)
+3:18:37 PM:
+please warm muffin
+1 lemon poppyseed muffin (10200)
+3:19:00 PM:
+please make warm muffin
+1 lemon poppyseed muffin (10200)
+enter text
+~~~
+
 * Top
+  * Crash on stop-recording button
   * Alias confusion matrix
   * First nav to tests tab
     * Warning: Cannot update during an existing state transition (such as within `render`). Render methods should be a pure function of props and state.
