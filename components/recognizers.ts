@@ -115,19 +115,43 @@ export class AzureSpeechRecognizer implements IRecognizer {
     const recognizer = this.recognizer;
 
     try {
+      recognizer.recognized = (
+        sender: SpeechSDK.Recognizer,
+        event: SpeechSDK.SpeechRecognitionEventArgs
+      ) => {
+        console.log('================ final result =================');
+        if (event.result.text !== undefined) {
+          // Azure seems to return undefined when it encounters an error.
+          // Seems like it shouldn't invoke this callback on error.
+          onresult(event.result.text, true);
+        }
+      }
+
+      recognizer.recognizing = (
+        sender: SpeechSDK.Recognizer,
+        event: SpeechSDK.SpeechRecognitionEventArgs
+      ) => {
+        console.log('================ interim result =================');
+        if (event.result.text !== undefined) {
+          // Azure seems to return undefined when it encounters an error.
+          // Seems like it shouldn't invoke this callback on error.
+          onresult(event.result.text, false);
+        }
+      }
+
       recognizer.recognizeOnceAsync(
         function (result) {
-          console.log('================ result =================');
-          if (result.text !== undefined) {
-            // Azure seems to return undefined when it encounters an error.
-            // Seems like it shouldn't invoke this callback on error.
-            onresult(result.text, true);
-          }
+          console.log('================ recognizeOnceAsync callback =================');
+          // if (result.text !== undefined) {
+          //   // Azure seems to return undefined when it encounters an error.
+          //   // Seems like it shouldn't invoke this callback on error.
+          //   onresult(result.text, true);
+          // }
           onspeechend();
           recognizer.close();
         },
         function (err) {
-          console.log('================ error =================');
+          console.log('================ recognizeOnceAsync error =================');
           console.log(err);
           onerror();
           onspeechend();
@@ -140,7 +164,7 @@ export class AzureSpeechRecognizer implements IRecognizer {
   }
 
   stop(): void {
-    throw new Error("Method not implemented.");
+    // throw new Error("Method not implemented.");
   }
 
   enabled(): boolean {
