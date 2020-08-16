@@ -10,6 +10,7 @@ import {
 
 export enum ActionType {
   APPEND_HISTORY = 'APPEND_HISTORY',
+  CHROME_DETECT = 'CHROME_DETECT',
   CLEAR_CART = 'CLEAR_CART',
   CLEAR_HISTORY = 'CLEAR_HISTORY',
   LOAD_WORLD = 'LOAD_WORLD',
@@ -43,6 +44,14 @@ export function appendHistory(
     source,
     text
   };
+}
+
+export interface ChromeDetectAction {
+  type: ActionType.CHROME_DETECT;
+};
+
+export function chromeDetect(): ChromeDetectAction {
+  return { type: ActionType.CHROME_DETECT };
 }
 
 export interface ClearCartAction {
@@ -195,6 +204,7 @@ export function updateHistoryItem(
 
 export type AnyAction =
   AppendHistoryAction |
+  ChromeDetectAction |
   ClearCartAction |
   ClearHistoryAction |
   LoadWorldAction |

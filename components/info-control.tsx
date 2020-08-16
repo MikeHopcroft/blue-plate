@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 import { ApplicationState } from '../actions';
 
+import AzureWarning from './azure-warning';
 import ChromeWarning from './chrome-warning';
 
 import styles from './controls.module.css';
@@ -15,9 +16,13 @@ interface Props {
 
 const renderers = {
   code: ({ language, value }) => {
-    if (language === 'warning') {
+    if (language === 'warning-chrome') {
       return (
         <ChromeWarning text={value}/>
+      );
+    } else if (language === 'warning-azure') {
+      return (
+        <AzureWarning text={value}/>
       );
     } else {
       return (

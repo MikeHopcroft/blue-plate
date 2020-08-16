@@ -196,6 +196,7 @@
 } */
 
 .warning {
+  margin-top: 4px;
   border-color: red;
   border-style: solid;
   border-width: 2px;

@@ -1,4 +1,3 @@
-import Bowser from "bowser";
 import React from "react";
 import Nav from 'react-bootstrap/Nav';
 import Tab from 'react-bootstrap/Tab';
@@ -50,17 +49,6 @@ class FrameControl extends React.Component<Props> {
     } else {
       return <LoadingControl />;
     }
-  }
-
-  componentDidMount() {
-    let isChrome = false;
-    if (typeof window !== 'undefined') {
-      const w = window as any;
-      const b = Bowser.parse(window.navigator.userAgent);
-      // TODO: use browser.satisfies() for Chrome detection.
-      isChrome = b.browser.name === 'Chrome';
-    }
-    this.props.speechSupported(isChrome);
   }
 
   // DESIGN NOTE: mountOnEnter and unmountOnExit are necessary for the

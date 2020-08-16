@@ -43,9 +43,15 @@ export interface BluePlateWorld {
   testResults: AllTestResults;
 };
 
+export enum SpeechMode {
+  AZURE = 'AZURE',
+  TEXT = 'TEXT',
+  WEB_SPEECH = 'WEB_SPEECH'
+}
+
 export interface SpeechConfig {
   speechSupport: boolean;
-  useAzureSpeech: boolean;
+  mode: SpeechMode;
   azureSubscriptionKey: string;
   azureRegion: string;
 };
@@ -77,7 +83,10 @@ export function initialState(): ApplicationState {
     language: 'en-US',
     speechConfig: {
       ...azureConfig,
-      speechSupport: true,
+      // App boots up with speechSupport false.
+      // Then chromeDetectSaga may change the value
+      // once the window object is available.
+      speechSupport: false,
     }
   }
 }

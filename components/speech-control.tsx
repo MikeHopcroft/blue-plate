@@ -8,6 +8,7 @@ import {
   ApplicationState,
   AnyAction,
   setSpeechConfig,
+  SpeechMode,
 } from "../actions";
 
 import styles from './controls.module.css';
@@ -15,13 +16,23 @@ import styles from './controls.module.css';
 interface Props {
   application: ApplicationState;
   setAzure: () => void;
-  setGoogle: () => void;
+  setWebSpeech: () => void;
+  setText: () => void;
 };
 
 class SpeechControl extends React.Component<Props> {
   render() {
-    const speech = this.props.application.speechConfig.useAzureSpeech ? 
-      'Azure Speech' : 'Google Speech';
+    const config = this.props.application.speechConfig;
+    const mode = config.mode;
+    const speech = 
+      mode === SpeechMode.AZURE ? 
+      'Azure Speech' :
+      mode === SpeechMode.WEB_SPEECH ?
+      'Google Speech' : 'Text';
+
+    const azureEnabled = !!(config.azureRegion && config.azureSubscriptionKey);
+    const webSpeechEnabled = config.speechSupport;
+    console.log(`Azure: ${azureEnabled}, WebSpeech: ${webSpeechEnabled}`);
 
     return (
       <Dropdown>
@@ -31,8 +42,19 @@ class SpeechControl extends React.Component<Props> {
         </Dropdown.Toggle>
 
         <Dropdown.Menu>
-          <Dropdown.Item onSelect={this.props.setAzure}>Azure Speech</Dropdown.Item>
-          <Dropdown.Item onSelect={this.props.setGoogle}>Google Speech</Dropdown.Item>
+          <Dropdown.Item
+            disabled={!azureEnabled}
+            onSelect={this.props.setAzure}
+          >
+              Azure Speech
+          </Dropdown.Item>
+          <Dropdown.Item
+            disabled={!webSpeechEnabled}
+            onSelect={this.props.setWebSpeech}
+          >
+            Google Speech
+          </Dropdown.Item>
+          <Dropdown.Item onSelect={this.props.setText}>Text</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     )
@@ -46,10 +68,13 @@ function mapStateToProps(application: ApplicationState) {
 function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
   return {
     setAzure: () => {
-      dispatch(setSpeechConfig({useAzureSpeech: true}));
+      dispatch(setSpeechConfig({mode: SpeechMode.AZURE}));
     },
-    setGoogle: () => {
-      dispatch(setSpeechConfig({useAzureSpeech: false}));
+    setText: () => {
+      dispatch(setSpeechConfig({mode: SpeechMode.TEXT}));
+    },
+    setWebSpeech: () => {
+      dispatch(setSpeechConfig({mode: SpeechMode.WEB_SPEECH}));
     },
   };
 }

@@ -6,6 +6,8 @@ import { takeLatest } from 'redux-saga/effects';
 
 import {
   ActionType,
+  chromeDetect,
+  chromeDetectSaga,
   initialState,
   loadWorld,
   loadWorldSaga,
@@ -37,11 +39,13 @@ store.subscribe(() => {
 
 sagaMiddleware.run(initSagas)
 store.dispatch(loadWorld('en-US'));
+store.dispatch(chromeDetect());
 
 function* initSagas() {
   // console.log('initSagas()');
   yield takeLatest(ActionType.LOAD_WORLD, loadWorldSaga);
   yield takeLatest(ActionType.PROCESS, processSaga);
+  yield takeLatest(ActionType.CHROME_DETECT, chromeDetectSaga);
 }
 
 export default function Home() {

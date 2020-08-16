@@ -9,7 +9,8 @@ import {
   AnyAction,
   process,
   record,
-  TextSource
+  TextSource,
+  SpeechMode
 } from "../actions";
 
 import { CreateRecognizer, IRecognizer } from './recognizers';
@@ -139,16 +140,22 @@ class RecorderControl extends React.Component<Props> {
   }
 
   render() {
+    const mode = this.props.application.speechConfig.mode;
+    const recordTitle = mode === SpeechMode.TEXT ?
+      "Recording disabled. To enable, select either Azure Speech or Google Speech from dropdown at top window." :
+      "Start recording"
+
     return (
       <div className={styles.recorder}>
         <div className={styles.recorderInput}>
           <Button
             className="btn btn-success btn-sm"
             disabled={
-              !this.props.application.speechConfig.speechSupport ||
+              this.props.application.speechConfig.mode === SpeechMode.TEXT ||
               this.props.application.isRecording
             }
             onClick={this.startRecognition}
+            title={recordTitle}
           >
             <FaMicrophone />
             Start Recording
@@ -156,7 +163,7 @@ class RecorderControl extends React.Component<Props> {
           <Button
             className="btn btn-danger btn-sm"
             disabled={
-              !this.props.application.speechConfig.speechSupport ||
+              this.props.application.speechConfig.mode === SpeechMode.TEXT ||
               !this.props.application.isRecording
             }
             onClick={this.endRecognition}

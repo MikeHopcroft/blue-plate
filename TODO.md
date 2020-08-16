@@ -79,6 +79,18 @@ enter text
 ~~~
 
 * Top
+  * Today
+    * Unhandled Runtime Error
+      * Attempt to use Azure with bad region or subscription key
+      * Error: 'Unhandled callback error: Error: 'Cannot reject a completed promise'. InnerError: 'Unhandled callback error: Error: 'Cannot reject a completed promise'''
+    * Use browser.satisfies() for Chrome detection.
+    * Rename speechSupport to webSpeechSupport
+    * x Enum for speech mode: text, azure, webspeech
+    * x Error handling for webspeech support
+    * Error handling for azure support
+    * . Tooltip for disabled record buttons
+    * x Disable chrome option in dropdown list
+    * x Update chrome warning to mention Azure
   * https://recordrtc.org/
   * Crash on stop-recording button
   * Alias confusion matrix

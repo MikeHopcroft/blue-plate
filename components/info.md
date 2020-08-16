@@ -1,9 +1,20 @@
 **Welcome to short-order!**
 
-~~~warning
+~~~warning-chrome
 **PLEASE NOTE**
-To use voice input, you must run this demo in the
+To use voice input with Web Speech API (Google), you must run this demo in the
 [Chrome](https://www.google.com/chrome/) web browser.
+You can continue the demo here in text mode by typing into the
+box to the right of the recording buttons, but you will not be
+able to use any of the speech recognition features.
+~~~
+
+~~~warning-azure
+**PLEASE NOTE**
+To use voice input with Azure, you must configure a subscription key
+and region, using the `settings` option on the dropdown in the upper
+right corner.
+
 You can continue the demo here in text mode by typing into the
 box to the right of the recording buttons, but you will not be
 able to use any of the speech recognition features.

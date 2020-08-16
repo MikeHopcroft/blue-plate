@@ -1,3 +1,5 @@
+import Bowser from "bowser";
+
 import {
   CatalogSpec,
   createWorld3,
@@ -14,9 +16,11 @@ import { createShortOrderWorld2, LexiconSpec } from 'short-order';
 
 import {
   appendHistory,
+  ChromeDetectAction,
   LoadWorldAction,
   ProcessAction,
   setCart,
+  setSpeechSupport,
   setWorld
 } from '../actions';
 
@@ -69,6 +73,18 @@ function getRegressionSuite(language: string) {
     return regressionSuiteEN;
   }
 }
+
+export function* chromeDetectSaga(action: ChromeDetectAction) {
+  console.log(`Window=${window}`);
+  const b = Bowser.parse(window.navigator.userAgent);
+  // TODO: use browser.satisfies() for Chrome detection.
+  const isChrome = b.browser.name === 'Chrome';
+  console.log(`setSpeechSupport(${isChrome}, (name=${b.browser.name}))`);
+  yield put(setSpeechSupport(isChrome));
+  // this.props.speechSupported(isChrome);
+
+}
+
 export function* loadWorldSaga(action: LoadWorldAction) {
   const loader = getLoader(action.language);
   const lexiconSpec = getLexicon(action.language);
@@ -114,7 +130,7 @@ export function* loadWorldSaga(action: LoadWorldAction) {
     getSampleHistoryES() : 
     getSampleHistory();
 
-  yield(put(setWorld(bluePlateWorld, history, action.language)));
+  yield put(setWorld(bluePlateWorld, history, action.language));
 }
 
 // TODO: clean this up.

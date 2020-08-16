@@ -1,6 +1,6 @@
 import * as SpeechSDK from 'microsoft-cognitiveservices-speech-sdk';
 
-import { SpeechConfig } from '../actions';
+import { SpeechConfig, SpeechMode } from '../actions';
 
 export interface IRecognizer {
   onerror: () => void;
@@ -19,16 +19,18 @@ export function CreateRecognizer(
   language: string
 ): IRecognizer {
   try {
-    if (config.useAzureSpeech) {
+    if (config.mode === SpeechMode.AZURE) {
       console.log('AzureSpeechRecognizer');
       return new AzureSpeechRecognizer(
         config.azureSubscriptionKey,
         config.azureRegion,
         language
       );
-    } else {
+    } else if (config.mode === SpeechMode.WEB_SPEECH) {
       console.log('WebSpeechRecognizer');
       return new WebSpeechRecognizer(window, language);
+    } else {
+      return new NopSpeechRecognizer();
     }
   } catch (e) {
     console.log('Error: using NopSpeechRecognizer');
