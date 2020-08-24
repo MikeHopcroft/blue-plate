@@ -81,8 +81,6 @@ export function* chromeDetectSaga(action: ChromeDetectAction) {
   const isChrome = b.browser.name === 'Chrome';
   console.log(`setSpeechSupport(${isChrome}, (name=${b.browser.name}))`);
   yield put(setSpeechSupport(isChrome));
-  // this.props.speechSupported(isChrome);
-
 }
 
 export function* loadWorldSaga(action: LoadWorldAction) {
