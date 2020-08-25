@@ -74,14 +74,18 @@ function getRegressionSuite(language: string) {
   }
 }
 
-export function* chromeDetectSaga(action: ChromeDetectAction) {
-  console.log(`Window=${window}`);
-  const b = Bowser.parse(window.navigator.userAgent);
-  // TODO: use browser.satisfies() for Chrome detection.
-  const isChrome = b.browser.name === 'Chrome';
-  console.log(`setSpeechSupport(${isChrome}, (name=${b.browser.name}))`);
-  yield put(setSpeechSupport(isChrome));
-}
+// Chrome detection now handled by ChromeDetect component.
+// export function* chromeDetectSaga(action: ChromeDetectAction) {
+//   // NOTE that window === undefined during server-side rendering.
+//   if (window !== undefined) {
+//     console.log(`Window=${window}`);
+//     const b = Bowser.parse(window.navigator.userAgent);
+//     // TODO: use browser.satisfies() for Chrome detection.
+//     const isChrome = b.browser.name === 'Chrome';
+//     console.log(`setSpeechSupport(${isChrome}, (name=${b.browser.name}))`);
+//     yield put(setSpeechSupport(isChrome));
+//   }
+// }
 
 export function* loadWorldSaga(action: LoadWorldAction) {
   const loader = getLoader(action.language);

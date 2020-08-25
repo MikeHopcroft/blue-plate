@@ -8,6 +8,7 @@ import { Dispatch } from 'redux'
 import { ApplicationState, AnyAction, setSpeechSupport } from "../actions";
 
 import CartControl from './cart-control';
+import ChromeDetect from './chrome-detect';
 import GraphPanelControl from './graph-panel-control';
 import HamburgerControl from './hamburger-control';
 import HistoryControl from './history-control';
@@ -44,6 +45,7 @@ class FrameControl extends React.Component<Props> {
               </div>
             </SplitPane>
           </div>
+          <ChromeDetect/>
         </div>
       );
     } else {
