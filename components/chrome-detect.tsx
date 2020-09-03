@@ -21,16 +21,12 @@ class ChromeDetect extends React.Component<Props> {
       this.attempedChromeDetect = true;
       console.log('Attempting to detect chrome');
       let isChrome = false;
-      // if (typeof window !== 'undefined') {
       const w = window as any;
       const b = Bowser.parse(window.navigator.userAgent);
       // TODO: use browser.satisfies() for Chrome detection.
       isChrome = b.browser.name === 'Chrome';
-      // }
-      // if (isChrome) {
-      console.log('this.props.speechSupported(isChrome)');
+      console.log(`this.props.speechSupported(${isChrome})`);
       this.props.speechSupported(isChrome);
-      // }
     }
   }
 }

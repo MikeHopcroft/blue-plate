@@ -25,6 +25,7 @@ import {
   HistoryItem,
   Correctness,
   TextSource,
+  SpeechMode,
 } from './application-state';
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -187,12 +188,17 @@ function applySetSpeechSupport(
   appState: ApplicationState,
   { speechSupport }: SetSpeechSupportAction
 ): ApplicationState {
+  // When we're booting up, the speech mode is set to TEXT until we know
+  // whether Web Speech API is supported. Restore the persistedMode here
+  // if allowable.
+  const speechConfig = {...appState.speechConfig, speechSupport};
+  if (speechConfig.persistedMode !== SpeechMode.WEB_SPEECH || speechSupport) {
+    speechConfig.mode = speechConfig.persistedMode;
+  }
+
   return {
     ...appState,
-    speechConfig: {
-      ...appState.speechConfig,
-      speechSupport
-    }
+    speechConfig
   };
 }
 

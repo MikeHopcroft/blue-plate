@@ -33,9 +33,39 @@ class SpeechConfigControl extends React.Component<Props, State> {
     this.state = {
       speechConfig: props.application.speechConfig
     }
+
+    this.getMode = this.getMode.bind(this);
     this.onModeChange = this.onModeChange.bind(this);
     this.onRegionChange = this.onRegionChange.bind(this);
     this.onSubscriptionChange = this.onSubscriptionChange.bind(this);
+    this.onShow = this.onShow.bind(this);
+    this.save = this.save.bind(this);
+  }
+
+  getMode(azureSubscriptionKey: string, azureRegion: string): SpeechMode {
+    const azureConfigured = !!azureSubscriptionKey.trim() && !!azureRegion.trim();
+
+    const currentMode = this.props.application.speechConfig.mode;
+    const newMode = this.state.speechConfig.mode;
+    const speechSupport = this.props.application.speechConfig.speechSupport;
+
+    if (newMode === SpeechMode.AZURE && !azureConfigured) {
+      if (currentMode !== SpeechMode.AZURE) {
+        return currentMode;
+      } else {
+        return SpeechMode.TEXT
+      }
+    }
+
+    if (newMode === SpeechMode.WEB_SPEECH && !speechSupport) {
+      if (currentMode !== SpeechMode.WEB_SPEECH) {
+        return currentMode;
+      } else {
+        return SpeechMode.TEXT
+      }
+    }
+
+    return newMode;
   }
 
   onModeChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -48,7 +78,10 @@ class SpeechConfigControl extends React.Component<Props, State> {
 
   onSubscriptionChange(e: React.ChangeEvent<HTMLInputElement>) {
     const azureSubscriptionKey = e.target.value as SpeechMode;
-    const mode = azureSubscriptionKey ? this.state.speechConfig.mode : SpeechMode.TEXT;
+    const mode = this.getMode(
+      azureSubscriptionKey,
+      this.state.speechConfig.azureRegion
+    );
     const speechConfig = {
       ...this.state.speechConfig,
       azureSubscriptionKey,
@@ -59,8 +92,11 @@ class SpeechConfigControl extends React.Component<Props, State> {
 
   onRegionChange(e: React.ChangeEvent<HTMLInputElement>) {
     const azureRegion = e.target.value as SpeechMode;
-    const mode = azureRegion ? this.state.speechConfig.mode : SpeechMode.TEXT;
-    console.log(`region="${azureRegion}"`);
+    const mode = this.getMode(
+      this.state.speechConfig.azureSubscriptionKey,
+      azureRegion
+    );
+    console.log(`onRegionChange: region="${azureRegion}"`);
     console.log(`mode=${mode}`);
     const speechConfig = {
       ...this.state.speechConfig,
@@ -70,7 +106,13 @@ class SpeechConfigControl extends React.Component<Props, State> {
     this.setState({speechConfig});
   }
 
-  save = (e: React.FormEvent<HTMLFormElement>) => {
+  onShow() {
+    this.setState({
+      speechConfig: this.props.application.speechConfig
+    });
+  }
+
+  save(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     this.props.save(this.state.speechConfig);
@@ -88,10 +130,14 @@ class SpeechConfigControl extends React.Component<Props, State> {
     const azureEnabled = !!(azureRegion && azureSubscriptionKey);
     const webSpeechEnabled = speechSupport;
 
+    console.log('SpeechConfigControl.render()');
+    console.log(JSON.stringify(this.state.speechConfig));
+
     return (
       <Modal
         show={this.props.show}
         onHide={this.props.close}
+        onShow={this.onShow}
         backdrop="static"
         keyboard={false}
       >

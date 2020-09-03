@@ -5,21 +5,23 @@ export function loadSpeechConfig(): SpeechConfig {
     console.log('Attempting to load speech config');
     const text = localStorage.getItem('speechConfig');
     if (text === null) {
-      throw new TypeError('no speechConfig in local storage');
+      throw new TypeError('No speechConfig in local storage');
     }
-    const speechConfig = JSON.parse(text);
-    // console.log('speechConfig');
-    // console.log(text);
-    // console.log(speechConfig);
+    const speechConfig = JSON.parse(text) as SpeechConfig;
     return {
+      ...speechConfig,
+
+      // In an abundance of caution, set speechSupport to false and then
+      // let the Chrome-detect component set it and mode, as necessary.
       speechSupport: false,
-      ...speechConfig as SpeechConfig
+      mode: SpeechMode.TEXT,
     }
   } catch (e) {
-    console.log('no speechConfig in local storage');
+    console.log('No speechConfig in local storage');
 
     return {
       speechSupport: false,
+      persistedMode: SpeechMode.TEXT,
       mode: SpeechMode.TEXT,
       azureSubscriptionKey: '',
       azureRegion: '',
@@ -34,5 +36,10 @@ export function saveSpeechConfig(config: SpeechConfig) {
   console.log(`  Azure Subscription Key: ${config.azureSubscriptionKey}`);
   console.log(`  Azure Region: ${config.azureRegion}`);
 
-  localStorage.setItem('speechConfig', JSON.stringify(config));
+  const config2 = {
+    ...config,
+    persistedMode: config.mode
+  }
+
+  localStorage.setItem('speechConfig', JSON.stringify(config2));
 }

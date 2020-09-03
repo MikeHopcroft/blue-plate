@@ -51,6 +51,7 @@ export enum SpeechMode {
 
 export interface SpeechConfig {
   speechSupport: boolean;
+  persistedMode: SpeechMode;
   mode: SpeechMode;
   azureSubscriptionKey: string;
   azureRegion: string;
@@ -69,7 +70,7 @@ export interface ApplicationState {
 }
 
 export function initialState(): ApplicationState {
-  const azureConfig = loadSpeechConfig();
+  const speechConfig = loadSpeechConfig();
 
   return {
     mode: ApplicationMode.INSTRUCTIONS,
@@ -81,12 +82,6 @@ export function initialState(): ApplicationState {
     history: getSampleHistory(),
     undoStack: [ { items: [] }],
     language: 'en-US',
-    speechConfig: {
-      ...azureConfig,
-      // App boots up with speechSupport false.
-      // Then chromeDetectSaga may change the value
-      // once the window object is available.
-      speechSupport: false,
-    }
+    speechConfig
   }
 }

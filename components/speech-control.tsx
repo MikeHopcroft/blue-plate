@@ -46,7 +46,7 @@ class SpeechControl extends React.Component<Props> {
             disabled={!azureEnabled}
             onSelect={this.props.setAzure}
           >
-              Azure Speech
+            Azure Speech
           </Dropdown.Item>
           <Dropdown.Item
             disabled={!webSpeechEnabled}
@@ -54,7 +54,11 @@ class SpeechControl extends React.Component<Props> {
           >
             Google Speech
           </Dropdown.Item>
-          <Dropdown.Item onSelect={this.props.setText}>Text</Dropdown.Item>
+          <Dropdown.Item
+            onSelect={this.props.setText}
+          >
+            Text
+          </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     )
