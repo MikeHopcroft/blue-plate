@@ -79,6 +79,10 @@ enter text
 ~~~
 
 * Top
+  * Make favicon work on github pages
+    * https://coderrocketfuel.com/article/add-favicon-images-to-a-next-js-website
+    * https://stackoverflow.com/questions/35037482/favicon-with-github-pages
+    * https://nextjs.org/docs/advanced-features/custom-document
   * Today
     * Take new versions of prix-fixe, token-flow, short-order.
     * Unhandled Runtime Error

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Provider } from 'react-redux'
-import { applyMiddleware, createStore } from 'redux'
-import createSagaMiddleware from 'redux-saga'
+import { Provider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
+import createSagaMiddleware from 'redux-saga';
 import { takeLatest } from 'redux-saga/effects';
 
 import {
