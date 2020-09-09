@@ -60,7 +60,7 @@
 }
 
 .graphShapeWord {
-  fill: #f0f0f0;
+  fill: lightcyan;
   stroke: gray;
 }
 
@@ -107,7 +107,12 @@
 }
 
 .graphVertex {
-  fill: black;
+  fill: gray;
+  stroke: none;
+}
+
+.graphVertexFiltered {
+  fill: #f0f0f0;
   stroke: none;
 }
 

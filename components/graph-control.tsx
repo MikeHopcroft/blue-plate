@@ -140,12 +140,23 @@ class GraphControl extends React.Component<Props, State> {
     console.log(`this.layout.select(${this.state.pathIndex}, ${this.state.cartFilter})`);
     this.layout.select(this.state.pathIndex, this.span);
 
-    // const selected = this.layout.edges.filter(e => e.treatment === EdgeTreatment.SELECTED);
-    // const other = this.layout.edges.filter(e => e.treatment !== EdgeTreatment.SELECTED);
     const selected = this.layout.edges.filter(e => e.selectedPath);
     const other = this.layout.edges.filter(e => !e.selectedPath);
-    // console.log('<<<<<<<<<<<<<<<<<<<<selected');
-    // console.log(selected);
+
+    const vertices = this.layout.columns.map(c => ({
+      x: c.x1,
+      style: styles.graphVertex
+    }));
+    for (const e of other) {
+      vertices[e.startCol].style =
+        e.filtered ? styles.graphVertexFiltered : styles.graphVertex;
+      vertices[e.endCol].style =
+        e.filtered ? styles.graphVertexFiltered : styles.graphVertex;
+    }
+    for (const e of selected) {
+      vertices[e.startCol].style = styles.graphVertexSelected;
+      vertices[e.endCol].style = styles.graphVertexSelected;
+    }
 
     let r = null;
     const bb = this.layout.boundingBox;
@@ -175,28 +186,20 @@ class GraphControl extends React.Component<Props, State> {
             onPointerUp={this.onMouseUp}
             onPointerMove={this.onMouseMove}
           >
-            <svg style={{ width: w , height: h }}
-            // onMouseDown={this.onMouseDown}
-            // onMouseUp={this.onMouseUp}
-            // onMouseMove={this.onMouseMove}
-          >
+            <svg style={{ width: w , height: h }}>
             <g transform={translate}>
-              { this.renderSelection(bb.y2 - bb.y1 + 40) }
-              {this.layout.columns.map((c, i) => (
-                <circle key={i} cx={c.x1} cy={0} r={5} className={styles.graphVertex} />
-              ))}
+              {this.renderSelection(bb.y2 - bb.y1 + 40)}
               {other.map((e, i) => (
                 <EdgePath key={i} edge={e} padding={this.layout.xPadding} />
               ))}
               {selected.map((e, i) => (
-                <g key={i}>
-                  <EdgePath edge={e} padding={this.layout.xPadding} />
-                  <circle cx={e.x} cy={0} r={5} className={styles.graphVertexSelected} />
-                  <circle cx={e.x + e.width} cy={0} r={5} className={styles.graphVertexSelected} />
-                </g>
+                <EdgePath key={i} edge={e} padding={this.layout.xPadding} />
               ))}
               {this.layout.edges.map((e, i) => (
                 <EdgeLabel key={i} edge={e} padding={this.layout.xPadding} />
+              ))}
+              {vertices.map((v, i) => (
+                <circle key={i} cx={v.x} cy={0} r={5} className={v.style} />
               ))}
             </g>
           </svg>

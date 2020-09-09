@@ -15,7 +15,7 @@ import {
 
 import { NUMBERTOKEN } from 'token-flow';
 
-import { Edge } from './layout';
+import { Edge, EdgeTreatment } from './layout';
 
 import styles from './controls.module.css';
 
@@ -42,8 +42,11 @@ export class EdgeLabel extends React.Component<EdgeProps> {
     // console.log('EdgeControl.render()');
     const e = this.props.edge;
 
-    const shapeClassName = e.selectedPath ? shapeSelected :
-      e.filtered ? shapeFiltered: shapeToken;
+    const shapeClassName =
+      e.selectedPath ? shapeSelected :
+      e.filtered ? shapeFiltered: 
+      e.treatment == EdgeTreatment.WORD ? shapeWord :
+      shapeToken;
     const textClassName = e.selectedPath ? shapeTextSelected :
       e.filtered ? shapeTextFiltered: shapeText;
 
