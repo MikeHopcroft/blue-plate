@@ -14,7 +14,7 @@
     "bowser": "^2.9.0",
     "js-file-download": "^0.4.12",
     "microsoft-cognitiveservices-speech-sdk": "^1.12.1",
-    "next": "9.4.4",
+    "next": "11.1.0",
     "prix-fixe": "0.0.60",
     "react": "16.13.1",
     "react-bootstrap": "^1.0.1",
